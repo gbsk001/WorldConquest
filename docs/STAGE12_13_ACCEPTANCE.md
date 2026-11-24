@@ -1,6 +1,11 @@
 # Stage 12–13 completion work and acceptance candidate
 
 24 November 2026. This report supersedes `STAGE13_ACCEPTANCE.md` for current status.
+**Source-upload follow-up:** the owner subsequently authorized upload to
+`gbsk001/WorldConquest`. The source-hosting blocker for this candidate is cleared;
+see [public source verification](SOURCE_PUBLICATION.md). Statements below about
+pending source upload describe the acceptance candidate before that authorization.
+All rendered/live-service/mobile/translation limitations below remain unchanged.
 **Implemented code and automated tests are ready for manual acceptance. The update
 is not fully accepted for publication.** Rendered Studio, live Roblox services,
 translation review and physical-device verification remain outstanding. Nothing

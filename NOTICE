@@ -17,9 +17,9 @@ and the source/hash manifests. OpenFront proprietary assets are not included.
 For public network use, provide players a working, prominent offer for the complete
 corresponding source of the deployed version, including modified server code and
 build/data generation scripts. Config.SourceURL points to the owner's intended
-public repository: https://github.com/gbsk001/WorldConquest . Upload and public
-availability verification remain owner-controlled release steps; a configured
-address alone is not an available source distribution. Preserve visible upstream
+public repository: https://github.com/gbsk001/WorldConquest . The initial candidate
+source upload and anonymous download verification were completed on 2026-11-24.
+Future deployed changes require matching source updates. Preserve visible upstream
 copyright and the unofficial WorldConquest name. See LICENSE and docs/SOURCE_RELEASE.md.
 
 Modified 2026-11-24, Stages 12-13: original Roblox Unicode name-filter adapter,

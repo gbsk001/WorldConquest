@@ -1,10 +1,15 @@
-# Corresponding-source release — upload requires owner approval
+# Corresponding-source release procedure
+
+The owner authorized the upload to `gbsk001/WorldConquest`; initial source upload
+and unauthenticated full-download verification succeeded on 24 November 2026.
+See [publication evidence](SOURCE_PUBLICATION.md). The procedure below remains
+applicable to future source updates; no Roblox game publication was performed.
 
 Configured source offer: **https://github.com/gbsk001/WorldConquest**.
 The main menu shows attribution and the address; both menu and gameplay Settings
 have a **Source & licences** panel with a selectable address and licence notice.
-The address has been configured, but public repository contents/access have **not**
-been verified. Preparation alone does not resolve public source availability.
+The repository and uploaded candidate contents were verified publicly accessible
+without signing in. Preparation of future archives alone does not make them public.
 
 ## Prepared distribution
 
@@ -23,7 +28,7 @@ Excluded: the entire development `build` directory, local tools/caches, previous
 place binaries, performance traces, runtime player/profile data, credentials,
 environment files and authentication state. Known credential-pattern scans are
 not a substitute for reviewing the exact upload; the packager stops on findings
-without printing possible secret values. No source was uploaded by this task.
+without printing possible secret values. The initial upload used this audited allowlist.
 
 ## Exact owner upload steps
 

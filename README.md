@@ -2,7 +2,7 @@
 
 Stage 12–13 acceptance candidate: [implemented names, native communications, localisation, progression/records, parties, configuration and remaining blockers](docs/STAGE12_13_ACCEPTANCE.md). Paid IDs are disabled. Automated Stage 1–13 regressions pass; rendered Studio, real platform services, translation review and physical mobile acceptance remain pending.
 
-Corresponding source: [https://github.com/gbsk001/WorldConquest](https://github.com/gbsk001/WorldConquest). This is the configured destination; owner upload and signed-out availability verification are still required. See [source upload steps](docs/SOURCE_RELEASE.md), [build instructions](BUILDING.md) and [dependencies/licences](DEPENDENCIES.md). No upload or publication was performed by this task.
+Corresponding source: [https://github.com/gbsk001/WorldConquest](https://github.com/gbsk001/WorldConquest). The source upload was authorized and completed on 24 November 2026; the full source archive was downloaded without authentication and compared with the audited package. See [publication evidence](docs/SOURCE_PUBLICATION.md), [source update steps](docs/SOURCE_RELEASE.md), [build instructions](BUILDING.md) and [dependencies/licences](DEPENDENCIES.md). The Roblox game has not been republished by this task.
 
 Mobile startup/input patch: [implementation, remaining device tests and instructions to update the existing public experience](docs/MOBILE_ACCEPTANCE.md). Automated regressions passed; fresh Studio device emulation and physical mobile acceptance are still pending. Do not interpret earlier desktop GUI previews as mobile certification.
 
