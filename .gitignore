@@ -1,0 +1,19 @@
+# Generated Roblox place files and local lock files
+/*.rbxl
+/*.rbxlx
+*.rbxl.lock
+*.rbxlx.lock
+
+# Generated Rojo source map
+/sourcemap.json
+/build/
+__pycache__/
+*.pyc
+.env
+.env.*
+*.pem
+*.pfx
+/.codex/
+/.agents/
+/.aws/
+/profile.out

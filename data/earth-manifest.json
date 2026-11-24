@@ -1,0 +1,10 @@
+{
+  "width": 8192,
+  "height": 4096,
+  "land_cells": 11014740,
+  "source_sha256": {
+    "ne_10m_land.geojson": "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416",
+    "ne_10m_lakes.geojson": "2d036f53dedec578001c5c30c2959ee7d4eebc1306900fa4367c49929ec8f2d9"
+  },
+  "mask_sha256": "ccf3bdc234b7e6892ed9d311f850a0c3feb8ea39b5f2bc1d12a57441473684fa"
+}

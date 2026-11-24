@@ -1,0 +1,63 @@
+{
+  "name": "WorldConquest",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedFirst": {
+      "$className": "ReplicatedFirst",
+      "WorldConquestBoot": {
+        "$path": "src/boot"
+      }
+    },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$ignoreUnknownInstances": true,
+      "Shared": {
+        "$path": "src/shared"
+      }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$ignoreUnknownInstances": true,
+      "Server": {
+        "$path": "src/server"
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "$ignoreUnknownInstances": true,
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$ignoreUnknownInstances": true,
+        "Client": {
+          "$path": "src/client"
+        }
+      }
+    },
+    "TextChatService": {
+      "$className": "TextChatService",
+      "$properties": {
+        "CreateDefaultTextChannels": true,
+        "CreateDefaultCommands": true
+      },
+      "ChatWindowConfiguration": {
+        "$className": "ChatWindowConfiguration",
+        "$properties": {
+          "Enabled": true
+        }
+      },
+      "ChatInputBarConfiguration": {
+        "$className": "ChatInputBarConfiguration",
+        "$properties": {
+          "Enabled": true
+        }
+      }
+    },
+    "VoiceChatService": {
+      "$className": "VoiceChatService",
+      "$properties": {
+        "UseAudioApi": "Enabled",
+        "EnableDefaultVoice": false
+      }
+    }
+  }
+}

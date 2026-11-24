@@ -1,0 +1,50 @@
+{
+  "terrain_sha256": "83e14dafd9bbbfcf7a1071c378d4f0db8605bbe06ec83d434ec816fe499bb7fb",
+  "regions": [
+    {
+      "name": "North America",
+      "cells": 1808045,
+      "weighted_cells": 971653.5414402834,
+      "share": 0.17416579587987738,
+      "spans": 21966
+    },
+    {
+      "name": "South America",
+      "cells": 793728,
+      "weighted_cells": 740652.179202019,
+      "share": 0.13275953903247636,
+      "spans": 5291
+    },
+    {
+      "name": "Europe",
+      "cells": 713829,
+      "weighted_cells": 385545.2168123358,
+      "share": 0.0691077494908994,
+      "spans": 10675
+    },
+    {
+      "name": "Africa",
+      "cells": 1325090,
+      "weighted_cells": 1254654.4412178784,
+      "share": 0.22489280385375351,
+      "spans": 4675
+    },
+    {
+      "name": "Asia",
+      "cells": 2824883,
+      "weighted_cells": 1851431.3715832296,
+      "share": 0.3318631637680126,
+      "spans": 17340
+    },
+    {
+      "name": "Oceania",
+      "cells": 416635,
+      "weighted_cells": 374963.1510224329,
+      "share": 0.06721094797498074,
+      "spans": 5279
+    }
+  ],
+  "bytes": 913164,
+  "antarctica_cutoff_latitude": -60,
+  "method": "exact playable row spans, cos(latitude) area weighting, explicit gameplay continent boundaries"
+}

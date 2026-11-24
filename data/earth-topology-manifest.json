@@ -1,0 +1,10 @@
+{
+  "mask_sha256": "ccf3bdc234b7e6892ed9d311f850a0c3feb8ea39b5f2bc1d12a57441473684fa",
+  "terrain_sha256": "83e14dafd9bbbfcf7a1071c378d4f0db8605bbe06ec83d434ec816fe499bb7fb",
+  "water_components": 8306,
+  "ocean_cells": 22394642,
+  "terrain_rle_bytes": 7845230,
+  "water_run_bytes": 579240,
+  "elevation_known": true,
+  "elevation_manifest": "elevation-manifest.json"
+}

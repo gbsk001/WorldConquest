@@ -1,0 +1,1 @@
+Original WorldConquest GUI icon artwork. Distributed under AGPL-3.0 with this project; see ../../LICENSE and ../../NOTICE. No third-party assets. Regenerate with scripts/generate_gui_icons.py.

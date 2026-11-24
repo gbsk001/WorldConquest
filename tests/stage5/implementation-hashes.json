@@ -1,0 +1,17 @@
+{
+  "src/shared/OpenFront/BuildingRules.luau": "067e08868b345037c99dc281a9f92ea91b13a8023cf05c2ea2bbc2ac0bb20308",
+  "src/shared/OpenFront/BuildingWire.luau": "13b6cca21c6036445fbc6e285591563c4e65739402cc876c6233ad7244dad5a1",
+  "src/shared/OpenFront/RailRules.luau": "786be7bb5950d404c56660bd499b4c2cb187e5d465e465e9997d3cbe4845f866",
+  "src/server/OpenFront/Buildings.luau": "fe05de579e952ad48769ab685ecf0c6744e2b1e913e927200e54b1525407f433",
+  "src/server/OpenFront/Rail.luau": "841b68fb211543be6a38e0386536a23031664d5d9f3793587dea19536f209b54",
+  "src/server/OpenFront/RailPath.luau": "c5f84e129dee3837e04099a924688a1113de93b31401ca71b60599ce5234d1b5",
+  "src/client/BuildingShop.luau": "c72b83260019b02929cf54860a1ad9670d02ea31e5c2778030722b1967fcfd68",
+  "src/client/Main.client.luau": "e5dd8e806c88784d247e94754951d77505cbf7f7ec2a29b3a639fb52ed7f1167",
+  "src/client/MapView.luau": "c22c06c1508e94709e296ea295799cc92bca237d47151fde5c6bcb16d88298b2",
+  "src/server/OpenFront/Simulation.luau": "d2b4d439476927915340fed8c5709e5dbf482f75308ebbea2a4f23798084547e",
+  "src/server/OpenFront/FoundationServer.luau": "5956641674c2eedef51a39a3f60fbb8a439fe9c8b37a284260202457d9e52a1e",
+  "src/server/OpenFront/Expansion.luau": "3ae61af39ab3c04c4c67d036d4e43160cb14bfcb22943c64a84e0a643304957e",
+  "src/server/OpenFront/Economy.luau": "d43e9411c649bb4f423b07099d7893938289661a180d12bdf41096ec06e96cc1",
+  "src/shared/OpenFront/Replica.luau": "4f7b7e9a15fb66347e205d4fea4d6634d8f40d0f334dbbc6b1658c7c9c80a82a",
+  "src/shared/Config.luau": "b622910a33ee66ed83e20dbd807ce39518b6ea54b3e0b84430fcad61bea464ff"
+}

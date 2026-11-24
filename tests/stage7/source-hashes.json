@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-20",
+  "upstream": "8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94",
+  "files": {
+    "src/client/IconLayer.luau": {
+      "sha256": "bed69ee523f00ebe62a4db0ae867f27430c053fb42e6e43246a0f5b6405a2742",
+      "baseline_sha256": null
+    },
+    "src/client/Main.client.luau": {
+      "sha256": "20a13635c810b2a49f42dabf147f66b1c7c305fb04dbd88e0f734711ceb8c221",
+      "baseline_sha256": "521ad85419ee9b36242a70d65e5c7d98bdad77b5e70656845cd2efb7469ddbde"
+    },
+    "src/client/MapTiles.luau": {
+      "sha256": "96b2c6deb1d616e4493d2127bcd7bfecb65f506b7e4d0a592f895984ec947a3a",
+      "baseline_sha256": "ff24ae8e9ab5a4759aad09b461ac91e537945a2c6a2055c394ec9ed62e286478"
+    },
+    "src/client/MapView.luau": {
+      "sha256": "5b882d22b75e1697ecb8f8bdd88677856d3edd986e640b5196a67693021de0a3",
+      "baseline_sha256": "5db87c4d1a7a76851d2cb044d052bdf9bed2d8ae9ea11551a0aa3bc2abc4ed17"
+    },
+    "src/shared/Config.luau": {
+      "sha256": "35d6a7b90b2370363c37500a02492e5a1b07a6f76b41b1d1e6edd529e2b34174",
+      "baseline_sha256": "0a234464fc5a4696cb6959e236721d533c5fb9f45190e719b3808aa416d27c52"
+    },
+    "src/shared/OpenFront/Grid.luau": {
+      "sha256": "afdd1857e94485fab6e48c4c79a6210b1e30779d0e671a7f69e9e32dc2f87083",
+      "baseline_sha256": "81e1c243c91d63525a47e2d933acba0c1935eba39159ff783dc08c3bfbcb31ca"
+    },
+    "src/shared/OpenFront/Replica.luau": {
+      "sha256": "4eb2f385841b898e213cab5903d4744ea92e4ce225719884ca7a023f41f1c087",
+      "baseline_sha256": "6f37d51ab3c5598590d78431a03796027fdfa9be8365c988dd06a0c0b2414a0e"
+    },
+    "src/server/OpenFront/Connectivity.luau": {
+      "sha256": "1e57d72bce0393bb52a9f9d8a3e26d863214e7d7f3991185f96152c226897bba",
+      "baseline_sha256": "a14794c659f9d41da98a6435dac1d42629d4f6c7d40cdcd57e9d8cbf88af3f0e"
+    },
+    "src/server/OpenFront/Expansion.luau": {
+      "sha256": "67da0467034001ff3a42b0de999920e886689e3b2c2028dc1eea0c8b9b32ff71",
+      "baseline_sha256": "bddfd8577f213be97cdfe21b4f77eaa109cf79aa2ec99ca9da5dc4a1e00082c0"
+    },
+    "src/server/OpenFront/FoundationServer.luau": {
+      "sha256": "78fe21a4986b012e0202b24939278c9a2bb31456b19595bb7396e738757d8dbd",
+      "baseline_sha256": "bfb6bfd5e3eeef0ab43b497aee6da6f4eb064a9f109738b9f4b68265587ce847"
+    },
+    "src/server/OpenFront/OrderedSet.luau": {
+      "sha256": "9a527e43399e49418549c2e803db3cc34161caa442d3f7e42bcf7728ea21652a",
+      "baseline_sha256": "5d647b65672b5d93a05ed66d599f1fe1f24e0864210a5d81d49b51daa0ddde98"
+    },
+    "src/server/OpenFront/Rail.luau": {
+      "sha256": "cd25eef4de653c2b8150b06ba97f4e98726efd1edc913252c5efed5ddfa46a69",
+      "baseline_sha256": "809741caac7184d2cbfbd0e79d3a7de7eddaaaaad4cb37b1ab0c49b112900548"
+    },
+    "src/server/OpenFront/RailPath.luau": {
+      "sha256": "d3223bc5746147444bd9e980f6c3807cf311954e05993f3c4e7e628bb624b08d",
+      "baseline_sha256": "c5f84e129dee3837e04099a924688a1113de93b31401ca71b60599ce5234d1b5"
+    },
+    "src/server/OpenFront/Simulation.luau": {
+      "sha256": "d5d9934ad2ebbdc1ef35ea250d743ca02eb2593a7a23fc77a4357db91a40ac77",
+      "baseline_sha256": "1add790bf4f8bb004f8bd8f1a5840cf6c77c6952d4b377e3326d09ba652e84ad"
+    }
+  }
+}

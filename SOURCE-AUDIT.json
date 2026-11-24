@@ -1,0 +1,23 @@
+{
+  "allowlisted_roots": [
+    "src",
+    "scripts",
+    "tests",
+    "assets",
+    "data",
+    "docs",
+    "third_party"
+  ],
+  "excluded": [
+    "build/**",
+    "root place files",
+    "profile.out",
+    "credentials/config caches",
+    "runtime profiles/logs",
+    "__pycache__"
+  ],
+  "files_checked": 333,
+  "findings": [],
+  "uploaded": false,
+  "scope": "Local allowlist and credential-pattern scan; no runtime player database exported."
+}

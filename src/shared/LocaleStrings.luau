@@ -1,0 +1,197 @@
+--!strict
+-- Original bundled interface translations. Cloud tables can extend these.
+local Strings={}
+Strings.Locales={"auto","en-us","es-es","fr-fr"}
+Strings.Rows={
+ {"PLAY","JUGAR","JOUER"},{"Party","Grupo","Groupe"},{"Settings","Ajustes","Paramètres"},{"Tutorial","Tutorial","Tutoriel"},
+ {"Shop","Tienda","Boutique"},{"Arsenal","Arsenal","Arsenal"},{"Profile","Perfil","Profil"},{"Inventory","Inventario","Inventaire"},
+ {"Private Match","Partida privada","Partie privée"},{"Public Match","Partida pública","Partie publique"},{"Global Rankings","Clasificación global","Classement mondial"},
+ {"Daily Rewards","Recompensas diarias","Récompenses quotidiennes"},{"Starter Pack","Paquete inicial","Pack de départ"},{"Flags","Banderas","Drapeaux"},
+ {"Featured","Destacados","À la une"},{"Territory","Territorio","Territoire"},{"Daily","Diario","Quotidien"},{"Starter","Inicial","Départ"},
+ {"General","General","Général"},{"Close","Cerrar","Fermer"},{"Back","Volver","Retour"},{"Not Now","Ahora no","Pas maintenant"},
+ {"Equip","Equipar","Équiper"},{"Unequip","Desequipar","Retirer"},{"OWNED","EN PROPIEDAD","ACQUIS"},{"EQUIPPED","EQUIPADO","ÉQUIPÉ"},
+ {"Army","Ejército","Armée"},{"Buildings","Edificios","Bâtiments"},{"Navy","Armada","Marine"},{"Missiles","Misiles","Missiles"},
+ {"Leaderboard","Clasificación","Classement"},{"Soldiers","Soldados","Soldats"},{"Recruitment","Reclutamiento","Recrutement"},
+ {"Gold","Oro","Or"},{"Income","Ingresos","Revenus"},{"Rank","Rango","Rang"},{"TROOPS","TROPAS","TROUPES"},
+ {"RECRUIT","RECLUTAR","RECRUTER"},{"GOLD","ORO","OR"},{"INCOME","INGRESOS","REVENUS"},{"LAND","TIERRA","TERRES"},{"RANK","RANGO","RANG"},
+ {"City","Ciudad","Ville"},{"Factory","Fábrica","Usine"},{"Defense Post","Puesto defensivo","Poste défensif"},{"Port","Puerto","Port"},
+ {"SAM Launcher","Lanzador antiaéreo","Lanceur antiaérien"},{"Missile Silo","Silo de misiles","Silo à missiles"},{"Warship","Buque de guerra","Navire de guerre"},
+ {"Transport Ship","Transporte naval","Navire de transport"},{"Upgrade","Mejorar","Améliorer"},{"Demolish","Demoler","Démolir"},
+ {"Leave Game","Salir del juego","Quitter le jeu"},{"Leave Match","Salir de la partida","Quitter la partie"},{"Stay","Quedarse","Rester"},
+ {"Notifications","Notificaciones","Notifications"},{"Fit Earth to screen","Ajustar el mapa a la pantalla","Adapter la carte à l’écran"},
+ {"Zoom in","Acercar","Zoom avant"},{"Zoom out","Alejar","Zoom arrière"},{"Motion: subtle","Animación: sutil","Animation : légère"},{"Motion: reduced","Animación: reducida","Animation : réduite"},
+ {"Invite friends","Invitar amigos","Inviter des amis"},{"Leave lobby","Salir de la sala","Quitter le salon"},{"Start match","Iniciar partida","Lancer la partie"},
+ {"Host a private lobby","Crear sala privada","Créer un salon privé"},{"Join private lobby","Entrar en sala privada","Rejoindre un salon privé"},
+ {"Have a private join code? Paste it below.","¿Tienes un código privado? Pégalo abajo.","Vous avez un code privé ? Collez-le ci-dessous."},
+ {"32-character private code","Código privado de 32 caracteres","Code privé de 32 caractères"},{"READY","LISTO","PRÊT"},{"HOST","ANFITRIÓN","HÔTE"},
+ {"SETTINGS","AJUSTES","PARAMÈTRES"},{"PRIVATE MATCH","PARTIDA PRIVADA","PARTIE PRIVÉE"},{"PUBLIC LOBBY","SALA PÚBLICA","SALON PUBLIC"},{"PRIVATE LOBBY","SALA PRIVADA","SALON PRIVÉ"},
+ {"Next","Siguiente","Suivant"},{"Previous","Anterior","Précédent"},{"Skip tutorial","Saltar tutorial","Passer le tutoriel"},{"Finish tutorial","Terminar tutorial","Terminer le tutoriel"},
+ {"1 / 7 · Spawn","1 / 7 · Inicio","1 / 7 · Départ"},{"2 / 7 · Expand","2 / 7 · Expandirse","2 / 7 · Expansion"},{"3 / 7 · Army","3 / 7 · Ejército","3 / 7 · Armée"},
+ {"4 / 7 · Combat","4 / 7 · Combate","4 / 7 · Combat"},{"5 / 7 · Economy","5 / 7 · Economía","5 / 7 · Économie"},{"6 / 7 · Navy","6 / 7 · Armada","6 / 7 · Marine"},{"7 / 7 · Missiles","7 / 7 · Misiles","7 / 7 · Missiles"},
+ {"When the map is ready, choose unoccupied land during the countdown. Tap again to move your spawn. No choice? The server assigns one.","Cuando el mapa esté listo, elige terreno libre durante la cuenta atrás. Toca de nuevo para cambiar tu inicio. Si no eliges, el servidor lo asigna.","Quand la carte est prête, choisissez une terre libre pendant le compte à rebours. Touchez à nouveau pour déplacer votre départ. Sans choix, le serveur vous en attribue un."},
+ {"Select neutral land to expand along eligible borders. Recruitment rebuilds your reserve. Drag to pan; wheel or Settings controls zoom Earth.","Selecciona tierra neutral para expandirte por fronteras válidas. El reclutamiento repone tus reservas. Arrastra para mover el mapa; usa la rueda o los ajustes para ampliar.","Sélectionnez une terre neutre pour étendre vos frontières. Le recrutement reconstitue vos réserves. Faites glisser la carte et utilisez la molette ou les paramètres pour zoomer."},
+ {"Open Army and drag the allocation slider from 1–100%. Keep reserves at home. Cycle your attacks and use Stop / return when needed.","Abre Ejército y ajusta el control del 1 al 100 %. Mantén tropas de reserva. Revisa tus ataques y detenlos o retíralos cuando sea necesario.","Ouvrez Armée et réglez l’allocation de 1 à 100 %. Gardez des réserves. Parcourez vos attaques et arrêtez-les ou rappelez-les si nécessaire."},
+ {"Select enemy territory to attack shared borders. Defence, terrain and reserves matter. Enemy retreat loses soldiers; eliminated players spectate.","Selecciona territorio enemigo para atacar por fronteras comunes. Importan la defensa, el terreno y las reservas. La retirada causa bajas; los eliminados pueden observar.","Sélectionnez un territoire ennemi pour attaquer une frontière commune. Défense, terrain et réserves comptent. La retraite coûte des soldats ; les éliminés deviennent spectateurs."},
+ {"Gold arrives over time. Buildings shows real costs and effects. Place cities and factories on your land; upgrade or demolish using their controls.","El oro llega con el tiempo. Edificios muestra los costes y efectos reales. Construye ciudades y fábricas en tu terreno; usa sus controles para mejorarlas o demolerlas.","L’or arrive progressivement. Bâtiments affiche les coûts et effets réels. Placez villes et usines sur vos terres, puis améliorez-les ou démolissez-les avec leurs commandes."},
+ {"Launch invasions at reachable coasts. Completed ports allow warships and automatic trade. Select your ship before issuing move or return orders.","Lanza invasiones contra costas accesibles. Los puertos terminados permiten buques de guerra y comercio automático. Selecciona el barco antes de moverlo o retirarlo.","Lancez des invasions vers les côtes accessibles. Les ports terminés permettent les navires de guerre et le commerce automatique. Sélectionnez un navire avant de le déplacer ou rappeler."},
+ {"Build a silo and wait for its launch slot. Choose a missile and target; SAMs intercept automatically. Fallout changes land value. Victory opens results, then returns everyone to the menu.","Construye un silo y espera su turno de lanzamiento. Elige misil y objetivo; la defensa antiaérea intercepta automáticamente. La radiación cambia el valor del terreno. La victoria muestra los resultados y luego el menú.","Construisez un silo et attendez son créneau. Choisissez missile et cible ; la défense antiaérienne intercepte automatiquement. Les retombées modifient la valeur des terres. Après la victoire, les résultats puis le menu s’affichent."},
+ {"BUILD A NATION. SHAPE THE WORLD.","CREA UNA NACIÓN. TRANSFORMA EL MUNDO.","FONDEZ UNE NATION. FAÇONNEZ LE MONDE."},
+ {"Create party","Crear grupo","Créer un groupe"},{"Leave party","Salir del grupo","Quitter le groupe"},{"Remove","Expulsar","Retirer"},
+ {"Invite Roblox friends","Invitar amigos de Roblox","Inviter des amis Roblox"},{"PLAY with party","JUGAR en grupo","JOUER en groupe"},
+ {"Accept invitation","Aceptar invitación","Accepter l’invitation"},{"Decline invitation","Rechazar invitación","Refuser l’invitation"},
+ {"Claim daily reward","Reclamar recompensa diaria","Récupérer la récompense"},{"Missed days restart the calendar. Rewards are optional and easy to understand.","Los días omitidos reinician el calendario. Las recompensas son opcionales.","Un jour manqué réinitialise le calendrier. Les récompenses sont facultatives."},
+ {"Missed days restart the calendar. Rewards are optional.","Los días omitidos reinician el calendario. Las recompensas son opcionales.","Un jour manqué réinitialise le calendrier. Les récompenses sont facultatives."},
+ {"DAILY REWARDS • A new day begins at 00:00 UTC","RECOMPENSAS DIARIAS • El día empieza a las 00:00 UTC","RÉCOMPENSES QUOTIDIENNES • Le jour commence à 00:00 UTC"},
+ {"Not currently on sale. No purchase is available.","No está a la venta. No se puede comprar.","Actuellement indisponible à l’achat."},
+ {"Refresh verified ownership","Actualizar compras verificadas","Actualiser les achats vérifiés"},{"Inventory & equipped cosmetics","Inventario y cosméticos equipados","Inventaire et cosmétiques équipés"},
+ {"ACHIEVEMENTS","LOGROS","SUCCÈS"},{"EQUIPPED","EQUIPADO","ÉQUIPÉ"},{"Unlocked","Desbloqueado","Débloqué"},
+ {"Wins","Victorias","Victoires"},{"Matches","Partidas","Parties"},{"HumanEliminations","Jugadores humanos eliminados","Joueurs humains éliminés"},{"BestStreak","Mejor racha","Meilleure série"},
+ {"First Conquest","Primera conquista","Première conquête"},{"First Victory","Primera victoria","Première victoire"},{"Empire Builder","Constructor de imperios","Bâtisseur d’empire"},
+ {"World Dominator","Dominador mundial","Dominateur mondial"},{"Veteran","Veterano","Vétéran"},{"Unstoppable","Imparable","Inarrêtable"},{"Naval Commander","Comandante naval","Commandant naval"},
+ {"Save nation name","Guardar nombre de nación","Enregistrer le nom de nation"},{"Use Roblox username","Usar nombre de Roblox","Utiliser le nom Roblox"},
+ {"NATION NAME • Roblox-filtered • Changes apply next match","NOMBRE DE NACIÓN • Filtrado por Roblox • Se aplica a la próxima partida","NOM DE NATION • Filtré par Roblox • Appliqué à la prochaine partie"},
+ {"Communication & microphone","Comunicación y micrófono","Communication et microphone"},{"COMMUNICATION","COMUNICACIÓN","COMMUNICATION"},
+ {"Toggle microphone","Activar o silenciar micrófono","Activer ou couper le microphone"},{"Microphone muted","Micrófono silenciado","Microphone coupé"},
+ {"Microphone on","Micrófono activo","Microphone actif"},{"Mute voice","Silenciar voz","Couper la voix"},{"Unmute voice","Activar voz","Rétablir la voix"},
+ {"Block player in Roblox","Bloquear jugador en Roblox","Bloquer le joueur dans Roblox"},
+ {"Leave this match?\nYour current match progress will be abandoned.","¿Salir de esta partida?\nPerderás el progreso de la partida actual.","Quitter cette partie ?\nVotre progression dans la partie sera abandonnée."},
+ {"Saved.","Guardado.","Enregistré."},{"Not enough Stars.","No tienes suficientes estrellas.","Étoiles insuffisantes."},
+ {"Already owned.","Ya lo tienes.","Déjà acquis."},{"Nation name saved.","Nombre de nación guardado.","Nom de nation enregistré."},
+ {"Choose a different nation name.","Elige otro nombre de nación.","Choisissez un autre nom de nation."},
+ {"Change your nation name between matches.","Cambia el nombre de tu nación entre partidas.","Modifiez votre nom de nation entre les parties."},
+ {"Today's reward is already claimed.","Ya has reclamado la recompensa de hoy.","La récompense du jour a déjà été récupérée."},
+ {"Equip cosmetics from the main menu between matches.","Equipa cosméticos desde el menú entre partidas.","Équipez vos cosmétiques dans le menu entre les parties."},
+ {"Source & licences","Código y licencias","Sources et licences"},{"Copy the source address below to your browser.","Copia esta dirección en tu navegador.","Copiez l’adresse ci-dessous dans votre navigateur."},
+ {"Horizon Republic","República Horizonte","République de l’Horizon"},{"Aurora Union","Unión Aurora","Union Aurore"},{"Japan","Japón","Japon"},{"France","Francia","France"},
+ {"Laurel Republic","República Laurel","République du Laurier"},{"Golden Horizon","Horizonte Dorado","Horizon Doré"},{"General's Standard","Estandarte del General","Étendard du Général"},
+ {"Pearl Vanguard","Vanguardia Perla","Avant-garde Perle"},{"Gilded Vanguard","Vanguardia Dorada","Avant-garde Dorée"},{"Cobalt Fleet","Flota Cobalto","Flotte Cobalt"},
+ {"Emerald Convoy","Convoy Esmeralda","Convoi Émeraude"},{"Ivory Architecture","Arquitectura Marfil","Architecture Ivoire"},{"Ocean","Océano","Océan"},{"Jade","Jade","Jade"},
+ {"Gold Lettering","Letras Doradas","Lettres Dorées"},{"Pearl Crown","Corona Perla","Couronne Perle"},{"Pathfinder","Explorador","Éclaireur"},
+ {"Seven Horizons","Siete Horizontes","Sept Horizons"},{"Golden Victory","Victoria Dorada","Victoire Dorée"},{"Azure Signal","Señal Azul","Signal Azur"},
+ {"Amber Shockwave","Onda Ámbar","Onde Ambrée"},{"Cartographer's Weave","Trama del Cartógrafo","Trame du Cartographe"},{"Ink Border","Frontera de Tinta","Frontière à l’Encre"},
+ {"An original tricolour for a new nation.","Una bandera tricolor original para una nueva nación.","Un drapeau tricolore original pour une nouvelle nation."},
+ {"An original northern cross.","Una cruz nórdica original.","Une croix nordique originale."},
+ {"The national flag of Japan.","La bandera nacional de Japón.","Le drapeau national du Japon."},
+ {"The national tricolour of France.","La bandera tricolor nacional de Francia.","Le drapeau tricolore national de la France."},
+ {"Awarded for your first eligible public victory.","Se obtiene con tu primera victoria pública válida.","Attribué pour votre première victoire publique admissible."},
+ {"An original Starter Pack flag.","Una bandera original del paquete inicial.","Un drapeau original du pack de départ."},
+ {"Included with WorldConquest General.","Incluido con WorldConquest General.","Inclus avec WorldConquest General."},
+ {"An ice-white missile finish. Identical combat statistics.","Acabado blanco hielo para misiles. Mismas estadísticas de combate.","Finition blanc glacé pour missiles. Statistiques de combat identiques."},
+ {"A gold missile finish. Identical combat statistics.","Acabado dorado para misiles. Mismas estadísticas de combate.","Finition dorée pour missiles. Statistiques de combat identiques."},
+ {"A cobalt warship finish. Identical naval statistics.","Acabado cobalto para buques de guerra. Mismas estadísticas navales.","Finition cobalt pour navires de guerre. Statistiques navales identiques."},
+ {"An emerald transport finish. Identical capacity and speed.","Acabado esmeralda para transportes. Misma capacidad y velocidad.","Finition émeraude pour transports. Capacité et vitesse identiques."},
+ {"An ivory building finish. Ownership accents remain visible.","Acabado marfil para edificios. El color del propietario sigue visible.","Finition ivoire pour bâtiments. Les marques de propriété restent visibles."},
+ {"A readable ocean-blue territory colour.","Un color azul océano legible para el territorio.","Une couleur bleu océan lisible pour le territoire."},
+ {"A readable jade-green territory colour.","Un color verde jade legible para el territorio.","Une couleur vert jade lisible pour le territoire."},
+ {"Soft gold lettering with the existing dark text outline.","Letras doradas suaves con el contorno oscuro existente.","Lettres dorées discrètes avec le contour sombre existant."},
+ {"A pearl finish when you earn a live territory crown.","Acabado perla para las coronas ganadas por territorio.","Une finition perle pour vos couronnes de territoire en partie."},
+ {"The permanent Starter Pack profile badge.","La insignia de perfil permanente del paquete inicial.","L’insigne de profil permanent du pack de départ."},
+ {"The WorldConquest General profile badge.","La insignia de perfil de WorldConquest General.","L’insigne de profil de WorldConquest General."},
+ {"Complete a seven-day reward calendar.","Completa un calendario de recompensas de siete días.","Terminez un calendrier de récompenses de sept jours."},
+ {"A restrained gold victory banner pulse on your results screen.","Un pulso dorado sutil en el título de victoria de tus resultados.","Une légère pulsation dorée du bandeau de victoire sur vos résultats."},
+ {"A brief azure pulse at your nation when a new attack starts.","Un breve pulso azul sobre tu nación al iniciar un ataque.","Une brève pulsation azur sur votre nation au début d’une attaque."},
+ {"An amber ring at a confirmed missile impact. Identical damage and fallout.","Un anillo ámbar en los impactos de misil confirmados. Mismo daño y radiación.","Un anneau ambré lors d’un impact confirmé. Dégâts et retombées identiques."},
+ {"Subtle diagonal shading, visible at close zoom. Ownership colours remain clear.","Sombreado diagonal sutil al ampliar. Los colores de propiedad siguen claros.","Hachures diagonales discrètes à fort zoom. Les couleurs de propriété restent lisibles."},
+ {"A darker fine territory border at maximum zoom.","Una frontera fina y oscura al máximo zoom.","Une fine frontière plus sombre au zoom maximal."},
+ {"STARS","ESTRELLAS","ÉTOILES"},{"Stars","Estrellas","Étoiles"},
+ {"STARTER PACK • Permanent ownership","PAQUETE INICIAL • Propiedad permanente","PACK DE DÉPART • Acquisition permanente"},
+ {"WORLDCONQUEST GENERAL • Permanent pass","WORLDCONQUEST GENERAL • Pase permanente","WORLDCONQUEST GENERAL • Pass permanent"},
+ {"Three original cosmetics. One purchase. No combat advantage.","Tres cosméticos originales. Una compra. Sin ventaja en combate.","Trois cosmétiques originaux. Un achat. Aucun avantage au combat."},
+ {"Exclusive General badge and nation flag. A one-time purchase, not a recurring subscription.","Insignia de General y bandera exclusivas. Un solo pago, sin suscripción recurrente.","Insigne de Général et drapeau exclusifs. Un achat unique, sans abonnement récurrent."},
+ {"OWNED • Find your items in Inventory.","EN PROPIEDAD • Encuentra tus objetos en Inventario.","ACQUIS • Retrouvez vos objets dans l’inventaire."},
+ {"PUBLIC MATCH RECORDS • updated after eligible matches","RÉCORDS PÚBLICOS • Se actualizan tras partidas válidas","RECORDS PUBLICS • Actualisés après les parties admissibles"},
+ {"PARTY • Queue together • Up to six friends","GRUPO • Entrad juntos • Hasta seis amigos","GROUPE • Jouez ensemble • Jusqu’à six amis"},
+}
+local more={
+ {"LEADER","LÍDER","CHEF"},{"Party invitation","Invitación de grupo","Invitation de groupe"},{"Loading…","Cargando…","Chargement…"},{"Stars…","Estrellas…","Étoiles…"},
+ {"TROOPS","TROPAS","TROUPES"},{"RECRUIT","RECLUTAS","RECRUES"},{"GOLD","ORO","OR"},{"INCOME","INGRESOS","REVENUS"},{"LAND","TERRITORIO","TERRITOIRE"},{"RANK","RANGO","RANG"},
+ {"SOLDIERS","SOLDADOS","SOLDATS"},{"RECRUITMENT","RECLUTAMIENTO","RECRUTEMENT"},{"TERRITORY","TERRITORIO","TERRITOIRE"},
+ {"Match directory unavailable","Directorio de partidas no disponible","Liste des parties indisponible"},{"PLAY to find or create a public lobby","JUGAR para buscar o crear una sala pública","JOUER pour trouver ou créer un salon public"},
+ {"FINDING MATCH...","BUSCANDO PARTIDA...","RECHERCHE DE PARTIE..."},{"Finding your public match...","Buscando tu partida pública...","Recherche de votre partie publique..."},
+ {"Matchmaking is taking longer than expected. You can retry.","La búsqueda tarda más de lo esperado. Puedes reintentarlo.","La recherche prend plus de temps que prévu. Vous pouvez réessayer."},
+ {"Rally your allies. Prepare for deployment. Matches may include AI opponents.","Reúne a tus aliados. Prepárate para jugar. Las partidas pueden incluir oponentes de IA.","Rassemblez vos alliés. Préparez le déploiement. Les parties peuvent inclure des adversaires IA."},
+ {"ONE PLANET. COUNTLESS POSSIBILITIES.","UN PLANETA. INFINITAS POSIBILIDADES.","UNE PLANÈTE. DES POSSIBILITÉS INFINIES."},
+ {"Low CPU limits map painting work per frame; it preserves map resolution and may finish updates more slowly.","CPU baja limita el dibujado del mapa por fotograma; conserva la resolución y puede actualizarlo más lentamente.","CPU réduit limite le dessin par image ; la résolution reste identique mais les mises à jour peuvent prendre plus de temps."},
+ {"Audio: this build has no custom soundtrack. Use Roblox's system menu for device volume and graphics quality.","Audio: esta versión no tiene banda sonora. Usa el menú de Roblox para el volumen y la calidad gráfica.","Audio : cette version n’a pas de bande sonore. Réglez volume et graphismes dans le menu Roblox."},
+ {"- Bot","- IA","- IA"},{"+ Bot","+ IA","+ IA"},{"Easy","Fácil","Facile"},{"Normal","Normal","Normal"},{"Hard","Difícil","Difficile"},
+ {"Low CPU","CPU baja","CPU réduit"},{"Balanced","Equilibrado","Équilibré"},
+ {"Cancel placement","Cancelar colocación","Annuler le placement"},{"Cancel naval","Cancelar orden naval","Annuler l’ordre naval"},{"Cancel target","Cancelar objetivo","Annuler la cible"},
+ {"Launch invasion","Lanzar invasión","Lancer une invasion"},{"Buy warship","Comprar buque","Acheter un navire de guerre"},{"Move warship","Mover buque","Déplacer le navire"},{"Return transport","Retirar transporte","Rappeler le transport"},
+ {"Spawn into the match first.","Elige primero tu inicio en la partida.","Choisissez d’abord votre point de départ."},
+ {"Click an unclaimed or enemy coast. Uses the army allocation; maximum 3 transports; no port required.","Toca una costa libre o enemiga. Usa la asignación del ejército; máximo 3 transportes; no requiere puerto.","Touchez une côte libre ou ennemie. Utilise l’allocation de l’armée ; 3 transports maximum ; aucun port requis."},
+ {"Click water reachable from your completed port to buy a patrolling warship.","Toca agua accesible desde tu puerto terminado para comprar un buque de patrulla.","Touchez une eau accessible depuis votre port terminé pour acheter un navire de patrouille."},
+ {"Click your warship, then its new patrol location.","Toca tu buque y después su nuevo destino de patrulla.","Touchez votre navire, puis sa nouvelle position de patrouille."},
+ {"Click your transport to return it to your coast. Successful return loses 25% of its troops.","Toca tu transporte para devolverlo a tu costa. Al volver pierde el 25 % de sus tropas.","Touchez votre transport pour le rappeler. Un retour réussi coûte 25 % de ses troupes."},
+ {"Insufficient money for a warship.","Oro insuficiente para un buque.","Or insuffisant pour un navire de guerre."},
+ {"Ports trade automatically with other players unless embargoed.","Los puertos comercian automáticamente con otros jugadores salvo embargo.","Les ports commercent automatiquement avec les autres joueurs sauf embargo."},
+ {"Ports trade automatically with eligible destinations.","Los puertos comercian automáticamente con destinos válidos.","Les ports commercent automatiquement avec les destinations admissibles."},
+ {"Buildings are available after spawning into the match.","Los edificios están disponibles después de elegir tu inicio.","Les bâtiments sont disponibles après votre apparition dans la partie."},
+ {"Building unavailable or insufficient money.","Edificio no disponible u oro insuficiente.","Bâtiment indisponible ou or insuffisant."},
+ {"Click your completed building icon to buy one level.","Toca el icono de tu edificio terminado para comprar un nivel.","Touchez l’icône de votre bâtiment terminé pour acheter un niveau."},
+ {"Click your building icon to mark demolition (30 seconds; no refund).","Toca el icono del edificio para demolerlo (30 segundos; sin reembolso).","Touchez l’icône du bâtiment pour le démolir (30 secondes ; aucun remboursement)."},
+ {"Upgrade: current shop price for one level","Mejorar: precio actual por nivel","Améliorer : prix actuel par niveau"},{"Demolish: 30s delay / 30s cooldown","Demoler: espera de 30 s / recarga de 30 s","Démolir : délai de 30 s / recharge de 30 s"},
+ {"Silos hold launch slots. SAM launchers intercept automatically.","Los silos contienen turnos de lanzamiento. Los SAM interceptan automáticamente.","Les silos contiennent des créneaux de lancement. Les SAM interceptent automatiquement."},
+ {"Select one of your buildings during gameplay.","Selecciona uno de tus edificios durante la partida.","Sélectionnez l’un de vos bâtiments pendant la partie."},
+ {"Click one of your building icons.","Toca uno de tus iconos de edificio.","Touchez l’une de vos icônes de bâtiment."},
+ {"Under construction","En construcción","En construction"},{"Not upgradeable","No se puede mejorar","Non améliorable"},{"unavailable","no disponible","indisponible"},
+ {"One launch slot per level; reload in 9 seconds","Un turno por nivel; recarga en 9 segundos","Un créneau par niveau ; recharge en 9 secondes"},
+ {"Automatic interception; range and slots grow with level","Intercepción automática; alcance y turnos aumentan con el nivel","Interception automatique ; portée et créneaux augmentent avec le niveau"},
+ {"+250K soldier capacity per completed level","+250K de capacidad de soldados por nivel terminado","+250K de capacité de soldats par niveau terminé"},
+ {"30-cell range: defense magnitude x5; capture cost x3","Alcance de 30 celdas: defensa x5; coste de captura x3","Portée de 30 cases : défense x5 ; coût de capture x3"},
+ {"Trains trade with connected cities/ports; 110-cell range","Trenes comerciales entre ciudades y puertos conectados; alcance de 110 celdas","Commerce ferroviaire entre villes et ports reliés ; portée de 110 cases"},
+ {"Sea trade, warship launch and repairs; coastal rail stop","Comercio marítimo, construcción y reparación naval; estación costera","Commerce maritime, lancement et réparation des navires ; gare côtière"},
+ {"Atomic bomb","Bomba atómica","Bombe atomique"},{"Hydrogen bomb","Bomba de hidrógeno","Bombe à hydrogène"},{"MIRV","MIRV","MIRV"},
+ {"Missile unavailable or insufficient gold.","Misil no disponible u oro insuficiente.","Missile indisponible ou or insuffisant."},
+ {"SAM defence intercepts automatically","La defensa SAM intercepta automáticamente","La défense SAM intercepte automatiquement"},
+ {"Oceans and lakes cannot be claimed.","No se pueden conquistar océanos ni lagos.","Les océans et les lacs ne peuvent pas être conquis."},
+ {"Reconnecting to the match…","Reconectando a la partida…","Reconnexion à la partie…"},{"Connecting to match...","Conectando a la partida...","Connexion à la partie..."},
+ {"Click land to select or move your spawn.","Toca tierra para elegir o mover tu inicio.","Touchez une terre pour choisir ou déplacer votre départ."},
+ {"Click land to select or move your spawn. No selection? A free spawn will be assigned.","Toca tierra para elegir o mover tu inicio. Si no eliges, se asignará uno libre.","Touchez une terre pour choisir ou déplacer votre départ. Sans choix, un emplacement libre vous sera attribué."},
+ {"Click neutral land to expand or enemy land to attack shared borders. Enemy retreat loses 25%.","Toca tierra neutral para expandirte o enemiga para atacar fronteras comunes. La retirada enemiga pierde un 25 %.","Touchez une terre neutre pour vous étendre ou ennemie pour attaquer les frontières communes. La retraite ennemie perd 25 %."},
+ {"Match ended. Results will return you to the main menu.","Partida terminada. Volverás al menú tras los resultados.","Partie terminée. Retour au menu après les résultats."},
+ {"Preparing next match...","Preparando la próxima partida...","Préparation de la prochaine partie..."},{"Synchronising the new round...","Sincronizando la nueva ronda...","Synchronisation de la nouvelle manche..."},{"Waiting for players...","Esperando jugadores...","En attente de joueurs..."},
+ {"No attack","Sin ataque","Aucune attaque"},{"Stop / return","Detener / retirar","Arrêter / rappeler"},{"VICTORY","VICTORIA","VICTOIRE"},{"MATCH ENDED","PARTIDA TERMINADA","PARTIE TERMINÉE"},{"TERRITORY / TOP 10","TERRITORIO / TOP 10","TERRITOIRE / TOP 10"},
+ {"Enable your microphone using Roblox controls","Activa el micrófono con los controles de Roblox","Activez votre microphone avec les commandes Roblox"},
+ {"Voice unavailable","Voz no disponible","Voix indisponible"},{"Roblox voice available","Voz de Roblox disponible","Voix Roblox disponible"},
+ {"Checking Roblox communication permissions","Comprobando permisos de comunicación de Roblox","Vérification des permissions de communication Roblox"},
+ {"Voice unavailable for this account or session","Voz no disponible para esta cuenta o sesión","Voix indisponible pour ce compte ou cette session"},
+ {"Voice requires Roblox eligibility and experience communication settings","La voz requiere permiso de Roblox y ajustes de comunicación de la experiencia","La voix nécessite l’admissibilité Roblox et les paramètres de communication de l’expérience"},
+ {"Checking Roblox text-chat permissions…","Comprobando permisos de chat de Roblox…","Vérification des permissions de chat Roblox…"},
+ {"Use Roblox's chat button to send messages. Native filtering and mute commands apply.","Usa el botón de chat de Roblox para enviar mensajes. Se aplican filtros y comandos de silencio nativos.","Utilisez le bouton de chat Roblox. Le filtrage et les commandes de silence natifs s’appliquent."},
+ {"Text chat is unavailable or restricted by Roblox account permissions.","El chat no está disponible o está restringido por los permisos de Roblox.","Le chat est indisponible ou restreint par les permissions du compte Roblox."},
+ {"Reporting: open the Roblox system menu, choose Report, then select the player and reason. Roblox also provides voice and text moderation controls. This game cannot override age, parental, blocking or microphone permissions.","Para denunciar: abre el menú de Roblox, elige Denunciar, jugador y motivo. Roblox también ofrece moderación de voz y texto. El juego no puede anular permisos de edad, familiares, bloqueo o micrófono.","Signalement : ouvrez le menu Roblox, choisissez Signaler, puis le joueur et le motif. Roblox propose aussi une modération vocale et textuelle. Le jeu ne peut contourner les permissions d’âge, parentales, de blocage ou du microphone."},
+ {"Open Roblox's system menu to block or report this player.","Abre el menú de Roblox para bloquear o denunciar al jugador.","Ouvrez le menu Roblox pour bloquer ou signaler ce joueur."},
+ {"Load your profile before claiming.","Carga tu perfil antes de reclamar.","Chargez votre profil avant de réclamer."},{"Global persistence is disabled in this Studio preview.","La persistencia global está desactivada en esta vista de Studio.","La persistance globale est désactivée dans cet aperçu Studio."},
+ {"No records returned yet. Select a category to refresh.","Aún no hay registros. Selecciona una categoría para actualizar.","Aucun record reçu. Sélectionnez une catégorie pour actualiser."},
+ {"Invitations expire after two minutes. Invitees confirm after joining. Only the leader queues the party; all members must be in this menu server.","Las invitaciones caducan en dos minutos. Se confirman al entrar. Solo el líder inicia la búsqueda; todos deben estar en este servidor de menú.","Les invitations expirent après deux minutes. Elles se confirment à l’arrivée. Seul le chef lance la recherche ; tous doivent être dans ce serveur de menu."},
+}
+for _,row in ipairs(more)do table.insert(Strings.Rows,row)end
+local lookup={};for _,row in ipairs(Strings.Rows)do lookup[row[1]]=row end
+function Strings.translate(source,locale)
+ local code=string.sub(string.lower(locale or "en"),1,2);local index=if code=="es"then 2 elseif code=="fr"then 3 else 1
+ local row=lookup[source];if row then return row[index],true end
+ -- Composed UI templates retain numeric costs and identifiers exactly.
+ local a,b=source:match("^(.-)\n(.*)$");if a then local x,k=Strings.translate(a,locale);local y,j=Strings.translate(b,locale);return x.."\n"..y,k or j end
+ a,b=source:match("^(.-)  %$(.*)$");if a and lookup[a]then return lookup[a][index].."  $"..b,true end
+ a,b=source:match("^(.-) / Level (%d+)$");if a and lookup[a]then return lookup[a][index]..(if index==2 then " / Nivel "elseif index==3 then " / Niveau "else " / Level ")..b,true end
+ a,b=source:match("^(.-): (%d+)$");if a and lookup[a]then return lookup[a][index]..": "..b,true end
+ a,b=source:match("^(.-) • (.*)$");if a and lookup[a]then local rest=Strings.translate(b,locale);return lookup[a][index].." • "..rest,true end
+ a,b=source:match("^(%d+) ([%a]+)$");if a and b~="Stars"and lookup[b]then return a.." "..lookup[b][index],true end
+ a=source:match("^Allocate (%d+)%%$");if a then return (if index==2 then "Asignar "elseif index==3 then "Allouer "else "Allocate ")..a.."%",true end
+ a=source:match("^Buy warship: %$(.*)$");if a then return lookup["Buy warship"][index]..": $"..a,true end
+ a=source:match("^Upgrade %$(.*)$");if a then return (Strings.translate("Upgrade",locale)).." $"..(Strings.translate(a,locale)),true end
+ a=source:match("^Difficulty: (.*)$");if a then return (if index==2 then "Dificultad: "elseif index==3 then "Difficulté : "else "Difficulty: ")..(Strings.translate(a,locale)),true end
+ a=source:match("^Language: (.*)$");if a then return (if index==2 then "Idioma: "elseif index==3 then "Langue : "else "Language: ")..a,true end
+ a=source:match("^Menu UI scale: (.*)$");if a then return (if index==2 then "Escala del menú: "elseif index==3 then "Échelle du menu : "else "Menu UI scale: ")..a,true end
+ a=source:match("^Map frame budget: (.*)$");if a then return (if index==2 then "Dibujado del mapa: "elseif index==3 then "Dessin de la carte : "else "Map frame budget: ")..(Strings.translate(a,locale)),true end
+ a=source:match("^CHOOSE YOUR SPAWN / (%d+s)$");if a then return (if index==2 then "ELIGE TU INICIO / "elseif index==3 then "CHOISISSEZ VOTRE DÉPART / "else "CHOOSE YOUR SPAWN / ")..a,true end
+ a=source:match("^Next claim in (%d+) hours%.$");if a then return (if index==2 then "Próxima recompensa en "elseif index==3 then "Prochaine récompense dans "else "Next claim in ")..a..(if index==2 then " horas."elseif index==3 then " heures."else " hours."),true end
+ a=source:match("^(%d+) remaining$");if a then return a..(if index==2 then " restantes"elseif index==3 then " restants"else " remaining"),true end
+ local n=source:match("^(%d+) Stars$");if n then return n..(if index==2 then " estrellas"elseif index==3 then " étoiles"else " Stars"),true end
+ n=source:match("^(%d+) PLAYERS$");if n then return n..(if index==2 then " JUGADORES"elseif index==3 then " JOUEURS"else " PLAYERS"),true end
+ local amount=source:match("^Unlock • (%d+) Stars$");if amount then return (if index==2 then "Desbloquear • "elseif index==3 then "Débloquer • "else "Unlock • ")..amount..(if index==2 then " estrellas"elseif index==3 then " étoiles"else " Stars"),true end
+ amount=source:match("^Purchase • (%d+) Robux$");if amount then return (if index==2 then "Comprar • "elseif index==3 then "Acheter • "else "Purchase • ")..amount.." Robux",true end
+ local day,stars=source:match("^Day (%d+) • (%d+) Stars$");if day then return (if index==2 then "Día "elseif index==3 then "Jour "else "Day ")..day.." • "..stars..(if index==2 then " estrellas"elseif index==3 then " étoiles"else " Stars"),true end
+ return source,false
+end
+return Strings

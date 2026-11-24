@@ -1,0 +1,89 @@
+-- Run production RemoteEvent adapter with two replicas and deterministic service/clock stubs.
+local function signal()
+ local e={};function e:Connect(fn) self.fn=fn end;function e:Fire(...) if self.fn then self.fn(...) end end;return e
+end
+local alice,bob={UserId=1,Name="Alice"},{UserId=2,Name="Bob"}
+local players={PlayerAdded=signal(),PlayerRemoving=signal()};function players:GetPlayers() return {alice,bob} end
+local heartbeat=signal();local now=0
+local shared={Config={SimulationSeed=12345,PortStage=5,Economy={StartingGold="2000000",GoldMultiplier=1},PlayerColors={1,2},RequestCooldown=0.12},Map=WorldMap,OpenFront={EarthTerrain=EarthTerrain,Clock=Clock,BuildingWire=BuildingWire}}
+local rs={WaitForChild=function() return shared end}
+local services={Players=players,ReplicatedStorage=rs,RunService={Heartbeat=heartbeat}}
+local replicas={[alice]=Replica.new(EarthTerrain),[bob]=Replica.new(EarthTerrain)}
+local ready,stats={},{}
+local remote={OnServerEvent=signal(),attributes={},maxFragment=0}
+function remote:SetAttribute(key,value) self.attributes[key]=value end
+local function receive(p,action,data)
+ local r=replicas[p]
+ if action=="FoundationBegin" then assert(r.begin(data))
+ elseif action=="FoundationChunk" then assert(r.chunk(data))
+ elseif action=="FoundationEnd" then assert(r.finish(data));ready[p]=true
+ elseif action=="FoundationDelta" then
+  remote.maxFragment=math.max(remote.maxFragment,buffer.len(data.Changes))
+  if ready[p] or r.loading() then assert(r.delta(data)) end
+ elseif action=="FoundationStats" then assert(data.UserId==p.UserId);stats[p]=data end
+end
+function remote:FireClient(p,action,data) receive(p,action,data) end
+function remote:FireAllClients(action,data) for p in pairs(replicas) do receive(p,action,data) end end
+runFoundation({GetService=function(_,name) return services[name] end},{Parent={Simulation=Simulation}},function(x)return x end,
+ {new=function() return remote end},{fromHSV=function() return 3 end},{clock=function() return now end},{profilebegin=function()end,profileend=function()end})
+local function step() now+=0.1;heartbeat:Fire(0.1) end
+remote.OnServerEvent:Fire(alice,"Sync");remote.OnServerEvent:Fire(bob,"Sync");step()
+assert(ready[alice] and ready[bob])
+local x,y=(20+180)/360*8192,(90-5)/180*4096
+now+=0.2;remote.OnServerEvent:Fire(alice,"SelectSpawn",x,y);remote.OnServerEvent:Fire(bob,"SelectSpawn",x+20,y)
+for _=1,205 do step() end
+assert(stats[alice].Count==52 and stats[bob].Count==52)
+assert(typeof(stats[alice].Gold)=="string" and stats[alice].GoldIncome=="100")
+-- Production building purchase authentication, retry and resync while unfinished.
+local function order(client,payload)
+ now+=0.2;remote.OnServerEvent:Fire(client,"Building",payload);step();step()
+end
+order({UserId=1,Name="Forged"},{Action="Build",Sequence=1,Type="City",X=x,Y=y})
+assert(#(replicas[alice].Meta.Buildings or {})==0)
+order(alice,{Action="Build",Sequence=1,Type="City",X=x,Y=y,Price="0",UserId=2})
+assert(#replicas[alice].Meta.Buildings==1 and replicas[alice].Meta.Buildings[1].Owner==1)
+local paid=tonumber(stats[alice].Gold);local paidTick=stats[alice].Tick
+order(alice,{Action="Build",Sequence=1,Type="City",X=x,Y=y})
+assert(#replicas[bob].Meta.Buildings==1 and tonumber(stats[alice].Gold)==paid+100*(stats[alice].Tick-paidTick))
+now+=2.1;remote.OnServerEvent:Fire(bob,"Sync");step()
+assert(replicas[bob].Meta.Buildings[1].UnderConstruction,"snapshot includes pending structure")
+order(bob,{Action="Upgrade",Sequence=1,UnitID=1});assert(replicas[bob].Meta.Buildings[1].Level==1)
+order(alice,{Action="Upgrade",Sequence=2,UnitID=1});assert(replicas[alice].Meta.Buildings[1].Level==1)
+for _=1,25 do step() end
+order(alice,{Action="Upgrade",Sequence=3,UnitID=1});assert(replicas[alice].Meta.Buildings[1].Level==2)
+assert(replicas[bob].Meta.Buildings[1].Level==2 and not replicas[bob].Meta.Buildings[1].UnderConstruction)
+assert(stats[alice].BuildingQuotes.City.Cost=="500000" and stats[alice].Cap>500000)
+order(alice,{Action="Build",Sequence=4,Type="MissileSilo",X=x,Y=y})
+order(alice,{Action="Build",Sequence=0/0,Type="City",X=x,Y=y})
+assert(#replicas[alice].Meta.Buildings==1)
+
+local beforeGold=tonumber(stats[alice].Gold);local beforeTick=stats[alice].Tick
+remote.OnServerEvent:Fire(alice,"Purchase",1,"fake")
+remote.OnServerEvent:Fire(alice,"SetGold","999999999999999999999")
+for _=1,4 do step() end
+assert(tonumber(stats[alice].Gold)==beforeGold+(stats[alice].Tick-beforeTick)*100,"forged purchase/grant modified gold")
+local before=stats[alice].Troops
+remote.OnServerEvent:Fire({UserId=1,Name="Forged"},"Expand",x+100,y,1)
+remote.OnServerEvent:Fire(alice,"Expand",x+100,y,0/0);step()
+assert(stats[alice].Troops>=before)
+now+=0.2;remote.OnServerEvent:Fire(alice,"Expand",x+100,y,0.5)
+remote.OnServerEvent:Fire(bob,"Expand",x+100,y,0.5)
+for _=1,70 do step() end
+assert(stats[alice].Count>100 and stats[bob].Count>100)
+remote.OnServerEvent:Fire(alice,"Cancel",stats[alice].AttackID)
+remote.OnServerEvent:Fire(bob,"Cancel",stats[bob].AttackID)
+for _=1,25 do step() end
+local originalCount=stats[bob].Count
+now+=0.2;remote.OnServerEvent:Fire(alice,"Expand",x+20,y,0.8)
+for _=1,8 do step() end
+assert(stats[alice].Committed>0 and stats[alice].Attacks[1].Target=="Bob","enemy order reaches authoritative combat")
+assert(stats[bob].Count<originalCount,"enemy conquest reaches both clients")
+for _,key in ipairs(replicas[alice].Grid.chunkKeys()) do assert(buffer.tostring(replicas[alice].Grid.copyChunk(key))==buffer.tostring(replicas[bob].Grid.copyChunk(key))) end
+remote.OnServerEvent:Fire(alice,"Cancel",stats[alice].AttackID)
+for _=1,25 do step() end
+assert(stats[alice].Committed==0)
+assert(remote.maxFragment<=24576 and remote.attributes.SimulationTick>200)
+players.PlayerRemoving:Fire(bob);step()
+assert(replicas[alice].Grid.Counts[2]==0)
+assert(stats[bob].Gold~=nil and stats[bob].GoldIncome=="100")
+print("Stage 5 production RemoteEvent adapter: purchases, retries, pending snapshot, upgrades, forgery, batched building sync; two Earth-map clients, authenticated orders, private attack HUDs, actual enemy captures, cancellation, matching replicas, disconnect and bounded fragments passed (service stubs, not Studio).")

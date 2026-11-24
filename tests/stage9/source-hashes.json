@@ -1,0 +1,12 @@
+{
+  "commit": "8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94",
+  "files": {
+    "packages/engine/src/execution/NationExecution.ts": "8093752836fc17c0b9bf6460d0aac3f384fd201dbda491a65f15f2cd2df09908",
+    "packages/engine-lib/src/PseudoRandom.ts": "70a87d651b7367173dbdd0deb7ca21432d6afdb011b1440b6f93a2575473ab6b",
+    "packages/engine-lib/src/Util.ts": "d467fe0217bc0d9e428752ae87cbdb23d2c8fd970b1b1272897c94738c769160",
+    "packages/engine/src/execution/nation/NationNukePlanning.ts": "4a7f4d60325d3df796809c96029b8f08c3f2136cc6bb5eb26ecbf1e77d6c9057",
+    "packages/engine/src/execution/nation/NationAttackBehavior.ts": "e26dcd76c1aa94b760562458321063e3c9a3e48c15fef84591794d2a4ece20de",
+    "packages/engine/src/execution/utils/AiAttackBehavior.ts": "92bb9f37fe26fdb3f02ae7d4ba51df8b5cf43426a4d84c71b33129af9ad8500c",
+    "packages/engine/src/execution/nation/NationStructureBehavior.ts": "8e5d0266f8ccf8dbc947c52498cc00541e3a73e49f3f724c166131292ce9651e"
+  }
+}

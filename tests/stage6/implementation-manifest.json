@@ -1,0 +1,26 @@
+{
+  "upstream_commit": "8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94",
+  "implementation_files": {
+    "src/server/OpenFront/Naval.luau": "2eba5759f536e91478257193a6152527240ac6941045209e55f256a620353baa",
+    "src/server/OpenFront/Warship.luau": "6ca6f44f0aa528dc6d9b5245958c30ea20b9be6f55d75895a03248befdd43cdd",
+    "src/server/OpenFront/WaterPath.luau": "b54b5ed31c9e6296fdd0cf05f78142836088d86ad1a24c6faa908a5c3fced63b",
+    "src/server/OpenFront/ShoreQuery.luau": "e5f19f838bb641e8846bcc80ba4e142a66b3815f3718764d870d399bced8e3a0",
+    "src/server/OpenFront/Expansion.luau": "bddfd8577f213be97cdfe21b4f77eaa109cf79aa2ec99ca9da5dc4a1e00082c0",
+    "src/server/OpenFront/Simulation.luau": "1add790bf4f8bb004f8bd8f1a5840cf6c77c6952d4b377e3326d09ba652e84ad",
+    "src/server/OpenFront/Buildings.luau": "99f29320d89b1f87e9d6eb1057fc72472ba6e313361466b98ac17d9d7fa1cd5a",
+    "src/server/OpenFront/Rail.luau": "809741caac7184d2cbfbd0e79d3a7de7eddaaaaad4cb37b1ab0c49b112900548",
+    "src/server/OpenFront/FoundationServer.luau": "bfb6bfd5e3eeef0ab43b497aee6da6f4eb064a9f109738b9f4b68265587ce847",
+    "src/shared/OpenFront/NavalRules.luau": "24995f75a2bef51c925d513a13b79b396813da5908de285cde5435f7c18e5ab9",
+    "src/shared/OpenFront/ShipWire.luau": "6784643406692473a4d8b38f3831db62ff44564e6e7487f7732359cee5c382c6",
+    "src/shared/OpenFront/Replica.luau": "6f37d51ab3c5598590d78431a03796027fdfa9be8365c988dd06a0c0b2414a0e",
+    "src/shared/OpenFront/BuildingRules.luau": "1c994b575f49fbe91b6595288766daa689ff5405e4503373e880a417fd6a577a",
+    "src/client/NavalControls.luau": "3a37bce86462d960c199c03c5618110be05293e17cd41d4a3ffe6ed1fc25d43b",
+    "src/client/BuildingShop.luau": "d063f9b0545bbbc6baa329c801a399a0b921dd405efbe47cb9de8752e6b77f74",
+    "src/client/MapView.luau": "5db87c4d1a7a76851d2cb044d052bdf9bed2d8ae9ea11551a0aa3bc2abc4ed17",
+    "src/client/Main.client.luau": "521ad85419ee9b36242a70d65e5c7d98bdad77b5e70656845cd2efb7469ddbde",
+    "src/shared/Config.luau": "0a234464fc5a4696cb6959e236721d533c5fb9f45190e719b3808aa416d27c52"
+  },
+  "fixture_sha256": "b7748c8776c733e6b5ded84fdee4d9a702cda451ea1b141dd2e8b3e6dacd9394",
+  "built_place_bytes": 36703673,
+  "live_studio_verified": false
+}

@@ -1,0 +1,90 @@
+{
+  "dataset": "NOAA NCEI ETOPO 2022 v1, 60 arc-second ice surface",
+  "url": "https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO2022/data/60s/60s_surface_elev_gtif/ETOPO_2022_v1_60s_N90W180_surface.tif",
+  "doi": "10.25921/fd45-gt74",
+  "license": "CC0-1.0",
+  "license_source": "https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ngdc.mgg.dem%3Aetopo_2022",
+  "accessed": "2026-11-18",
+  "source_sha256": "9d27d4b8ea8e76977e2988bca667d7c8fa68b927355feffcddd6b4875a7fd08e",
+  "class_sha256": "88ad02732401655d895ffd5116e2628b645efb3c3c2b4aeb534b37aafe820c1c",
+  "land_mask_sha256": "ccf3bdc234b7e6892ed9d311f850a0c3feb8ea39b5f2bc1d12a57441473684fa",
+  "width": 8192,
+  "height": 4096,
+  "method": "nearest source sample at target pixel centre; existing Natural Earth land/lake mask unchanged",
+  "thresholds_metres": [
+    1000,
+    2000
+  ],
+  "upstream_deviation": "DEM classification adapter, not upstream PNG artwork or a source-defined metre conversion",
+  "classes": {
+    "0": 6629176,
+    "10": 1677294,
+    "20": 2708270
+  },
+  "encoded_bytes": 816992,
+  "samples": [
+    {
+      "name": "Himalaya",
+      "longitude": 86,
+      "latitude": 28,
+      "cell": 11556772,
+      "land": true,
+      "metres": 2596.8701171875,
+      "magnitude": 20
+    },
+    {
+      "name": "Tibet",
+      "longitude": 90,
+      "latitude": 32,
+      "cell": 10811392,
+      "land": true,
+      "metres": 4688.03173828125,
+      "magnitude": 20
+    },
+    {
+      "name": "Andes",
+      "longitude": -70,
+      "latitude": -32,
+      "cell": 22743495,
+      "land": true,
+      "metres": 3675.34521484375,
+      "magnitude": 20
+    },
+    {
+      "name": "Netherlands",
+      "longitude": 5,
+      "latitude": 52,
+      "cell": 7082097,
+      "land": true,
+      "metres": -1.3202593326568604,
+      "magnitude": 0
+    },
+    {
+      "name": "Central Africa",
+      "longitude": 20,
+      "latitude": 5,
+      "cell": 15847879,
+      "land": true,
+      "metres": 381.9729309082031,
+      "magnitude": 0
+    },
+    {
+      "name": "Rockies",
+      "longitude": -106,
+      "latitude": 40,
+      "cell": 9315987,
+      "land": true,
+      "metres": 2961.50927734375,
+      "magnitude": 20
+    },
+    {
+      "name": "Pacific",
+      "longitude": -140,
+      "latitude": 0,
+      "cell": 16778126,
+      "land": false,
+      "metres": -4311.12939453125,
+      "magnitude": 0
+    }
+  ]
+}

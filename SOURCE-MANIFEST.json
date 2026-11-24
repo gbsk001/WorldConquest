@@ -1,0 +1,1341 @@
+{
+  "repository": "https://github.com/gbsk001/WorldConquest",
+  "license": "AGPL-3.0 with preserved upstream Section 7 terms",
+  "artifact_sha256": "345c6c46848b4c852dc77ac03ecc1650564e41f8dd1fcb7fcb0ba11a573d5c07",
+  "files": {
+    ".gitignore": {
+      "sha256": "e38b490bb577ac040bbcd0d30ddd93f9f1b67ab34b419246de3a7d5f619ef2e7",
+      "bytes": 229
+    },
+    "aftman.toml": {
+      "sha256": "0cb2a34f729c3c9911ac9db743e9b508276afbd8e6d77b64445c4d26406def8e",
+      "bytes": 260
+    },
+    "assets/gui-icons/Army.png": {
+      "sha256": "3fcdfee4ea246b475763db664cacdb765eea15ab1a613a6ffbee16b4e3442f2e",
+      "bytes": 1230
+    },
+    "assets/gui-icons/Army.svg": {
+      "sha256": "fde3f2cc10e11941c57f9236cf4bf525ea8c94586d6150c3fa4065a174cb21ef",
+      "bytes": 432
+    },
+    "assets/gui-icons/atlas.png": {
+      "sha256": "27aa1ce31fe2761231bf7aa23eff1b08a138cecf9d1d8578635b52d852b3dd24",
+      "bytes": 15497
+    },
+    "assets/gui-icons/Buildings.png": {
+      "sha256": "191c3d5a06c2cfc12757ec34fede54147441612d26c8e252be81bece1600ff63",
+      "bytes": 800
+    },
+    "assets/gui-icons/Buildings.svg": {
+      "sha256": "6a33cf0fdce92d41cc090136313e771785c93b518e4018489a5832f6d432ec07",
+      "bytes": 455
+    },
+    "assets/gui-icons/Exit.png": {
+      "sha256": "169d26f16f980d08bd56000d4945376ebd79ec9d2ffb8e52c189bbac182d393e",
+      "bytes": 678
+    },
+    "assets/gui-icons/Exit.svg": {
+      "sha256": "927df62f9f1c2d2498d8c180cd333f261849a9e385fc3b6c1a849dbc6caff9d1",
+      "bytes": 265
+    },
+    "assets/gui-icons/Friends.png": {
+      "sha256": "c2837e3d1bf135b34c892eadbb252d75e7608ce1102a3d33843a24072d42c32a",
+      "bytes": 1256
+    },
+    "assets/gui-icons/Friends.svg": {
+      "sha256": "aba480c8b85b8df572af7949302b26cb65087d561ba9193de48ad24d8311c143",
+      "bytes": 316
+    },
+    "assets/gui-icons/Gold.png": {
+      "sha256": "90fffe5ff7f95f088d75c7ffb74aff9b70c0a02287b5c67c7f5beec57d801021",
+      "bytes": 1443
+    },
+    "assets/gui-icons/Gold.svg": {
+      "sha256": "6f159a56e863f6f356a6ba0d64d53a87d9488f6c1282b267420e78ef5126de84",
+      "bytes": 440
+    },
+    "assets/gui-icons/Income.png": {
+      "sha256": "8322012be0f5d8dfeb85cf5ab27ace40ea4d02d05b551b17aa146d34e8dca9b8",
+      "bytes": 1179
+    },
+    "assets/gui-icons/Income.svg": {
+      "sha256": "97a86310876cd30ccb4560400c2a45b7a42f39a7546feb42f77163a2dc84d6b6",
+      "bytes": 357
+    },
+    "assets/gui-icons/Leaderboard.png": {
+      "sha256": "5196cb0c3df9ccf21abe28866fc2617c03c2b96d592a3d3ce080c5cc1e6dfb71",
+      "bytes": 1035
+    },
+    "assets/gui-icons/Leaderboard.svg": {
+      "sha256": "526fdc1dbe0d4aa774bd1db613d5466ffc986b14c8fce5d7fd46c1734d8d1e1b",
+      "bytes": 370
+    },
+    "assets/gui-icons/LICENSE.txt": {
+      "sha256": "752c7ab3379ac8528ebaf40d6422cef945d52ace4e6c519bf9efa183af167d34",
+      "bytes": 194
+    },
+    "assets/gui-icons/Missiles.png": {
+      "sha256": "b7ca4651ab299e9c0b32e23ac2d57abfe863b8c2613b9c1f974434fcfadc9e41",
+      "bytes": 1435
+    },
+    "assets/gui-icons/Missiles.svg": {
+      "sha256": "356ffbb7edd39892864541d9baec811f1fcc3cbfa70157bbe41dcffa2de71af3",
+      "bytes": 394
+    },
+    "assets/gui-icons/Navy.png": {
+      "sha256": "efe0f1e8f794fb0d9354d075cce17aea09d7c8d7cd622ea02bcc2208e558d497",
+      "bytes": 1066
+    },
+    "assets/gui-icons/Navy.svg": {
+      "sha256": "870440fbb9a63b6b8694d11fb6d14899c38574584450ed02c0eb2ee4d78b721b",
+      "bytes": 413
+    },
+    "assets/gui-icons/Rank.png": {
+      "sha256": "b7332a0185d5be502c4d042572913a44933d22b130d24157c35cff317feb2833",
+      "bytes": 1412
+    },
+    "assets/gui-icons/Rank.svg": {
+      "sha256": "085b71d1a2aaa754b4ec1544f7087b06422584175475faab2467d4f69f36e0ec",
+      "bytes": 379
+    },
+    "assets/gui-icons/Recruitment.png": {
+      "sha256": "c2837e3d1bf135b34c892eadbb252d75e7608ce1102a3d33843a24072d42c32a",
+      "bytes": 1256
+    },
+    "assets/gui-icons/Recruitment.svg": {
+      "sha256": "aba480c8b85b8df572af7949302b26cb65087d561ba9193de48ad24d8311c143",
+      "bytes": 316
+    },
+    "assets/gui-icons/Settings.png": {
+      "sha256": "fd4b26bcde12b200ee72895282283abe9252bccac2cb13eb25568cff5ada282f",
+      "bytes": 1830
+    },
+    "assets/gui-icons/Settings.svg": {
+      "sha256": "69fa860a82ef1f8e327f4abfc45cf0b1f98ee627ef37582945c4f810ad73b76e",
+      "bytes": 1334
+    },
+    "assets/gui-icons/Soldiers.png": {
+      "sha256": "f05454fab5989cc307b774be15247c62454da4632b4b0ec230f481707fa6fddc",
+      "bytes": 1190
+    },
+    "assets/gui-icons/Soldiers.svg": {
+      "sha256": "632f5ffa61ed1b8d9c5c91394cbc89fc1c3dfa29839c6775572f9296e741f10c",
+      "bytes": 337
+    },
+    "assets/gui-icons/Territory.png": {
+      "sha256": "6b9d4f970462ab1d643e4d888f763c9147ac2332a13f9eb03413ef114ce73639",
+      "bytes": 824
+    },
+    "assets/gui-icons/Territory.svg": {
+      "sha256": "0c5de6fc2cacb151047bec28e457b7e560ace662de2feb87a0f65c3ceef7e2ba",
+      "bytes": 254
+    },
+    "BUILDING.md": {
+      "sha256": "a08adbbab922115fc33adfc4da9969a4bf2aa202e61fe075f0bbf578b49805d8",
+      "bytes": 3769
+    },
+    "data/earth-elevation-rle.bin": {
+      "sha256": "4249fb0adaa414b4259eed719fabb298225100a708325b0239f153df9e6dc634",
+      "bytes": 816992
+    },
+    "data/earth-manifest.json": {
+      "sha256": "b1caacb82dfd3e786e14d05a98fe34b4a7492662de299ef903d24fcee21b9b01",
+      "bytes": 375
+    },
+    "data/earth-topology-manifest.json": {
+      "sha256": "0c76001b360ac6e460e026a0f2af0f6d355dd56db7ec4cc14e5ba9576c4d5ffb",
+      "bytes": 380
+    },
+    "data/elevation-manifest.json": {
+      "sha256": "89e090c29f7ecaf79a4f93904f1316c73a50dc11467e8c50989ae3ca6fe3ae3f",
+      "bytes": 2488
+    },
+    "data/localisation.csv": {
+      "sha256": "c472c70d72cb8da0618a35bc1f3b0606bb56a12bf5bae2d7085f814fab223b3d",
+      "bytes": 40276
+    },
+    "data/ne_10m_lakes.geojson": {
+      "sha256": "2d036f53dedec578001c5c30c2959ee7d4eebc1306900fa4367c49929ec8f2d9",
+      "bytes": 5043554
+    },
+    "data/ne_10m_land.geojson": {
+      "sha256": "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416",
+      "bytes": 10157965
+    },
+    "data/ne_110m_land.geojson": {
+      "sha256": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9",
+      "bytes": 138160
+    },
+    "data/README.md": {
+      "sha256": "ce8233f75a9870acea42b26731c27fe494ef5e2bf42ea7572b5a9990daa776b9",
+      "bytes": 4586
+    },
+    "data/spawn-atlas-manifest.json": {
+      "sha256": "8b41f6c81ac8570519804eb6f5c22bd6d5b8ebbaff0df615484b5712160fab66",
+      "bytes": 1296
+    },
+    "default.project.json": {
+      "sha256": "020d6ec4cdc954eea79f00cb4261bf00c4fc3e43919c7906a64bbec92f609ce9",
+      "bytes": 1584
+    },
+    "DEPENDENCIES.md": {
+      "sha256": "c15f96e3e9469d2ecfb1cb9c1710dfaf9cbf53c828cbbcbb55e55ac1803e37a8",
+      "bytes": 2603
+    },
+    "docs/AI_PRESENTATION.md": {
+      "sha256": "f9b27dabf4106b817421190fb05f10619b88a44fae8b00261ee7c2e4a81ff3ec",
+      "bytes": 2462
+    },
+    "docs/FINAL_TECHNICAL_ACCEPTANCE.md": {
+      "sha256": "82f6b3700b3d1a1b67d4cc5e61db3f6776749cf3681a196e9d67f4c10c39439c",
+      "bytes": 8004
+    },
+    "docs/GUI_ICONS_ACCEPTANCE.md": {
+      "sha256": "6e23e5d3383434ea112a761f2b38e70896b4f34cec64a00d8feaaf0871c8c071",
+      "bytes": 3985
+    },
+    "docs/GUI_PERFORMANCE_UPDATE.md": {
+      "sha256": "9e50038dabe94ed73d159c46dbab0d12dff406fa2e567323b075e781697a953f",
+      "bytes": 9207
+    },
+    "docs/GUI_POLISH_ACCEPTANCE.md": {
+      "sha256": "a7ffbec6677d9ed3bea698a2d0a4ac7a531295c692a6704ed177a1497654e775",
+      "bytes": 5797
+    },
+    "docs/GUI_REDESIGN.md": {
+      "sha256": "7f9bea4a6dd07f8a9961dcf27bed7d070c5660014b7bfe05402a9967f96c6a4e",
+      "bytes": 6414
+    },
+    "docs/GUI_REDESIGN_2026_11_23.md": {
+      "sha256": "1f75da5178557adcc9668ab890e78bdabe5f495545cc55631e4f864750a68548",
+      "bytes": 6598
+    },
+    "docs/MOBILE_ACCEPTANCE.md": {
+      "sha256": "038e64b875d910743d159d27d9e9bb3207dc0d74297b788e2f277b0a8ddeb5f2",
+      "bytes": 13365
+    },
+    "docs/openfront-audit-manifest.json": {
+      "sha256": "b3e8874266d903bcdb1ba6dd76bfd678929c9884dd7d7e944520f8d1a70b054f",
+      "bytes": 69890
+    },
+    "docs/openfront-baseline.txt": {
+      "sha256": "ea25f52cdf99b5dfc47ddfd886d1e508f95d691150f5698209b2d0958d161d31",
+      "bytes": 890
+    },
+    "docs/OPENFRONT_PORT_MAPPING.md": {
+      "sha256": "e129a457e9c0cb80e4c8320d92a81faaae2a06ea84d8a5a1d47d4cdce7236d8d",
+      "bytes": 10714
+    },
+    "docs/OPENFRONT_PORT_PLAN.md": {
+      "sha256": "8210b0fcb67cb429c981944927daebce62433f834c4b3cabc92d9b6e9a1844ac",
+      "bytes": 34043
+    },
+    "docs/OPENFRONT_SOURCE_INDEX.md": {
+      "sha256": "facf4f76c269ad2246bac0977dc5553ed0778ca741ddb423145a45f5d86227b9",
+      "bytes": 45848
+    },
+    "docs/PERFORMANCE_OPTIMISATION.md": {
+      "sha256": "7f4125c92359336f673f015297f0f188fc5dec7f86f54d7c43989700994cf3b5",
+      "bytes": 20368
+    },
+    "docs/SCALABILITY_ACCEPTANCE_2026-11-24.md": {
+      "sha256": "0337044e14ccb06ea662f0416be3493e190b610a58686a5a6041c6d6672f5dd0",
+      "bytes": 13515
+    },
+    "docs/SOURCE_RELEASE.md": {
+      "sha256": "47dc4faa81ff7807e99fc0b9240b6de0ee959d263029c662e0f0301133214665",
+      "bytes": 3881
+    },
+    "docs/SPAWN_DISTRIBUTION.md": {
+      "sha256": "cf0709d37b0f415cd31792bc664efd4e308b48e356bb22314289056893191616",
+      "bytes": 10246
+    },
+    "docs/STAGE10_ACCEPTANCE.md": {
+      "sha256": "812c40dfb38aa182172a328d90fb27477cbc8d6146c39e56659c6a0e0396b17a",
+      "bytes": 5706
+    },
+    "docs/STAGE10_IMPLEMENTATION.md": {
+      "sha256": "8ed05b7cd7eea0a5c15831a8bfa5499ffc3cfce6c222c06f9f41d4576ad3b6c1",
+      "bytes": 11440
+    },
+    "docs/STAGE10_TEST_RESULTS.md": {
+      "sha256": "d9d661b08092840ca9b699042c289c04b2fdfedddca5c9cea5b50985d311397b",
+      "bytes": 3316
+    },
+    "docs/STAGE11_ACCEPTANCE.md": {
+      "sha256": "944a904d293de68150b35d377f8b6f7af34aefea253fa73a9af250174a663c07",
+      "bytes": 14591
+    },
+    "docs/STAGE12_13_ACCEPTANCE.md": {
+      "sha256": "6243cebe88c0005c6ac4757c2b411ee7b4061adda8faa5aaec67e451beae9fa6",
+      "bytes": 17888
+    },
+    "docs/STAGE13_ACCEPTANCE.md": {
+      "sha256": "4b3bf4445f749f8b7a7cb49c5ec4d7aef8f074ef65e838f46a2cd1be1efcc44e",
+      "bytes": 20996
+    },
+    "docs/STAGE1_IMPLEMENTATION.md": {
+      "sha256": "5bedb1abae4187348e5796f226cbf64810e7fa26f89a0586661d3dde96b73edc",
+      "bytes": 7288
+    },
+    "docs/STAGE2_IMPLEMENTATION.md": {
+      "sha256": "2c29cc90240935976a18a3073af1dc0e6fc0b18ca34553c2b708a27e5c800ca9",
+      "bytes": 15186
+    },
+    "docs/STAGE3_CONNECTIVITY_ACCEPTANCE.md": {
+      "sha256": "7f2974001e2743b861f030316b702b85091616d550badb232b93461c90116e56",
+      "bytes": 17923
+    },
+    "docs/STAGE3_IMPLEMENTATION.md": {
+      "sha256": "4bc00975635e10d3884dab3876002a10e6e07d62b78b106eb04996f552e7636e",
+      "bytes": 13745
+    },
+    "docs/STAGE4_IMPLEMENTATION.md": {
+      "sha256": "6155c2e08786510f3f4ac55deba5d7e676a9cb5fabbebd4333c63b1fd696599d",
+      "bytes": 15902
+    },
+    "docs/STAGE5_IMPLEMENTATION.md": {
+      "sha256": "9badbe84b5ae8e1f32523f9b639b4aa3341ef7f847a9db03ed3d97dd0709e910",
+      "bytes": 16947
+    },
+    "docs/STAGE6_IMPLEMENTATION.md": {
+      "sha256": "fe29dcf68c698c06fec29d5d68889b22502db81bde94b1d33d617a6dacf0e1c1",
+      "bytes": 21101
+    },
+    "docs/STAGE7_IMPLEMENTATION.md": {
+      "sha256": "c915a83b7f73ae840703c1a3baa59ec17b4706a8afa6958ad5c1a89e46d10448",
+      "bytes": 17970
+    },
+    "docs/STAGE8_CHANGED_FILES.md": {
+      "sha256": "94ba116c654695e852bf96cac4643e33f7469ffef45578b135fcc5446239ddbb",
+      "bytes": 2168
+    },
+    "docs/STAGE8_IMPLEMENTATION.md": {
+      "sha256": "4231dea9ba99b04bc25532db6e24063c3b3d668dde2440e4caea97ec64d0b2de",
+      "bytes": 13220
+    },
+    "docs/STAGE8_STUDIO_CHECKLIST.md": {
+      "sha256": "b31908eca9bdaea40978ebda657d00ab43982d704b4ac343fab74a32441023db",
+      "bytes": 6685
+    },
+    "docs/STAGE9_CHANGED_FILES.md": {
+      "sha256": "7bfe920ca0c044866d17fcb48b0d2b89ab9ba3d2d15ec022a00e3a4472ac16e8",
+      "bytes": 1965
+    },
+    "docs/STAGE9_IMPLEMENTATION.md": {
+      "sha256": "90ea42c23556f355506715474d130cdf201c05a8e70160727ad295dc20ebf329",
+      "bytes": 12230
+    },
+    "docs/STAGE9_PERFORMANCE.md": {
+      "sha256": "789eb07405e7ba9be4a893c4cdd9682efcaf04bcd512fa9b1bf169a706216d0b",
+      "bytes": 3402
+    },
+    "LICENSE": {
+      "sha256": "1eaad12c953bb15580a6ae797f2a697b72fc1102f6b5bdc11f6a3a9335cfde2b",
+      "bytes": 35148
+    },
+    "NOTICE": {
+      "sha256": "2ec1517062610b1f4089f5ad6769e103e5521e445fa6fef7c7d60f0a6736b452",
+      "bytes": 7321
+    },
+    "README.md": {
+      "sha256": "0eb13f2d56d77f7f21c9038c255e89266be75503c49d03a86699971929305b5b",
+      "bytes": 16123
+    },
+    "scripts/benchmark_bots.py": {
+      "sha256": "496f30380ee15bc57a614d6004856c831e6c8f933c93967e851abb445e7538a9",
+      "bytes": 1266
+    },
+    "scripts/benchmark_performance.py": {
+      "sha256": "5e3ecc6c5826aa404ac09d2af9dc2861a9f7492f01220797444331841e7410f5",
+      "bytes": 1974
+    },
+    "scripts/benchmark_replica_validation.py": {
+      "sha256": "040e3d4b855b91cf47cf51e91280e7072d6734cbc5d27cf9acb452ad658d5cf6",
+      "bytes": 1858
+    },
+    "scripts/benchmark_scalability.py": {
+      "sha256": "a6fdd2219a9ee186e825b97a8b207cd230e008bf9aa350c0285ed9178d12e726",
+      "bytes": 2286
+    },
+    "scripts/benchmark_scalability_hotspots.py": {
+      "sha256": "2546fa6eb0a40dee4cceffd9f85d952eaa806b3fe7cc3e9f9dd9599b8d40edf0",
+      "bytes": 2418
+    },
+    "scripts/benchmark_stage11.py": {
+      "sha256": "d16dc311fd3d4d7ca86d0cbda917ccff3838b47c1acafe11e2c77ae662e2db8b",
+      "bytes": 1574
+    },
+    "scripts/benchmark_stage8.py": {
+      "sha256": "79b7443bd1cc241759963977a07d377359fb22f19e825fb0b9fc2bc2ff109138",
+      "bytes": 2854
+    },
+    "scripts/bot_benchmark.luau": {
+      "sha256": "daab9fdb9f9188359fe150adab9b40a3ff27c4ed69c2bfd501bd5437f2e1f930",
+      "bytes": 1450
+    },
+    "scripts/bot_checks.luau": {
+      "sha256": "d1110ba7d80c672bbd5ac2232da9f4d9e384cca9f2616ba5ff54f54a3dde1067",
+      "bytes": 13282
+    },
+    "scripts/check_elevation.py": {
+      "sha256": "f3a29516599caa4c84c0f584a703b94f1f3f243762ccb8b63fd393052f2091d7",
+      "bytes": 1222
+    },
+    "scripts/check_luau.py": {
+      "sha256": "936c5e8ced1b9a15f8feda2cf928718fafdd0abee4e7174f0839a85b0baa30d7",
+      "bytes": 2958
+    },
+    "scripts/check_map_labels.py": {
+      "sha256": "98f2c5d6143989b246ea0b8cca07d1c45f6d1fa2f94a466b33d20823290ae4d8",
+      "bytes": 1989
+    },
+    "scripts/check_mobile.py": {
+      "sha256": "306183ce397f1ca8cff3236f0ecffb3033501ffcbafd181a34c76cac83749a28",
+      "bytes": 2434
+    },
+    "scripts/check_performance_storage.py": {
+      "sha256": "a11ce68672800d1ce4e787f9edfb17e0289fad68a29ef00d8314558725e7fa0d",
+      "bytes": 477
+    },
+    "scripts/check_private_profile.py": {
+      "sha256": "b76bbdb347e7c7df5333a0e47e86f348a8dbc5cf4be1fe9e111cf08983d5098e",
+      "bytes": 1361
+    },
+    "scripts/check_spawn_distribution.py": {
+      "sha256": "7af0b69c5854c9f5a351cc44ea7c23fc97ffe876fb7d464f2586b60899ca3189",
+      "bytes": 1183
+    },
+    "scripts/check_stage1.py": {
+      "sha256": "b522291b0533a0f340e866dcec5f7f6b3c3f2f14fe4c47936c84b102df2e7353",
+      "bytes": 7400
+    },
+    "scripts/check_stage10.py": {
+      "sha256": "ab99b6f4683ec263004c8dc4beb080bb9445d276812c3127cb448203fc987220",
+      "bytes": 2085
+    },
+    "scripts/check_stage10_all.py": {
+      "sha256": "0d7c45b203f976d891091b83de13b78967b1f0f2219f68b74cda83b2a1ed03a5",
+      "bytes": 1181
+    },
+    "scripts/check_stage10_ui.py": {
+      "sha256": "6d9a89a058f3ce8902f11e779923ee2d22b163449f0b9af8ebaee0c560d46d1b",
+      "bytes": 2124
+    },
+    "scripts/check_stage11.py": {
+      "sha256": "981240440d0b37e4dbcb4c217c2365e0fc2a0c261d632b7132775dc9a755a82b",
+      "bytes": 406
+    },
+    "scripts/check_stage12.py": {
+      "sha256": "17bdcc4e03e20823a5a50a2d0a78866076bdfdbb6442e62eb9de01e1d9114c0a",
+      "bytes": 2020
+    },
+    "scripts/check_stage13.py": {
+      "sha256": "c67c08dd166cabfbed94fff8de388625ae0c9d9dc6c6c688595d176a254370fe",
+      "bytes": 5190
+    },
+    "scripts/check_stage2.py": {
+      "sha256": "2492230bdcabb24ab0017fe3c7006f97c1d42efd94b985f95fcf1d1877f90430",
+      "bytes": 257
+    },
+    "scripts/check_stage3.py": {
+      "sha256": "1782cb9ad367695b64da655a600fb3ddec8cc0d6ac1b2ba2c7583e364c66bc7a",
+      "bytes": 251
+    },
+    "scripts/check_stage4.py": {
+      "sha256": "7b96b0d01e022c41e049fce59fa8e2ef4c8b2d286d296701af5da9f581cd54c5",
+      "bytes": 159
+    },
+    "scripts/check_stage5.py": {
+      "sha256": "abb4711cbb2bcdb7b84834bc4ddf571227ad87027533480f820af0ea9a5cf655",
+      "bytes": 246
+    },
+    "scripts/check_stage6.py": {
+      "sha256": "10147b0104c4ae1b7c08aef6bc14ab8a8fa86401c8441b312ed7d859a007a7bc",
+      "bytes": 1094
+    },
+    "scripts/check_stage7.py": {
+      "sha256": "68cd8596c78bdc1c1e8025d0e3f0883eb4628df554baf12d4a701503a98ac2fd",
+      "bytes": 2523
+    },
+    "scripts/check_stage7_all.py": {
+      "sha256": "485e8c297d098397896c985318d9e5e3fa5b431eb5f8f1c3eb001fe0f0fbecd1",
+      "bytes": 1015
+    },
+    "scripts/check_stage8.py": {
+      "sha256": "53b4f97eb679c385b8d06f6f05a4bd74a211e6d2f2d07156d81ca7e25d24986d",
+      "bytes": 1030
+    },
+    "scripts/check_stage8_all.py": {
+      "sha256": "d00750e0a46fc0e57081f8e5d3e8403c3de3fbaddda3755a3da0ff675375e877",
+      "bytes": 822
+    },
+    "scripts/check_stage9.py": {
+      "sha256": "206b3e61a7eb1d621923a72fca00d2bd782265e3debd311219e4e17b6caf73a4",
+      "bytes": 2154
+    },
+    "scripts/check_strategy_ui.py": {
+      "sha256": "e0635e61687c5e42c55e35cb8259072aa75404c3a767f0f805f48674b70024e6",
+      "bytes": 1920
+    },
+    "scripts/check_topology.py": {
+      "sha256": "19e763e3c0fe3d4500af91a03d732310655d5e8c208b63dcb7a598be8dc3cc92",
+      "bytes": 1160
+    },
+    "scripts/check_unit_icons.py": {
+      "sha256": "b9e907e538bb75f0ee260d1323e286c5933866d88996dc1930495d47cb79ec35",
+      "bytes": 490
+    },
+    "scripts/check_wire_codec.py": {
+      "sha256": "e102c7661a3f5a2d16f9b79d4ca7154c38af3564518bf6e0a2fe99e3782e5f64",
+      "bytes": 1541
+    },
+    "scripts/collect_render_performance.py": {
+      "sha256": "ed85c924281c71bd206c67d2003eba0c09fa4691bec9eb1d6e2ed5318b260276",
+      "bytes": 1038
+    },
+    "scripts/connectivity_checks.luau": {
+      "sha256": "2ae68489df47a9a1fe684936ee9822e3783ed0a99db68d2acb18688ff9a1b970",
+      "bytes": 6333
+    },
+    "scripts/download_elevation.py": {
+      "sha256": "922dbe5a635b5f2bacef3ca60e62167e7e4363653855f5812de76bc3e42aee30",
+      "bytes": 608
+    },
+    "scripts/elevation_checks.luau": {
+      "sha256": "0c8f1d2b375c4f5779bb3d9c2db8b0cd46b0e6b6bd043b56baa31a1ba0bc90e3",
+      "bytes": 506
+    },
+    "scripts/export_localisation.py": {
+      "sha256": "64cf13b434a29688820371a07e8da1614a3c64c91201525ba2c925649149fe60",
+      "bytes": 874
+    },
+    "scripts/fidelity_checks.luau": {
+      "sha256": "db7a7829141d113d11e0980471c3109a53f1bd6f66984833c4f9f47200b6651e",
+      "bytes": 2648
+    },
+    "scripts/generate_bot_oracle.mjs": {
+      "sha256": "9b857fcc42b8572b20db7b43ed9c537ad0a1764bc1e7e835f7e07d2ef91d32d4",
+      "bytes": 3589
+    },
+    "scripts/generate_buildings_oracle.mjs": {
+      "sha256": "208207465a81df8b3dbee49f44c9d167b8d68bb25501852371976c0caa0fc89f",
+      "bytes": 4989
+    },
+    "scripts/generate_connectivity_oracle.mjs": {
+      "sha256": "5808220b2d4c0661290a281edb9cb20ed3f482e0fa87bff5548b0e5c2700a5a9",
+      "bytes": 4644
+    },
+    "scripts/generate_earth.py": {
+      "sha256": "1925f024fcda740a5cbbea4912694f0e3ead1748f683fd0d5ef5f5121a9ba131",
+      "bytes": 6829
+    },
+    "scripts/generate_economy_oracle.mjs": {
+      "sha256": "90024bdfab0c600522f149101640d7d8a251cd418440d5b13f490aa340466ce9",
+      "bytes": 4002
+    },
+    "scripts/generate_elevation.py": {
+      "sha256": "b6e6334fd2e683a2b233144396b437db7b6dff9f005eb8954a38fba20ef82544",
+      "bytes": 5370
+    },
+    "scripts/generate_fidelity_oracle.mjs": {
+      "sha256": "de699c8a24ab9e6849d01ac1dee5e2d2290a38f1fb9841afbcaeb1cf45b076ab",
+      "bytes": 3975
+    },
+    "scripts/generate_gui_icons.py": {
+      "sha256": "7547038de96011562d23a20df209e8050a29bb42571fd4111784cb03687a9783",
+      "bytes": 5579
+    },
+    "scripts/generate_missile_oracle.mjs": {
+      "sha256": "405c1171734b1b7da31e78a30626242e031a90f9f0d942f6233a35489d81e70b",
+      "bytes": 4338
+    },
+    "scripts/generate_naval_oracle.mjs": {
+      "sha256": "83909a9a04eeb328aaf8050b582f4f2a6721a05b76aa104dde3f1f6ea19fc0d8",
+      "bytes": 11721
+    },
+    "scripts/generate_rail_oracle.mjs": {
+      "sha256": "917dae12a06f8ce56692f33d7f19649a4035b4ab8bf50fdd7d8ac5272dac203b",
+      "bytes": 6834
+    },
+    "scripts/generate_spawn_atlas.py": {
+      "sha256": "920ee9aa4e08974bd3a82ca9dd542617e10d502a214bbfa73917a365867f8d13",
+      "bytes": 2653
+    },
+    "scripts/generate_stage2_oracle.mjs": {
+      "sha256": "d9ececd2472f1601729a19f466ce44e1dc3c8ba24a0542e1fb35fd6bfc378cf2",
+      "bytes": 3947
+    },
+    "scripts/generate_stage3_oracle.mjs": {
+      "sha256": "9e73a3d3255a4d9d3f80fd84bbbc8fc3232b8708d962c15a167a43586a7f5727",
+      "bytes": 6378
+    },
+    "scripts/generate_topology.py": {
+      "sha256": "d29a46c85e61a350a802b4e7d74ff0feba261f06aab720ce28abf31987699156",
+      "bytes": 4537
+    },
+    "scripts/icon_preview.client.luau": {
+      "sha256": "7f3949ad12afae93d3253f50444ebf98ee49f1bfed378be1e7b625d7811561c4",
+      "bytes": 1561
+    },
+    "scripts/lobby_checks.luau": {
+      "sha256": "13ea23e5318d4914e2354512c58340ef6822f81124962363d68a3dde465a7d6f",
+      "bytes": 1075
+    },
+    "scripts/lobby_foundation_checks.luau": {
+      "sha256": "705b754258f5b1b62e20290c2749d84331cf67740f351bffb1924938c38d1319",
+      "bytes": 1694
+    },
+    "scripts/lobby_runtime_checks.luau": {
+      "sha256": "74a9ba9dc48b2fb3442616070741277a42486d5390dad24494bb70978dc01eb8",
+      "bytes": 6826
+    },
+    "scripts/lobby_scenarios.luau": {
+      "sha256": "a962dca0058fb73f7fbf57edc933411b8a4dee32c4f4242c1c9a97e5e7500179",
+      "bytes": 6769
+    },
+    "scripts/map_checks.luau": {
+      "sha256": "06373f76b8c69d750bfd8e7aabefe32a9b0b589d1615f179641d4b3318aa38ba",
+      "bytes": 2082
+    },
+    "scripts/menu_ui_checks.luau": {
+      "sha256": "209a9325b762c1b0adcdf401fad65242612707a7a59c1fee7c700167bb6a96a1",
+      "bytes": 4269
+    },
+    "scripts/menu_ui_stubs.luau": {
+      "sha256": "f15b49be44b74d1e6a7a768817b3387d4d2962748a04f03c9def9293efcc2ba1",
+      "bytes": 1491
+    },
+    "scripts/missile_checks.luau": {
+      "sha256": "a520f461938a6bb736bd6341e457d78dc2ed4beb2b844efb1dac05992a8e7b4e",
+      "bytes": 16154
+    },
+    "scripts/naval_checks.luau": {
+      "sha256": "adaa5f64d3e52ae0dd92b64ebaf31b9ab33242f2762770a594dc79127faf906f",
+      "bytes": 18615
+    },
+    "scripts/naval_server_checks.luau": {
+      "sha256": "8ea969dc0e2762287c2b689ac4c867eddbbfe5603c57334b5acb0a4795fb3323",
+      "bytes": 4973
+    },
+    "scripts/ordered_set_reference.luau": {
+      "sha256": "f44e0dd436978698cd5f0279ddb7f268cb5cdd2045052fdb03714af6ad696204",
+      "bytes": 1590
+    },
+    "scripts/package_icon_preview.py": {
+      "sha256": "f89e8ab8d173949f890db1149ba7f2a82f44e9c043ccf6575296b2044b127b1c",
+      "bytes": 1299
+    },
+    "scripts/package_performance_play.py": {
+      "sha256": "e1b45380b21944d3115f9fa0659f24fdad7ed2e001ac022082b7ebf827fee1c3",
+      "bytes": 826
+    },
+    "scripts/package_render_acceptance.py": {
+      "sha256": "50ba2c477c701b2584d02dbfeea86193604c4cae59f9a6bb573db1ab70484954",
+      "bytes": 1399
+    },
+    "scripts/package_source.py": {
+      "sha256": "7d4cad5f2d30596ada992c0fc872e10afa20353acd1a7fb5c66dbeb7c3d12d54",
+      "bytes": 4470
+    },
+    "scripts/package_stage10.py": {
+      "sha256": "8fbcb978683b85d1bb4aed76658f76685c9b2b92103d64fedc22393baba5a136",
+      "bytes": 1962
+    },
+    "scripts/package_stage8.py": {
+      "sha256": "66506e4fe58fc44c9e95dab89276ad50a44eda6c0c0bc965dbd0ea72ab06d071",
+      "bytes": 1418
+    },
+    "scripts/package_stage9.py": {
+      "sha256": "4b497c741742a767dd0a0fcbafa7ddc05f82006f836503b6641dc67695ecfccd",
+      "bytes": 1128
+    },
+    "scripts/party_server_checks.luau": {
+      "sha256": "5619bd65a80df2f4274c5210c80d7e0e6af9084ac1d5d2d0a5b0163223e15517",
+      "bytes": 3880
+    },
+    "scripts/performance_checks.luau": {
+      "sha256": "fea816751e0cbcb8a9a1d5579ab6e75d45fe78da9d070525fdaad629170a4b74",
+      "bytes": 2984
+    },
+    "scripts/performance_storage_checks.luau": {
+      "sha256": "82934c0373df070f5a2e8919b04522b9a55551a7cc23fa6670b0b3126d60fdc0",
+      "bytes": 1551
+    },
+    "scripts/premium_ui_checks.luau": {
+      "sha256": "2b3e473cb8688edbd9630a67aac1a555b62fa4682eab5487e035ce5e2996ede2",
+      "bytes": 3901
+    },
+    "scripts/prepare_buildings_oracle.mjs": {
+      "sha256": "4f36a392ea0501054b5dbf1b712b3dc8ec1682ca2b2e640f57681c22d5da4e8b",
+      "bytes": 3592
+    },
+    "scripts/prepare_connectivity_oracle.mjs": {
+      "sha256": "a75d5eaa09d5449fa125caaf25cb0694ffec0eadcb1a58e5c8f18194b5cd2ef5",
+      "bytes": 1688
+    },
+    "scripts/prepare_economy_oracle.mjs": {
+      "sha256": "cc5361261cedad38c11294f05406881ce2eb6086bf90b90cfae4688f5563db55",
+      "bytes": 2123
+    },
+    "scripts/prepare_missile_oracle.mjs": {
+      "sha256": "1028bf36610d33475ea1c92ecd21024dffb062d1c26b718a52d255ca5915231a",
+      "bytes": 3799
+    },
+    "scripts/prepare_naval_oracle.mjs": {
+      "sha256": "7f706b398ebe646f915d182b57511023de123fb9a4167e185668c659225830b9",
+      "bytes": 5795
+    },
+    "scripts/prepare_rail_oracle.mjs": {
+      "sha256": "5b87e1e46e5e9206529f368a89580a3d9fbbf8e4bc5c83f451092aa1e5e1f0dd",
+      "bytes": 4814
+    },
+    "scripts/prepare_stage2_oracle.py": {
+      "sha256": "24f071ec04ce8ef97cec58fb1c99c22a06c4e07c9c36606d62726f6b84f2e356",
+      "bytes": 5257
+    },
+    "scripts/profile_rail_limit.py": {
+      "sha256": "e69953b9a6d25e772bfa37a1206cc8dcd57ffa7dbb60e4793177aa30ed1c9eb6",
+      "bytes": 1348
+    },
+    "scripts/progression_checks.luau": {
+      "sha256": "1afcdad7509930523b35e270a3bec50ac31a7ccbac36b2d5210114e16c4c1651",
+      "bytes": 3273
+    },
+    "scripts/progression_server_checks.luau": {
+      "sha256": "faf4a434a0fcf1eb130e4a6dff900f37f791d7ed32072a7566f2c5500dab33c2",
+      "bytes": 5467
+    },
+    "scripts/rail_checks.luau": {
+      "sha256": "f28c8bc097c9f040e932f4bc49b8d7ea92cd18beb7f49629a3bfb971c40de778",
+      "bytes": 7930
+    },
+    "scripts/render_acceptance.client.luau": {
+      "sha256": "53231745691e673f1feb84ae0aafa69558c4873ab45b2d5d813d2f37d8e37759",
+      "bytes": 4301
+    },
+    "scripts/render_population_acceptance.client.luau": {
+      "sha256": "dd6463c805e24ac00351ee0692d967eec1698a8a518dc9f722a2757ca2d686a4",
+      "bytes": 5420
+    },
+    "scripts/report_scalability.py": {
+      "sha256": "1fc1fca455235a2b1f8bdcaba6a8c7dac2e73f5d6c590db9b45ab41184fcf5a1",
+      "bytes": 3579
+    },
+    "scripts/report_stage8_acceptance.py": {
+      "sha256": "8e4832cec87346622cc245c9c06b90804e3cdd30844997696dbac09f90331453",
+      "bytes": 12386
+    },
+    "scripts/report_stage9.py": {
+      "sha256": "5e17b68b4f3df23b9aa302dc883a99b48de78503b11d97b1431175e98e1fefce",
+      "bytes": 4424
+    },
+    "scripts/requirements-elevation.txt": {
+      "sha256": "a89f37334dfcd8c2a04f4ce5d87a4b921306a4dcafa74daf94be6556d46baf8f",
+      "bytes": 59
+    },
+    "scripts/server_checks.luau": {
+      "sha256": "1fa1a67dc42b38805af25ec9f1731789963e4555da2565636dc908e77325e673",
+      "bytes": 5410
+    },
+    "scripts/spawn_distribution_checks.luau": {
+      "sha256": "33a4b7bbaef7ebb0856145c37fdec039d6f808588256741da6cd7fce89182408",
+      "bytes": 7038
+    },
+    "scripts/stage11_benchmark.luau": {
+      "sha256": "4fe3dbb6bc32b6dc190b8a197d647c935e41971ee840737e1712d6c7bbeeb3f3",
+      "bytes": 2386
+    },
+    "scripts/stage11_checks.luau": {
+      "sha256": "daf241f3d7c4b1a9ce4461962f8370216ee2bb66dafc74f65329a6e410d263c0",
+      "bytes": 3001
+    },
+    "scripts/stage12_checks.luau": {
+      "sha256": "c24961999d67d5bb59a6b36db99bd6f8f5bcb2b917ef75c679141468d5dcf9f4",
+      "bytes": 4539
+    },
+    "scripts/stage12_services_checks.luau": {
+      "sha256": "2a56c654261619cfc1d63b9e5472172118ec7e64c958fc814aea3a19c5d269a0",
+      "bytes": 4706
+    },
+    "scripts/stage1_checks.luau": {
+      "sha256": "b92590aff5aee0f66e702219511fcb53ed9d5ea5c2290c2e4095e8272bc62557",
+      "bytes": 6854
+    },
+    "scripts/stage2_checks.luau": {
+      "sha256": "4614fa2b5fee0b24a37c94b1c9cabaf274530da212c1149d0a5ebb41aefac363",
+      "bytes": 10154
+    },
+    "scripts/stage2_server_checks.luau": {
+      "sha256": "7783192b54820bbf0ca4010b82e2407ebb2e35bf6f3c0b656a8f8993f66a6c99",
+      "bytes": 3389
+    },
+    "scripts/stage3_checks.luau": {
+      "sha256": "7319ab640b7ff725c885a1765d81078557dab7ce9fdacef60a7e097dcc09aade",
+      "bytes": 8374
+    },
+    "scripts/stage3_server_checks.luau": {
+      "sha256": "2159a3adb0afa4bc969649306a80c124e8207f568c9ce6fba424f8cc448c80f9",
+      "bytes": 4003
+    },
+    "scripts/stage4_checks.luau": {
+      "sha256": "2700302a2c4fb8c88029a703179876f2330d30962f09320d73af3ddeeffedbab",
+      "bytes": 10469
+    },
+    "scripts/stage4_server_checks.luau": {
+      "sha256": "db1ddcc7b5c77f24000d1e96e62f429c5967c55dcdb6650b330e2e053ce9f00e",
+      "bytes": 4605
+    },
+    "scripts/stage5_checks.luau": {
+      "sha256": "e55d2b07b98c93bdd46cfb4cb94d58cc19a28f967ad5a9247ac1d3d90463f677",
+      "bytes": 13396
+    },
+    "scripts/stage5_server_checks.luau": {
+      "sha256": "86597ac12616afd8a3ed061e373f86a644bce12bb24ae62004fdb39ebb005264",
+      "bytes": 6268
+    },
+    "scripts/stage7_checks.luau": {
+      "sha256": "71b768a4d7279e99193932fd869f533b9a813cf2f4bf103edae60e8aaa07b6a8",
+      "bytes": 6712
+    },
+    "scripts/stage7_memory_checks.luau": {
+      "sha256": "32fb1657e2f23a055d0067b24a5ba938d46189a0222687da552b09dc8f66a4c0",
+      "bytes": 806
+    },
+    "scripts/stage7_recovery_checks.luau": {
+      "sha256": "9632629f2b097c031c4d0ef5231bcffc7353d81d2b9c49368a88a4c9cd5c1088",
+      "bytes": 3924
+    },
+    "scripts/stage7_server_checks.luau": {
+      "sha256": "40acce78014a5487a4700dbcab331dfe7be341ab65a875e428d1293232bec838",
+      "bytes": 3598
+    },
+    "scripts/stage8_benchmark.luau": {
+      "sha256": "368787d3922269ffa06d2e6e2996fd8e3bb2868c2676eec33d9a9b3297611873",
+      "bytes": 4009
+    },
+    "scripts/stage8_server_checks.luau": {
+      "sha256": "524fb3b8bf745981e1845f292afe986a28eff8d8ca9b3ab5c8d73a2e33d06965",
+      "bytes": 5420
+    },
+    "scripts/strategy_ui_checks.luau": {
+      "sha256": "ea53359b27e267ae6e251a28b910e628e25c21e24ee2dc7d74eccb8a4832bc07",
+      "bytes": 2684
+    },
+    "scripts/strategy_ui_scenarios.luau": {
+      "sha256": "6c3ee573bd70484510629fd1b2fb939236c5c4126d0389466aa2021fb4f6fdaa",
+      "bytes": 8338
+    },
+    "scripts/studio_performance_observer.client.luau": {
+      "sha256": "63fc5976de26f2863d33993e16b8968df3913e08cfd3ee72a2908a629f935a62",
+      "bytes": 1850
+    },
+    "scripts/tile_checks.luau": {
+      "sha256": "4dfee6a9314957a10d4a79ae3760604b824eab268077b128d9651e1d7fe9eff0",
+      "bytes": 4676
+    },
+    "scripts/unit_icon_checks.luau": {
+      "sha256": "1f050dc6c3d3fe14a2f6bd0b66c7c9e76d1b266325462c1ec5eac2ea837187da",
+      "bytes": 2750
+    },
+    "scripts/verify_source_package.py": {
+      "sha256": "72f6332f87dd8d793d3afe8ba15e11a20a71f898dc82cffa3245fa384fc2a403",
+      "bytes": 1937
+    },
+    "scripts/verify_stage1_oracle.mjs": {
+      "sha256": "75a90d7f143cc837e9c4e1a2cd06db41bc80b0c022f4304c1504ddec30a42d7f",
+      "bytes": 2605
+    },
+    "scripts/verify_stage8_oracle.mjs": {
+      "sha256": "084797430d31c63079ebf93c853321a021fce1d45ac5ec2fa02e543cf8939031",
+      "bytes": 943
+    },
+    "src/boot/Loading.client.luau": {
+      "sha256": "25778fd105f3f109a2969b06a0a70f4f4cd8962c862624d74755fb64942cbb00",
+      "bytes": 2463
+    },
+    "src/client/BuildingShop.luau": {
+      "sha256": "020eba201afc1e022ac3234be4a5d2b592b8a4b443c6db17c632f51e485ec04a",
+      "bytes": 9412
+    },
+    "src/client/CommunicationClient.luau": {
+      "sha256": "25afdc4bf1a4a84ec453247ba8688a5775e535d0cc1beba44d494b78c286d15b",
+      "bytes": 6479
+    },
+    "src/client/CompatibleTiles.luau": {
+      "sha256": "7532dbe3d8c80da0f63a00aa9fa09de45299998c84b496cfb28c61d8df06d289",
+      "bytes": 3141
+    },
+    "src/client/CosmeticArt.luau": {
+      "sha256": "2c11b1d1c7e0f898ad9216276bf253c22d9e76a7e61412793bbf11f6fa9a5a64",
+      "bytes": 1762
+    },
+    "src/client/DirtyTiles.luau": {
+      "sha256": "fd83dac5f14c79018bfa6f233ff5c199cdb0cb590f21566cc11bcdfd29706c21",
+      "bytes": 1605
+    },
+    "src/client/IconLayer.luau": {
+      "sha256": "418f8e5cf9e91610b27bfe4eea50be1c5efb2447e0fc0bae7590abcbcba49a88",
+      "bytes": 2787
+    },
+    "src/client/InterfaceArt.luau": {
+      "sha256": "95fc408420ccd0ddf06db75294d5c14d7ee91deaba2948784f0bd9a88ed437a0",
+      "bytes": 197587
+    },
+    "src/client/Localisation.client.luau": {
+      "sha256": "f6b2cac9e96b1c46ed193405a069566a3d5399771efc252fad4c3efd24eb72f7",
+      "bytes": 1908
+    },
+    "src/client/Localisation.luau": {
+      "sha256": "07ccd36fa1d9ec50582f1e1ad5538d8915d17254db4de1cef03b7711bb88258b",
+      "bytes": 1873
+    },
+    "src/client/Main.client.luau": {
+      "sha256": "82130ca630c6eacec0432bcec37a7f666956aa6154916a12e4c1860d5d680d80",
+      "bytes": 23601
+    },
+    "src/client/MainMenu.luau": {
+      "sha256": "f024138836e7e80b01c0c3f3f2515123295f12d724c664baa63b7a13b8b69be2",
+      "bytes": 23359
+    },
+    "src/client/MapTiles.luau": {
+      "sha256": "fef41e649d9d6950f831ea70303743838239e7a2f621b4433246b377c24ae2ee",
+      "bytes": 12600
+    },
+    "src/client/MapTransform.luau": {
+      "sha256": "69a14fb66f52f9d329cf055c9764d250dcddf044e36e9287c75ea7313c3f6ae7",
+      "bytes": 1152
+    },
+    "src/client/MapView.luau": {
+      "sha256": "f81581d8bf4251a36c3550ba4beda535a5268a2b45f930912e840f3cad5b066b",
+      "bytes": 28277
+    },
+    "src/client/MatchHUD.luau": {
+      "sha256": "c3ea482cdcca0fb3604a91a97af900772b73f41acd17231b1ea3cb21a1a7cab5",
+      "bytes": 7216
+    },
+    "src/client/MissileControls.luau": {
+      "sha256": "f103f8affb773ee1f759cb02f82411a1958fc9a1075cd1808e132dedccc6643b",
+      "bytes": 4256
+    },
+    "src/client/NavalControls.luau": {
+      "sha256": "da5f3df79c95f25b5b7e54d5bf945156410af67e1e869476d2ceef5f1345be67",
+      "bytes": 5157
+    },
+    "src/client/OwnershipRaster.luau": {
+      "sha256": "9cf368d7978508c99a19add6442c52dd361f26e4b6ff3743f3644e0eebd85705",
+      "bytes": 1529
+    },
+    "src/client/PanelChrome.luau": {
+      "sha256": "d67d4ff7f90ff7d24b753d19d18c58b17107683be67e3970f85d0f128fa6e3b6",
+      "bytes": 1202
+    },
+    "src/client/PremiumMenu.luau": {
+      "sha256": "e6a7b7f3a476e1b06d0a3efb958eccbdff29a86bff7ab6d4b243ad66edc418be",
+      "bytes": 18984
+    },
+    "src/client/SourceOffer.luau": {
+      "sha256": "3111f54bd6d9d56b3c126abd439d87a9f2f0c260aa2749952a75d049eda2fba9",
+      "bytes": 2402
+    },
+    "src/client/StrategyUI.luau": {
+      "sha256": "50f89fe83a9386acf68f57b8d4780f2b6990581b3fca268a5aee6cd7c4bf52b2",
+      "bytes": 12565
+    },
+    "src/client/TilePainter.luau": {
+      "sha256": "c8bec7b237d39499dc328f532c112fa39530020586675850453d1e6c16827ae4",
+      "bytes": 1498
+    },
+    "src/client/TouchGestures.luau": {
+      "sha256": "e66901c20166957fbe336089086d81bd43aa014dcd7376274ef9132c9a0b0c28",
+      "bytes": 1347
+    },
+    "src/server/CommerceConfig.luau": {
+      "sha256": "3ea1886fd013cc908df0b7de40a398b24fd0cae9ff8af49b38e1175d789385e2",
+      "bytes": 491
+    },
+    "src/server/CommunicationPolicy.luau": {
+      "sha256": "507ea16ea0b0569ff1f9af0f73f073ebda7d5910d4c4ae9e53f02cf87ca0daab",
+      "bytes": 494
+    },
+    "src/server/CommunicationServer.luau": {
+      "sha256": "f2459826b7afa41922cd8e4d4af1d3efd6a7935049d44ab9672bb744052ab6b6",
+      "bytes": 2608
+    },
+    "src/server/Frontier.luau": {
+      "sha256": "629f2bef4df4395943fd53d29f66e2c81aaef2d79f9962bbfea6ecee43414278",
+      "bytes": 5136
+    },
+    "src/server/IdentityServer.luau": {
+      "sha256": "53253794d0b3a804a9588fc8b192ffdd327ded71074ff14a2b2f62558539bed0",
+      "bytes": 2383
+    },
+    "src/server/LeaderboardStore.luau": {
+      "sha256": "dd5e12f861efe0ba2f42273b78b6677bb5bd0ec6348db2e5a287c8577d5ab511",
+      "bytes": 777
+    },
+    "src/server/LegacyServer.luau": {
+      "sha256": "2b82bf588d194bc70449043754c973236fd7454f8183bac93a8919b5e1499e7d",
+      "bytes": 7312
+    },
+    "src/server/LobbyServer.luau": {
+      "sha256": "f70a0b3d949bbf494f1b526c2eeef7a11055e4ba2f08adfd36c64b3d453c507c",
+      "bytes": 19013
+    },
+    "src/server/LobbyState.luau": {
+      "sha256": "0fbbc66175eae8c94595ac055a5fb5acc840bc2a03bf666345f9f2936f5b820d",
+      "bytes": 3185
+    },
+    "src/server/LobbyStore.luau": {
+      "sha256": "b341e398d72c8349d8d8497bafc41f8dbf86dab47d0f25bd56671c6ef07f17e1",
+      "bytes": 5989
+    },
+    "src/server/Main.server.luau": {
+      "sha256": "8251b3b2229a838f51908477075264db34fd78eca0f9be8e81dd4065f4cb7157",
+      "bytes": 709
+    },
+    "src/server/NationNames.luau": {
+      "sha256": "f34d2d664e8a33b344632288ca1233b32829133233f61bd811932e62018d6760",
+      "bytes": 1583
+    },
+    "src/server/OpenFront/BotRules.luau": {
+      "sha256": "d1bf162fad6ab36dec12a62b40f960cc075c117ecaeda4e5497439a82b87e62e",
+      "bytes": 2239
+    },
+    "src/server/OpenFront/Bots.luau": {
+      "sha256": "8094d20749ceda60012fb039cf84a02b2875800962da801857028b56cb258e50",
+      "bytes": 12287
+    },
+    "src/server/OpenFront/Buildings.luau": {
+      "sha256": "044f381aff340a38a3d901dd70025c29e4df88a819c42afadef9ab4cea49dab2",
+      "bytes": 10643
+    },
+    "src/server/OpenFront/Connectivity.luau": {
+      "sha256": "3f33d646ec204656503b2a6edfb44ea66441b3afac9f4e5ca58604591d754e96",
+      "bytes": 15203
+    },
+    "src/server/OpenFront/Economy.luau": {
+      "sha256": "d43e9411c649bb4f423b07099d7893938289661a180d12bdf41096ec06e96cc1",
+      "bytes": 5798
+    },
+    "src/server/OpenFront/Executions.luau": {
+      "sha256": "f549c15f20bb26e6b73aa69b4a152901d5591e093a5f4c87f03b20387d938f9c",
+      "bytes": 1053
+    },
+    "src/server/OpenFront/Expansion.luau": {
+      "sha256": "224e42afa10fe10bd64ce51722f8479c04fa5b9457b63882f27fc12f8f27b29f",
+      "bytes": 6936
+    },
+    "src/server/OpenFront/FoundationServer.luau": {
+      "sha256": "34ff46de1ecb670b75e8d585b24e152182134a6d7a1b4f37fff0cc2994fe5732",
+      "bytes": 15511
+    },
+    "src/server/OpenFront/Match.luau": {
+      "sha256": "175a124c30730f5402fdb2472c48d4a9f401daa3cdcd67cab390c561d47e74ff",
+      "bytes": 3714
+    },
+    "src/server/OpenFront/Missiles.luau": {
+      "sha256": "da6e4a8d9f0b7d2875d11ca216654dd0e4a1e0020ed08815962fa8cf52be0597",
+      "bytes": 20121
+    },
+    "src/server/OpenFront/Naval.luau": {
+      "sha256": "94a9a6e496c34d65527710694532396a8027aa14fd3267a3bd1397b0c305afe5",
+      "bytes": 14003
+    },
+    "src/server/OpenFront/OrderedSet.luau": {
+      "sha256": "c4cfb69e45b697c5b3104ba6ed6e69f73729030d6c82216175bd9b86bd49bcb2",
+      "bytes": 2534
+    },
+    "src/server/OpenFront/Rail.luau": {
+      "sha256": "88c6c8b8bb8eaa07595f96fd39489c49cd025a81cae62064e83cabf98286bb39",
+      "bytes": 16186
+    },
+    "src/server/OpenFront/RailPath.luau": {
+      "sha256": "d3223bc5746147444bd9e980f6c3807cf311954e05993f3c4e7e628bb624b08d",
+      "bytes": 3313
+    },
+    "src/server/OpenFront/RetreatExecution.luau": {
+      "sha256": "2a141c8b4ea41bec1ca3548eaa9e2db616138a308689024a9e4b41075a013d02",
+      "bytes": 878
+    },
+    "src/server/OpenFront/ShoreQuery.luau": {
+      "sha256": "e5f19f838bb641e8846bcc80ba4e142a66b3815f3718764d870d399bced8e3a0",
+      "bytes": 3070
+    },
+    "src/server/OpenFront/Simulation.luau": {
+      "sha256": "62373b0fb3565bc96972c33d73983eeb5e860cf5854842d586101eca438a1e48",
+      "bytes": 22037
+    },
+    "src/server/OpenFront/Spawn.luau": {
+      "sha256": "20349bb87c7055cc3d8719464b3a106027f568f1aa67a8708b80a4b98d55a733",
+      "bytes": 817
+    },
+    "src/server/OpenFront/SpawnAtlas.luau": {
+      "sha256": "5012766185bc4c0477e10b74e972551d5ebad53d02528db9b0b92caf1bd21e22",
+      "bytes": 3657851
+    },
+    "src/server/OpenFront/SpawnExecution.luau": {
+      "sha256": "243ff7bafaf63d4c91488639fc09fac1946232d2d2fa36a2df6e9c2d63364e93",
+      "bytes": 5549
+    },
+    "src/server/OpenFront/SpawnIndex.luau": {
+      "sha256": "48dd5589a64cfd1520c80501cc2adb75624a2ecbba956d38f3e2687e75de8b6f",
+      "bytes": 2899
+    },
+    "src/server/OpenFront/SpawnPlanner.luau": {
+      "sha256": "2acdd9f45926f6c8077601f44d61757acf2e218183e865a8a91b40f60d207626",
+      "bytes": 3796
+    },
+    "src/server/OpenFront/Warship.luau": {
+      "sha256": "6ca6f44f0aa528dc6d9b5245958c30ea20b9be6f55d75895a03248befdd43cdd",
+      "bytes": 9410
+    },
+    "src/server/OpenFront/WaterPath.luau": {
+      "sha256": "0b3f90e79390fe210183ede9c60bb8f4019fb29bdcc037455a8bb0b099f62560",
+      "bytes": 7708
+    },
+    "src/server/PartyServer.luau": {
+      "sha256": "315fac02f6896f8d283058449463b9b1fe3e1624bf5abca881dd6b0d1deb77ff",
+      "bytes": 7126
+    },
+    "src/server/PartyState.luau": {
+      "sha256": "8ae4a2d8a69d391c092632cc208c130067c1839d606b98a687bb08aa4fc43d4a",
+      "bytes": 1000
+    },
+    "src/server/ProfileStore.luau": {
+      "sha256": "70f011f6d10d8b84fcbb997bcadeeee97982897acc8a7040453da615bb886b99",
+      "bytes": 944
+    },
+    "src/server/ProgressionRules.luau": {
+      "sha256": "1b007f7be3b7b7c01fa4a920298713243b8f895bb3625be989b0b5f09890e1a3",
+      "bytes": 3791
+    },
+    "src/server/ProgressionServer.luau": {
+      "sha256": "ff01d1da663ee55d3049b8724abf23d3c3824c51df52d920eed7c86d1fabf16d",
+      "bytes": 10845
+    },
+    "src/server/Rules.luau": {
+      "sha256": "c3992dc24910b9e5b6d84c5f5dcc3c00e21a06d78635a748e14429b09bd3c024",
+      "bytes": 1518
+    },
+    "src/server/RulesTests.luau": {
+      "sha256": "420076a0cffc2ba362ff9b92a7ca405581f1a0bcde99dd43f5932a332d0ba746",
+      "bytes": 4670
+    },
+    "src/shared/Config.luau": {
+      "sha256": "a507f061f8a4a3b4c93d04f692394d24bce6aec22de808d0342092009c1f7674",
+      "bytes": 1803
+    },
+    "src/shared/EarthData.luau": {
+      "sha256": "caea5d63ab10f51444080e5f01498000a4c42a9574e4d85ab9625b4455d65334",
+      "bytes": 2734025
+    },
+    "src/shared/LocaleStrings.luau": {
+      "sha256": "abd99d9ddddfa238246f73e3ba42af97bf92320292d9fb5e067066f457276c2e",
+      "bytes": 35740
+    },
+    "src/shared/Map.luau": {
+      "sha256": "b3a2ab9e191b2d2714d8f2d6e83884e7e12eb340ab56fa309963e6be272c52a2",
+      "bytes": 4706
+    },
+    "src/shared/OpenFront/BuildingRules.luau": {
+      "sha256": "2d6832bd97505f9be34a1d584d828006e67ab6a936654f1879a89ea1e593b58d",
+      "bytes": 1809
+    },
+    "src/shared/OpenFront/BuildingWire.luau": {
+      "sha256": "c26f6375ecda0c814827e0bca3d6534fc4ffe415b1599d11f5f4eedb2abde418",
+      "bytes": 1610
+    },
+    "src/shared/OpenFront/Clock.luau": {
+      "sha256": "9b45737be9772ac7115b2fb538de4ad5194b2689d59f04b2d0a7d31222dfe9b5",
+      "bytes": 565
+    },
+    "src/shared/OpenFront/Combat.luau": {
+      "sha256": "f152da037b286152ddc6f379d13321235fe05c2b95f735f534877bb35bc875a3",
+      "bytes": 1449
+    },
+    "src/shared/OpenFront/DetMath.luau": {
+      "sha256": "288ad220b79cb3b96b71c13f4a676d3ded72d7fc942dafa2f8fe9445f55b0bb1",
+      "bytes": 2217
+    },
+    "src/shared/OpenFront/EarthTerrain.luau": {
+      "sha256": "c39e2f95a85778e7c61572a8186232bcc0dd33cf4ddf0616069f3b06f6879fab",
+      "bytes": 4430
+    },
+    "src/shared/OpenFront/EarthTopologyData.luau": {
+      "sha256": "04db5bd0e0c55e6f018c4eb12b30fa196f8c8a81ac5a853c747b31b78b8c56e4",
+      "bytes": 33739523
+    },
+    "src/shared/OpenFront/Gold.luau": {
+      "sha256": "dedc5eda9cb78f6f943a0ed79898377c2058fcd24641d27047d65c8a88bb0e19",
+      "bytes": 1585
+    },
+    "src/shared/OpenFront/Grid.luau": {
+      "sha256": "fac7a8916a8dc2ab6f83e15db35309b4568e2fe5c5fc94325bdbaeb8bf84ea65",
+      "bytes": 14434
+    },
+    "src/shared/OpenFront/MinHeap.luau": {
+      "sha256": "42de9daa6369935c1afbcfe0d0753a9cd70ad408a35029c86d144466fd7f6353",
+      "bytes": 2686
+    },
+    "src/shared/OpenFront/MissilePath.luau": {
+      "sha256": "761554ee6ad65c168f074e76afabd7430fa58919bd9e7e857c6908d462d687c2",
+      "bytes": 2875
+    },
+    "src/shared/OpenFront/MissileRules.luau": {
+      "sha256": "77b4aee3762e029ef17b738f741701372d457c04397d6df54865e8936c96cd32",
+      "bytes": 1729
+    },
+    "src/shared/OpenFront/MoneyFormat.luau": {
+      "sha256": "0de41cac865aac1fbf7e448a3ee478ffa2d7daf7e5235fd5856c5c62eda61cc1",
+      "bytes": 807
+    },
+    "src/shared/OpenFront/NavalRules.luau": {
+      "sha256": "24995f75a2bef51c925d513a13b79b396813da5908de285cde5435f7c18e5ab9",
+      "bytes": 1670
+    },
+    "src/shared/OpenFront/RailRules.luau": {
+      "sha256": "786be7bb5950d404c56660bd499b4c2cb187e5d465e465e9997d3cbe4845f866",
+      "bytes": 869
+    },
+    "src/shared/OpenFront/Random32.luau": {
+      "sha256": "a97947b0230872d4fdb755099404558f149a44d16d048e2782fa78b7f41d98fa",
+      "bytes": 1748
+    },
+    "src/shared/OpenFront/Replica.luau": {
+      "sha256": "359069c0416e9cb0c960fd732207e0057f5220352416b9f03f8b977b6b25d881",
+      "bytes": 10268
+    },
+    "src/shared/OpenFront/ShipWire.luau": {
+      "sha256": "c4bbd308fcf5497e4bab577b20df9ce3ed343ade2d0d602d8bdb2c39141b9cd8",
+      "bytes": 1788
+    },
+    "src/shared/OpenFront/Troops.luau": {
+      "sha256": "61d3d3b86296fe036d929ac8acad2721716087b603b50f070fb6247420b9d2e9",
+      "bytes": 2485
+    },
+    "src/shared/ProgressionCatalog.luau": {
+      "sha256": "5af297971899bb20ce678d4e9f859b7e3155bc3eea1ef195f77fdc41e5f9621b",
+      "bytes": 5400
+    },
+    "src/shared/TerritoryRanking.luau": {
+      "sha256": "abd52807c472e7868e6d419bea44243595115bb2b19eb1d50bd8757229d46452",
+      "bytes": 778
+    },
+    "tests/stage1/upstream-oracle.json": {
+      "sha256": "500c6d3160442737a7b5ef2bbf31f895d950e9064178b32003ee882cc424e901",
+      "bytes": 307179
+    },
+    "tests/stage2/fidelity-oracle.json": {
+      "sha256": "bdd30f215afa2689f0361bf2cf8b9a06274fa6e3845a7af12b142320298a1455",
+      "bytes": 47935
+    },
+    "tests/stage2/upstream-oracle.json": {
+      "sha256": "7fa6bb7132bd73407f1e2c9a4dce8ae41c1fb85e1aaccfa0b6013746080a7688",
+      "bytes": 44538
+    },
+    "tests/stage3/connectivity-oracle.json": {
+      "sha256": "0bfba607d3cd8e6c13919d283e823ccc8f78d07f78e7cab214ce867cfcc806d4",
+      "bytes": 862188
+    },
+    "tests/stage3/upstream-oracle.json": {
+      "sha256": "e75afb4c7c8f3d724a1cd0dcd67c0592cc3303c808ce31d280e6e6adc9134454",
+      "bytes": 334238
+    },
+    "tests/stage4/upstream-oracle.json": {
+      "sha256": "2539f5340a204904e2bec48cb283b266f0fb1f564c253a3de2b864db48c7eec8",
+      "bytes": 17322
+    },
+    "tests/stage5/implementation-hashes.json": {
+      "sha256": "097b58a5e4143aa210f61350dcab0fe539a567a1363dbfeb0ac87c1ec69c97b9",
+      "bytes": 1620
+    },
+    "tests/stage5/rail-oracle.json": {
+      "sha256": "68912e1eea29ab98ba11f01346f8acbfe8ae755282b97b80f412c6616e76814d",
+      "bytes": 7746276
+    },
+    "tests/stage5/rail-source-hashes.json": {
+      "sha256": "7ecfad2f82a3b10c1bcd78dcb610571cf19458887e92398cd33c33cc28cd59d0",
+      "bytes": 2192
+    },
+    "tests/stage5/source-hashes.json": {
+      "sha256": "0abd7f20bdb4765867c0661a7638814e1e77a7563da954990565b8b0a459121d",
+      "bytes": 829
+    },
+    "tests/stage5/upstream-oracle.json": {
+      "sha256": "a3c03d482c090869acefac4889414590f98bbf039b0d4af29976f7022cb1c7b8",
+      "bytes": 172548
+    },
+    "tests/stage6/implementation-manifest.json": {
+      "sha256": "94303caf099e84a858129d05c3b5b25afa4cd7d437e446b965aa6e98e14ba8f7",
+      "bytes": 2232
+    },
+    "tests/stage6/source-hashes.json": {
+      "sha256": "20e5b34451b28e526e611ec775b8dd25dfe832b27789b27b4591806ba0b039d4",
+      "bytes": 3083
+    },
+    "tests/stage6/upstream-oracle.json": {
+      "sha256": "b7748c8776c733e6b5ded84fdee4d9a702cda451ea1b141dd2e8b3e6dacd9394",
+      "bytes": 1563034
+    },
+    "tests/stage7/baseline-digests.json": {
+      "sha256": "26c38949acf32a8b2094653e232677f72bafcb2a2b8f51dd9e3e31d4edc27e88",
+      "bytes": 102
+    },
+    "tests/stage7/source-hashes.json": {
+      "sha256": "3c77cf0f7602639ea1085a29e516dd1baa535814eecde9c2f4c76a93caeee02b",
+      "bytes": 3239
+    },
+    "tests/stage8/regeneration.json": {
+      "sha256": "cc27440f6f6b6d9d7b088c10254c5d7639cfd8dba2f39287818f44c71bc57807",
+      "bytes": 163
+    },
+    "tests/stage8/source-hashes.json": {
+      "sha256": "6a3a0d6a812009faabf03de4b065db1bc34bb948de4b94f49d62161e3d5511ce",
+      "bytes": 1663
+    },
+    "tests/stage8/upstream-oracle.json": {
+      "sha256": "577accc60454f2c8e8972a8b4f41a3218f463d5628ef4f794c8ca1873f26458e",
+      "bytes": 1746475
+    },
+    "tests/stage9/regeneration.json": {
+      "sha256": "6d5eb0814b34eae3cfc9fca60c548b16ff8ce8efa8589e0f0aae6946229efdd0",
+      "bytes": 107
+    },
+    "tests/stage9/source-hashes.json": {
+      "sha256": "0ec577ecfd18b149fbea0954b7f2d83f0e58f1fcccc1b44d643d93dd57c44e97",
+      "bytes": 961
+    },
+    "tests/stage9/upstream-oracle.json": {
+      "sha256": "52a8d2cab95675ea15b256bb561d0e3fc94c6c691ddcbf849886c2352739bd38",
+      "bytes": 31982
+    },
+    "third_party/OpenFrontIO/CREDITS.md": {
+      "sha256": "bf6c4cb50cb6e12ec84fec7552474da6256550546643483d6b6b1eaa574a2c99",
+      "bytes": 8722
+    },
+    "third_party/OpenFrontIO/LICENSE": {
+      "sha256": "1eaad12c953bb15580a6ae797f2a697b72fc1102f6b5bdc11f6a3a9335cfde2b",
+      "bytes": 35148
+    },
+    "third_party/OpenFrontIO/LICENSE-ASSETS": {
+      "sha256": "202de5173a0f57c833d1d4d4dda2c401231efc762f9363b84f7db5cd5da7adf5",
+      "bytes": 1853
+    },
+    "third_party/OpenFrontIO/LICENSING.md": {
+      "sha256": "5c4c6eec948075cde2395e22179d957fcd7c02963b2bf66008735c005ee4ba19",
+      "bytes": 5742
+    },
+    "third_party/OpenFrontIO/MAP-ASSETS-LICENSE": {
+      "sha256": "9396377a665b03aa07710e7a4d5417ecb9a02911a5d87b69ada1df07b69f9637",
+      "bytes": 265
+    },
+    "third_party/OpenFrontIO/README.md": {
+      "sha256": "9c849138c325bd75742bbfeb77b45a610603f015f8d9e4f7e7d0c19c4b2b1619",
+      "bytes": 1270
+    }
+  },
+  "uploaded": false,
+  "public_availability_verified": false
+}

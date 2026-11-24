@@ -1,0 +1,29 @@
+{
+  "commit": "8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94",
+  "files": {
+    "packages/engine-lib/src/PseudoRandom.ts": "70a87d651b7367173dbdd0deb7ca21432d6afdb011b1440b6f93a2575473ab6b",
+    "packages/engine/src/pathfinding/algorithms/PriorityQueue.ts": "620434a71ecdb2a1da286cd8e4cf7c410765c1d2427d0d497a11e9d250b872e7",
+    "packages/engine/src/pathfinding/algorithms/AStar.Water.ts": "3d7503c57c369e349c39758fc92f57f8fbfa3ea5cf2d93608e251934525c2a56",
+    "packages/engine/src/pathfinding/algorithms/AStar.WaterBounded.ts": "e1dd1d8a267baa50b67913b58ce02d8ae5f2f40fc2411455cbaf866b9413f746",
+    "packages/engine/src/pathfinding/transformers/ShoreCoercingTransformer.ts": "ec424e35be8524d6c6ce7c622165eb2c715f3441fe05a647f704f0bb966d9247",
+    "packages/engine/src/pathfinding/PathFinder.Air.ts": "59b417c259d74d3442ce2ea4b524e583e2cb90815d18bb970e7f3184f24e69f1",
+    "packages/engine/src/pathfinding/PathFinderStepper.ts": "cb0c941a499d99900dcc1fc6be8ae16dd9cdc7a240055241d845142e85200b2e",
+    "packages/engine-lib/src/game/UnitGrid.ts": "558246199e31308b69148eb0708f1541b7a39f5c504e99a098c38bc896115d23",
+    "packages/engine/src/pathfinding/spatial/SpatialQuery.ts": "331a832a321fdcc36889bb7a38a1f488d1253956f46f152cd2dc259be693ea5a",
+    "packages/engine/src/game/TransportShipUtils.ts": "62dd130ccd14d7072af2b4fc8e91ffac159678992ba7284ec9caf3ac037037d2",
+    "packages/engine/src/execution/TransportShipExecution.ts": "97d9ddf807a89a8fa694fbd3d9b7451a76ada9298212ab77aae99a1e337656bd",
+    "packages/engine/src/execution/TradeShipExecution.ts": "760cde967d0ac617039db52e2d2e91b97157e373276baeb667cc03fd1cd05944",
+    "packages/engine/src/execution/PortExecution.ts": "ce82f68e5ddd37686533295a2bd596cece9807baad4e151ef81b5bfeb9013199",
+    "packages/engine/src/execution/WarshipExecution.ts": "a3011fba31bfa658a2197111c010cb2fa5032c6cf0783abdeec477e28eb4050e",
+    "packages/engine/src/execution/ShellExecution.ts": "d62abd3f3dc41e89ec51c3fb1d0a6b6c847d603d67f7d93b8f9ad91992ad46fb",
+    "packages/engine/src/execution/BoatRetreatExecution.ts": "de1b096cf1c4c5a8470ee86a0fc89c96776ab1eaa2b463c17fce4b9edc9800a0",
+    "packages/engine/src/execution/MoveWarshipExecution.ts": "30983a5e7f59ce59ac02b2f4a13820bdfdf372517d3441c8d187c8fa48cf9958",
+    "packages/engine/src/configuration/EngineConfig.ts": "d73adc413e17750048c76356f07d9515acb07030f74fa65080a159dd2b2c0c57",
+    "packages/engine/src/game/UnitImpl.ts": "d983ebfeb66889cbf64cb4dd69c92b66a134593f2077ca1436f53c95ca102d39",
+    "packages/engine/src/game/PlayerImpl.ts": "b7820a0f015aad58a4bda1531afb19ef3b921bcf1aa4b6bb70ca7c263b647212",
+    "packages/engine/src/execution/AttackExecution.ts": "986354289b260e20a8e87be0a3ff3e9a55043530315321fc7d557fb1837a6bb6",
+    "packages/engine/src/execution/PlayerExecution.ts": "77ff79cff0298ee24b117609b4eb28f8c653a176dd8f11bd3c7183f68a34b63c",
+    "src/client/hud/layers/PlayerActionHandler.ts": "058d946b63c40b14f442bdef81904d207bcb671e6a2d84bf1fd5b68db7c5e3cf",
+    "packages/engine-api/src/Schemas.ts": "72e87cee50d6f42e897e9ace4b3d6ee54eafd3d5b4848ac0036dcbda77e0a66e"
+  }
+}

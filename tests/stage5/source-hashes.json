@@ -1,0 +1,11 @@
+{
+  "commit": "8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94",
+  "files": {
+    "packages/engine-lib/src/configuration/Config.ts": "d62316bce646a3bc619afe427678169d438091e7ad33558723c7d1c849bd30ef",
+    "packages/engine/src/configuration/EngineConfig.ts": "d73adc413e17750048c76356f07d9515acb07030f74fa65080a159dd2b2c0c57",
+    "packages/engine/src/game/PlayerImpl.ts": "b7820a0f015aad58a4bda1531afb19ef3b921bcf1aa4b6bb70ca7c263b647212",
+    "packages/engine/src/execution/ConstructionExecution.ts": "1ae5ba3cb0af2bc39fa499428e20df435ac24c6f4a46d78e061e2fe4565fe7f0",
+    "packages/engine/src/execution/UpgradeStructureExecution.ts": "2b4d7f133b451f6e7e458ed93cdaa89309d6b96a98ae5584dd1b6544b5aefb49",
+    "packages/engine/src/execution/DeleteUnitExecution.ts": "6f1f8a01fc612d62841d6dd63b4a99edee64d20ec7864c9b0ab804ddee9cb1eb"
+  }
+}

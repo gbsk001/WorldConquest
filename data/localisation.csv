@@ -1,0 +1,294 @@
+﻿Key,Source,Context,Example,en,es,fr
+wc_0,+ Bot,,,+ Bot,+ IA,+ IA
+wc_1,+250K soldier capacity per completed level,,,+250K soldier capacity per completed level,+250K de capacidad de soldados por nivel terminado,+250K de capacité de soldats par niveau terminé
+wc_2,- Bot,,,- Bot,- IA,- IA
+wc_3,1 / 7 · Spawn,,,1 / 7 · Spawn,1 / 7 · Inicio,1 / 7 · Départ
+wc_4,2 / 7 · Expand,,,2 / 7 · Expand,2 / 7 · Expandirse,2 / 7 · Expansion
+wc_5,3 / 7 · Army,,,3 / 7 · Army,3 / 7 · Ejército,3 / 7 · Armée
+wc_6,30-cell range: defense magnitude x5; capture cost x3,,,30-cell range: defense magnitude x5; capture cost x3,Alcance de 30 celdas: defensa x5; coste de captura x3,Portée de 30 cases : défense x5 ; coût de capture x3
+wc_7,32-character private code,,,32-character private code,Código privado de 32 caracteres,Code privé de 32 caractères
+wc_8,4 / 7 · Combat,,,4 / 7 · Combat,4 / 7 · Combate,4 / 7 · Combat
+wc_9,5 / 7 · Economy,,,5 / 7 · Economy,5 / 7 · Economía,5 / 7 · Économie
+wc_10,6 / 7 · Navy,,,6 / 7 · Navy,6 / 7 · Armada,6 / 7 · Marine
+wc_11,7 / 7 · Missiles,,,7 / 7 · Missiles,7 / 7 · Misiles,7 / 7 · Missiles
+wc_12,A brief azure pulse at your nation when a new attack starts.,,,A brief azure pulse at your nation when a new attack starts.,Un breve pulso azul sobre tu nación al iniciar un ataque.,Une brève pulsation azur sur votre nation au début d’une attaque.
+wc_13,A cobalt warship finish. Identical naval statistics.,,,A cobalt warship finish. Identical naval statistics.,Acabado cobalto para buques de guerra. Mismas estadísticas navales.,Finition cobalt pour navires de guerre. Statistiques navales identiques.
+wc_14,A darker fine territory border at maximum zoom.,,,A darker fine territory border at maximum zoom.,Una frontera fina y oscura al máximo zoom.,Une fine frontière plus sombre au zoom maximal.
+wc_15,A gold missile finish. Identical combat statistics.,,,A gold missile finish. Identical combat statistics.,Acabado dorado para misiles. Mismas estadísticas de combate.,Finition dorée pour missiles. Statistiques de combat identiques.
+wc_16,A pearl finish when you earn a live territory crown.,,,A pearl finish when you earn a live territory crown.,Acabado perla para las coronas ganadas por territorio.,Une finition perle pour vos couronnes de territoire en partie.
+wc_17,A readable jade-green territory colour.,,,A readable jade-green territory colour.,Un color verde jade legible para el territorio.,Une couleur vert jade lisible pour le territoire.
+wc_18,A readable ocean-blue territory colour.,,,A readable ocean-blue territory colour.,Un color azul océano legible para el territorio.,Une couleur bleu océan lisible pour le territoire.
+wc_19,A restrained gold victory banner pulse on your results screen.,,,A restrained gold victory banner pulse on your results screen.,Un pulso dorado sutil en el título de victoria de tus resultados.,Une légère pulsation dorée du bandeau de victoire sur vos résultats.
+wc_20,ACHIEVEMENTS,,,ACHIEVEMENTS,LOGROS,SUCCÈS
+wc_21,Accept invitation,,,Accept invitation,Aceptar invitación,Accepter l’invitation
+wc_22,Already owned.,,,Already owned.,Ya lo tienes.,Déjà acquis.
+wc_23,Amber Shockwave,,,Amber Shockwave,Onda Ámbar,Onde Ambrée
+wc_24,An amber ring at a confirmed missile impact. Identical damage and fallout.,,,An amber ring at a confirmed missile impact. Identical damage and fallout.,Un anillo ámbar en los impactos de misil confirmados. Mismo daño y radiación.,Un anneau ambré lors d’un impact confirmé. Dégâts et retombées identiques.
+wc_25,An emerald transport finish. Identical capacity and speed.,,,An emerald transport finish. Identical capacity and speed.,Acabado esmeralda para transportes. Misma capacidad y velocidad.,Finition émeraude pour transports. Capacité et vitesse identiques.
+wc_26,An ice-white missile finish. Identical combat statistics.,,,An ice-white missile finish. Identical combat statistics.,Acabado blanco hielo para misiles. Mismas estadísticas de combate.,Finition blanc glacé pour missiles. Statistiques de combat identiques.
+wc_27,An ivory building finish. Ownership accents remain visible.,,,An ivory building finish. Ownership accents remain visible.,Acabado marfil para edificios. El color del propietario sigue visible.,Finition ivoire pour bâtiments. Les marques de propriété restent visibles.
+wc_28,An original Starter Pack flag.,,,An original Starter Pack flag.,Una bandera original del paquete inicial.,Un drapeau original du pack de départ.
+wc_29,An original northern cross.,,,An original northern cross.,Una cruz nórdica original.,Une croix nordique originale.
+wc_30,An original tricolour for a new nation.,,,An original tricolour for a new nation.,Una bandera tricolor original para una nueva nación.,Un drapeau tricolore original pour une nouvelle nation.
+wc_31,Army,,,Army,Ejército,Armée
+wc_32,Arsenal,,,Arsenal,Arsenal,Arsenal
+wc_33,Atomic bomb,,,Atomic bomb,Bomba atómica,Bombe atomique
+wc_34,Audio: this build has no custom soundtrack. Use Roblox's system menu for device volume and graphics quality.,,,Audio: this build has no custom soundtrack. Use Roblox's system menu for device volume and graphics quality.,Audio: esta versión no tiene banda sonora. Usa el menú de Roblox para el volumen y la calidad gráfica.,Audio : cette version n’a pas de bande sonore. Réglez volume et graphismes dans le menu Roblox.
+wc_35,Aurora Union,,,Aurora Union,Unión Aurora,Union Aurore
+wc_36,Automatic interception; range and slots grow with level,,,Automatic interception; range and slots grow with level,Intercepción automática; alcance y turnos aumentan con el nivel,Interception automatique ; portée et créneaux augmentent avec le niveau
+wc_37,Awarded for your first eligible public victory.,,,Awarded for your first eligible public victory.,Se obtiene con tu primera victoria pública válida.,Attribué pour votre première victoire publique admissible.
+wc_38,Azure Signal,,,Azure Signal,Señal Azul,Signal Azur
+wc_39,BUILD A NATION. SHAPE THE WORLD.,,,BUILD A NATION. SHAPE THE WORLD.,CREA UNA NACIÓN. TRANSFORMA EL MUNDO.,FONDEZ UNE NATION. FAÇONNEZ LE MONDE.
+wc_40,Back,,,Back,Volver,Retour
+wc_41,Balanced,,,Balanced,Equilibrado,Équilibré
+wc_42,BestStreak,,,BestStreak,Mejor racha,Meilleure série
+wc_43,Block player in Roblox,,,Block player in Roblox,Bloquear jugador en Roblox,Bloquer le joueur dans Roblox
+wc_44,"Build a silo and wait for its launch slot. Choose a missile and target; SAMs intercept automatically. Fallout changes land value. Victory opens results, then returns everyone to the menu.",,,"Build a silo and wait for its launch slot. Choose a missile and target; SAMs intercept automatically. Fallout changes land value. Victory opens results, then returns everyone to the menu.",Construye un silo y espera su turno de lanzamiento. Elige misil y objetivo; la defensa antiaérea intercepta automáticamente. La radiación cambia el valor del terreno. La victoria muestra los resultados y luego el menú.,"Construisez un silo et attendez son créneau. Choisissez missile et cible ; la défense antiaérienne intercepte automatiquement. Les retombées modifient la valeur des terres. Après la victoire, les résultats puis le menu s’affichent."
+wc_45,Building unavailable or insufficient money.,,,Building unavailable or insufficient money.,Edificio no disponible u oro insuficiente.,Bâtiment indisponible ou or insuffisant.
+wc_46,Buildings,,,Buildings,Edificios,Bâtiments
+wc_47,Buildings are available after spawning into the match.,,,Buildings are available after spawning into the match.,Los edificios están disponibles después de elegir tu inicio.,Les bâtiments sont disponibles après votre apparition dans la partie.
+wc_48,Buy warship,,,Buy warship,Comprar buque,Acheter un navire de guerre
+wc_49,COMMUNICATION,,,COMMUNICATION,COMUNICACIÓN,COMMUNICATION
+wc_50,Cancel naval,,,Cancel naval,Cancelar orden naval,Annuler l’ordre naval
+wc_51,Cancel placement,,,Cancel placement,Cancelar colocación,Annuler le placement
+wc_52,Cancel target,,,Cancel target,Cancelar objetivo,Annuler la cible
+wc_53,Cartographer's Weave,,,Cartographer's Weave,Trama del Cartógrafo,Trame du Cartographe
+wc_54,Change your nation name between matches.,,,Change your nation name between matches.,Cambia el nombre de tu nación entre partidas.,Modifiez votre nom de nation entre les parties.
+wc_55,Checking Roblox communication permissions,,,Checking Roblox communication permissions,Comprobando permisos de comunicación de Roblox,Vérification des permissions de communication Roblox
+wc_56,Checking Roblox text-chat permissions…,,,Checking Roblox text-chat permissions…,Comprobando permisos de chat de Roblox…,Vérification des permissions de chat Roblox…
+wc_57,Choose a different nation name.,,,Choose a different nation name.,Elige otro nombre de nación.,Choisissez un autre nom de nation.
+wc_58,City,,,City,Ciudad,Ville
+wc_59,Claim daily reward,,,Claim daily reward,Reclamar recompensa diaria,Récupérer la récompense
+wc_60,Click an unclaimed or enemy coast. Uses the army allocation; maximum 3 transports; no port required.,,,Click an unclaimed or enemy coast. Uses the army allocation; maximum 3 transports; no port required.,Toca una costa libre o enemiga. Usa la asignación del ejército; máximo 3 transportes; no requiere puerto.,Touchez une côte libre ou ennemie. Utilise l’allocation de l’armée ; 3 transports maximum ; aucun port requis.
+wc_61,Click land to select or move your spawn.,,,Click land to select or move your spawn.,Toca tierra para elegir o mover tu inicio.,Touchez une terre pour choisir ou déplacer votre départ.
+wc_62,Click land to select or move your spawn. No selection? A free spawn will be assigned.,,,Click land to select or move your spawn. No selection? A free spawn will be assigned.,"Toca tierra para elegir o mover tu inicio. Si no eliges, se asignará uno libre.","Touchez une terre pour choisir ou déplacer votre départ. Sans choix, un emplacement libre vous sera attribué."
+wc_63,Click neutral land to expand or enemy land to attack shared borders. Enemy retreat loses 25%.,,,Click neutral land to expand or enemy land to attack shared borders. Enemy retreat loses 25%.,Toca tierra neutral para expandirte o enemiga para atacar fronteras comunes. La retirada enemiga pierde un 25 %.,Touchez une terre neutre pour vous étendre ou ennemie pour attaquer les frontières communes. La retraite ennemie perd 25 %.
+wc_64,Click one of your building icons.,,,Click one of your building icons.,Toca uno de tus iconos de edificio.,Touchez l’une de vos icônes de bâtiment.
+wc_65,Click water reachable from your completed port to buy a patrolling warship.,,,Click water reachable from your completed port to buy a patrolling warship.,Toca agua accesible desde tu puerto terminado para comprar un buque de patrulla.,Touchez une eau accessible depuis votre port terminé pour acheter un navire de patrouille.
+wc_66,Click your building icon to mark demolition (30 seconds; no refund).,,,Click your building icon to mark demolition (30 seconds; no refund).,Toca el icono del edificio para demolerlo (30 segundos; sin reembolso).,Touchez l’icône du bâtiment pour le démolir (30 secondes ; aucun remboursement).
+wc_67,Click your completed building icon to buy one level.,,,Click your completed building icon to buy one level.,Toca el icono de tu edificio terminado para comprar un nivel.,Touchez l’icône de votre bâtiment terminé pour acheter un niveau.
+wc_68,Click your transport to return it to your coast. Successful return loses 25% of its troops.,,,Click your transport to return it to your coast. Successful return loses 25% of its troops.,Toca tu transporte para devolverlo a tu costa. Al volver pierde el 25 % de sus tropas.,Touchez votre transport pour le rappeler. Un retour réussi coûte 25 % de ses troupes.
+wc_69,"Click your warship, then its new patrol location.",,,"Click your warship, then its new patrol location.",Toca tu buque y después su nuevo destino de patrulla.,"Touchez votre navire, puis sa nouvelle position de patrouille."
+wc_70,Close,,,Close,Cerrar,Fermer
+wc_71,Cobalt Fleet,,,Cobalt Fleet,Flota Cobalto,Flotte Cobalt
+wc_72,Communication & microphone,,,Communication & microphone,Comunicación y micrófono,Communication et microphone
+wc_73,Complete a seven-day reward calendar.,,,Complete a seven-day reward calendar.,Completa un calendario de recompensas de siete días.,Terminez un calendrier de récompenses de sept jours.
+wc_74,Connecting to match...,,,Connecting to match...,Conectando a la partida...,Connexion à la partie...
+wc_75,Copy the source address below to your browser.,,,Copy the source address below to your browser.,Copia esta dirección en tu navegador.,Copiez l’adresse ci-dessous dans votre navigateur.
+wc_76,Create party,,,Create party,Crear grupo,Créer un groupe
+wc_77,DAILY REWARDS • A new day begins at 00:00 UTC,,,DAILY REWARDS • A new day begins at 00:00 UTC,RECOMPENSAS DIARIAS • El día empieza a las 00:00 UTC,RÉCOMPENSES QUOTIDIENNES • Le jour commence à 00:00 UTC
+wc_78,Daily,,,Daily,Diario,Quotidien
+wc_79,Daily Rewards,,,Daily Rewards,Recompensas diarias,Récompenses quotidiennes
+wc_80,Decline invitation,,,Decline invitation,Rechazar invitación,Refuser l’invitation
+wc_81,Defense Post,,,Defense Post,Puesto defensivo,Poste défensif
+wc_82,Demolish,,,Demolish,Demoler,Démolir
+wc_83,Demolish: 30s delay / 30s cooldown,,,Demolish: 30s delay / 30s cooldown,Demoler: espera de 30 s / recarga de 30 s,Démolir : délai de 30 s / recharge de 30 s
+wc_84,EQUIPPED,,,EQUIPPED,EQUIPADO,ÉQUIPÉ
+wc_85,Easy,,,Easy,Fácil,Facile
+wc_86,Emerald Convoy,,,Emerald Convoy,Convoy Esmeralda,Convoi Émeraude
+wc_87,Empire Builder,,,Empire Builder,Constructor de imperios,Bâtisseur d’empire
+wc_88,Enable your microphone using Roblox controls,,,Enable your microphone using Roblox controls,Activa el micrófono con los controles de Roblox,Activez votre microphone avec les commandes Roblox
+wc_89,Equip,,,Equip,Equipar,Équiper
+wc_90,Equip cosmetics from the main menu between matches.,,,Equip cosmetics from the main menu between matches.,Equipa cosméticos desde el menú entre partidas.,Équipez vos cosmétiques dans le menu entre les parties.
+wc_91,"Exclusive General badge and nation flag. A one-time purchase, not a recurring subscription.",,,"Exclusive General badge and nation flag. A one-time purchase, not a recurring subscription.","Insignia de General y bandera exclusivas. Un solo pago, sin suscripción recurrente.","Insigne de Général et drapeau exclusifs. Un achat unique, sans abonnement récurrent."
+wc_92,FINDING MATCH...,,,FINDING MATCH...,BUSCANDO PARTIDA...,RECHERCHE DE PARTIE...
+wc_93,Factory,,,Factory,Fábrica,Usine
+wc_94,Featured,,,Featured,Destacados,À la une
+wc_95,Finding your public match...,,,Finding your public match...,Buscando tu partida pública...,Recherche de votre partie publique...
+wc_96,Finish tutorial,,,Finish tutorial,Terminar tutorial,Terminer le tutoriel
+wc_97,First Conquest,,,First Conquest,Primera conquista,Première conquête
+wc_98,First Victory,,,First Victory,Primera victoria,Première victoire
+wc_99,Fit Earth to screen,,,Fit Earth to screen,Ajustar el mapa a la pantalla,Adapter la carte à l’écran
+wc_100,Flags,,,Flags,Banderas,Drapeaux
+wc_101,France,,,France,Francia,France
+wc_102,GOLD,,,GOLD,ORO,OR
+wc_103,General,,,General,General,Général
+wc_104,General's Standard,,,General's Standard,Estandarte del General,Étendard du Général
+wc_105,Gilded Vanguard,,,Gilded Vanguard,Vanguardia Dorada,Avant-garde Dorée
+wc_106,Global Rankings,,,Global Rankings,Clasificación global,Classement mondial
+wc_107,Global persistence is disabled in this Studio preview.,,,Global persistence is disabled in this Studio preview.,La persistencia global está desactivada en esta vista de Studio.,La persistance globale est désactivée dans cet aperçu Studio.
+wc_108,Gold,,,Gold,Oro,Or
+wc_109,Gold Lettering,,,Gold Lettering,Letras Doradas,Lettres Dorées
+wc_110,Gold arrives over time. Buildings shows real costs and effects. Place cities and factories on your land; upgrade or demolish using their controls.,,,Gold arrives over time. Buildings shows real costs and effects. Place cities and factories on your land; upgrade or demolish using their controls.,El oro llega con el tiempo. Edificios muestra los costes y efectos reales. Construye ciudades y fábricas en tu terreno; usa sus controles para mejorarlas o demolerlas.,"L’or arrive progressivement. Bâtiments affiche les coûts et effets réels. Placez villes et usines sur vos terres, puis améliorez-les ou démolissez-les avec leurs commandes."
+wc_111,Golden Horizon,,,Golden Horizon,Horizonte Dorado,Horizon Doré
+wc_112,Golden Victory,,,Golden Victory,Victoria Dorada,Victoire Dorée
+wc_113,HOST,,,HOST,ANFITRIÓN,HÔTE
+wc_114,Hard,,,Hard,Difícil,Difficile
+wc_115,Have a private join code? Paste it below.,,,Have a private join code? Paste it below.,¿Tienes un código privado? Pégalo abajo.,Vous avez un code privé ? Collez-le ci-dessous.
+wc_116,Horizon Republic,,,Horizon Republic,República Horizonte,République de l’Horizon
+wc_117,Host a private lobby,,,Host a private lobby,Crear sala privada,Créer un salon privé
+wc_118,HumanEliminations,,,HumanEliminations,Jugadores humanos eliminados,Joueurs humains éliminés
+wc_119,Hydrogen bomb,,,Hydrogen bomb,Bomba de hidrógeno,Bombe à hydrogène
+wc_120,INCOME,,,INCOME,INGRESOS,REVENUS
+wc_121,Included with WorldConquest General.,,,Included with WorldConquest General.,Incluido con WorldConquest General.,Inclus avec WorldConquest General.
+wc_122,Income,,,Income,Ingresos,Revenus
+wc_123,Ink Border,,,Ink Border,Frontera de Tinta,Frontière à l’Encre
+wc_124,Insufficient money for a warship.,,,Insufficient money for a warship.,Oro insuficiente para un buque.,Or insuffisant pour un navire de guerre.
+wc_125,Inventory,,,Inventory,Inventario,Inventaire
+wc_126,Inventory & equipped cosmetics,,,Inventory & equipped cosmetics,Inventario y cosméticos equipados,Inventaire et cosmétiques équipés
+wc_127,Invitations expire after two minutes. Invitees confirm after joining. Only the leader queues the party; all members must be in this menu server.,,,Invitations expire after two minutes. Invitees confirm after joining. Only the leader queues the party; all members must be in this menu server.,Las invitaciones caducan en dos minutos. Se confirman al entrar. Solo el líder inicia la búsqueda; todos deben estar en este servidor de menú.,Les invitations expirent après deux minutes. Elles se confirment à l’arrivée. Seul le chef lance la recherche ; tous doivent être dans ce serveur de menu.
+wc_128,Invite Roblox friends,,,Invite Roblox friends,Invitar amigos de Roblox,Inviter des amis Roblox
+wc_129,Invite friends,,,Invite friends,Invitar amigos,Inviter des amis
+wc_130,Ivory Architecture,,,Ivory Architecture,Arquitectura Marfil,Architecture Ivoire
+wc_131,Jade,,,Jade,Jade,Jade
+wc_132,Japan,,,Japan,Japón,Japon
+wc_133,Join private lobby,,,Join private lobby,Entrar en sala privada,Rejoindre un salon privé
+wc_134,LAND,,,LAND,TERRITORIO,TERRITOIRE
+wc_135,LEADER,,,LEADER,LÍDER,CHEF
+wc_136,Launch invasion,,,Launch invasion,Lanzar invasión,Lancer une invasion
+wc_137,Launch invasions at reachable coasts. Completed ports allow warships and automatic trade. Select your ship before issuing move or return orders.,,,Launch invasions at reachable coasts. Completed ports allow warships and automatic trade. Select your ship before issuing move or return orders.,Lanza invasiones contra costas accesibles. Los puertos terminados permiten buques de guerra y comercio automático. Selecciona el barco antes de moverlo o retirarlo.,Lancez des invasions vers les côtes accessibles. Les ports terminés permettent les navires de guerre et le commerce automatique. Sélectionnez un navire avant de le déplacer ou rappeler.
+wc_138,Laurel Republic,,,Laurel Republic,República Laurel,République du Laurier
+wc_139,Leaderboard,,,Leaderboard,Clasificación,Classement
+wc_140,Leave Game,,,Leave Game,Salir del juego,Quitter le jeu
+wc_141,Leave Match,,,Leave Match,Salir de la partida,Quitter la partie
+wc_142,Leave lobby,,,Leave lobby,Salir de la sala,Quitter le salon
+wc_143,Leave party,,,Leave party,Salir del grupo,Quitter le groupe
+wc_144,"Leave this match?
+Your current match progress will be abandoned.",,,"Leave this match?
+Your current match progress will be abandoned.","¿Salir de esta partida?
+Perderás el progreso de la partida actual.","Quitter cette partie ?
+Votre progression dans la partie sera abandonnée."
+wc_145,Load your profile before claiming.,,,Load your profile before claiming.,Carga tu perfil antes de reclamar.,Chargez votre profil avant de réclamer.
+wc_146,Loading…,,,Loading…,Cargando…,Chargement…
+wc_147,Low CPU,,,Low CPU,CPU baja,CPU réduit
+wc_148,Low CPU limits map painting work per frame; it preserves map resolution and may finish updates more slowly.,,,Low CPU limits map painting work per frame; it preserves map resolution and may finish updates more slowly.,CPU baja limita el dibujado del mapa por fotograma; conserva la resolución y puede actualizarlo más lentamente.,CPU réduit limite le dessin par image ; la résolution reste identique mais les mises à jour peuvent prendre plus de temps.
+wc_149,MATCH ENDED,,,MATCH ENDED,PARTIDA TERMINADA,PARTIE TERMINÉE
+wc_150,MIRV,,,MIRV,MIRV,MIRV
+wc_151,Match directory unavailable,,,Match directory unavailable,Directorio de partidas no disponible,Liste des parties indisponible
+wc_152,Match ended. Results will return you to the main menu.,,,Match ended. Results will return you to the main menu.,Partida terminada. Volverás al menú tras los resultados.,Partie terminée. Retour au menu après les résultats.
+wc_153,Matches,,,Matches,Partidas,Parties
+wc_154,Matchmaking is taking longer than expected. You can retry.,,,Matchmaking is taking longer than expected. You can retry.,La búsqueda tarda más de lo esperado. Puedes reintentarlo.,La recherche prend plus de temps que prévu. Vous pouvez réessayer.
+wc_155,Microphone muted,,,Microphone muted,Micrófono silenciado,Microphone coupé
+wc_156,Microphone on,,,Microphone on,Micrófono activo,Microphone actif
+wc_157,Missed days restart the calendar. Rewards are optional and easy to understand.,,,Missed days restart the calendar. Rewards are optional and easy to understand.,Los días omitidos reinician el calendario. Las recompensas son opcionales.,Un jour manqué réinitialise le calendrier. Les récompenses sont facultatives.
+wc_158,Missed days restart the calendar. Rewards are optional.,,,Missed days restart the calendar. Rewards are optional.,Los días omitidos reinician el calendario. Las recompensas son opcionales.,Un jour manqué réinitialise le calendrier. Les récompenses sont facultatives.
+wc_159,Missile Silo,,,Missile Silo,Silo de misiles,Silo à missiles
+wc_160,Missile unavailable or insufficient gold.,,,Missile unavailable or insufficient gold.,Misil no disponible u oro insuficiente.,Missile indisponible ou or insuffisant.
+wc_161,Missiles,,,Missiles,Misiles,Missiles
+wc_162,Motion: reduced,,,Motion: reduced,Animación: reducida,Animation : réduite
+wc_163,Motion: subtle,,,Motion: subtle,Animación: sutil,Animation : légère
+wc_164,Move warship,,,Move warship,Mover buque,Déplacer le navire
+wc_165,Mute voice,,,Mute voice,Silenciar voz,Couper la voix
+wc_166,NATION NAME • Roblox-filtered • Changes apply next match,,,NATION NAME • Roblox-filtered • Changes apply next match,NOMBRE DE NACIÓN • Filtrado por Roblox • Se aplica a la próxima partida,NOM DE NATION • Filtré par Roblox • Appliqué à la prochaine partie
+wc_167,Nation name saved.,,,Nation name saved.,Nombre de nación guardado.,Nom de nation enregistré.
+wc_168,Naval Commander,,,Naval Commander,Comandante naval,Commandant naval
+wc_169,Navy,,,Navy,Armada,Marine
+wc_170,Next,,,Next,Siguiente,Suivant
+wc_171,No attack,,,No attack,Sin ataque,Aucune attaque
+wc_172,No records returned yet. Select a category to refresh.,,,No records returned yet. Select a category to refresh.,Aún no hay registros. Selecciona una categoría para actualizar.,Aucun record reçu. Sélectionnez une catégorie pour actualiser.
+wc_173,Normal,,,Normal,Normal,Normal
+wc_174,Not Now,,,Not Now,Ahora no,Pas maintenant
+wc_175,Not currently on sale. No purchase is available.,,,Not currently on sale. No purchase is available.,No está a la venta. No se puede comprar.,Actuellement indisponible à l’achat.
+wc_176,Not enough Stars.,,,Not enough Stars.,No tienes suficientes estrellas.,Étoiles insuffisantes.
+wc_177,Not upgradeable,,,Not upgradeable,No se puede mejorar,Non améliorable
+wc_178,Notifications,,,Notifications,Notificaciones,Notifications
+wc_179,ONE PLANET. COUNTLESS POSSIBILITIES.,,,ONE PLANET. COUNTLESS POSSIBILITIES.,UN PLANETA. INFINITAS POSIBILIDADES.,UNE PLANÈTE. DES POSSIBILITÉS INFINIES.
+wc_180,OWNED,,,OWNED,EN PROPIEDAD,ACQUIS
+wc_181,OWNED • Find your items in Inventory.,,,OWNED • Find your items in Inventory.,EN PROPIEDAD • Encuentra tus objetos en Inventario.,ACQUIS • Retrouvez vos objets dans l’inventaire.
+wc_182,Ocean,,,Ocean,Océano,Océan
+wc_183,Oceans and lakes cannot be claimed.,,,Oceans and lakes cannot be claimed.,No se pueden conquistar océanos ni lagos.,Les océans et les lacs ne peuvent pas être conquis.
+wc_184,One launch slot per level; reload in 9 seconds,,,One launch slot per level; reload in 9 seconds,Un turno por nivel; recarga en 9 segundos,Un créneau par niveau ; recharge en 9 secondes
+wc_185,Open Army and drag the allocation slider from 1–100%. Keep reserves at home. Cycle your attacks and use Stop / return when needed.,,,Open Army and drag the allocation slider from 1–100%. Keep reserves at home. Cycle your attacks and use Stop / return when needed.,Abre Ejército y ajusta el control del 1 al 100 %. Mantén tropas de reserva. Revisa tus ataques y detenlos o retíralos cuando sea necesario.,Ouvrez Armée et réglez l’allocation de 1 à 100 %. Gardez des réserves. Parcourez vos attaques et arrêtez-les ou rappelez-les si nécessaire.
+wc_186,Open Roblox's system menu to block or report this player.,,,Open Roblox's system menu to block or report this player.,Abre el menú de Roblox para bloquear o denunciar al jugador.,Ouvrez le menu Roblox pour bloquer ou signaler ce joueur.
+wc_187,PARTY • Queue together • Up to six friends,,,PARTY • Queue together • Up to six friends,GRUPO • Entrad juntos • Hasta seis amigos,GROUPE • Jouez ensemble • Jusqu’à six amis
+wc_188,PLAY,,,PLAY,JUGAR,JOUER
+wc_189,PLAY to find or create a public lobby,,,PLAY to find or create a public lobby,JUGAR para buscar o crear una sala pública,JOUER pour trouver ou créer un salon public
+wc_190,PLAY with party,,,PLAY with party,JUGAR en grupo,JOUER en groupe
+wc_191,PRIVATE LOBBY,,,PRIVATE LOBBY,SALA PRIVADA,SALON PRIVÉ
+wc_192,PRIVATE MATCH,,,PRIVATE MATCH,PARTIDA PRIVADA,PARTIE PRIVÉE
+wc_193,PUBLIC LOBBY,,,PUBLIC LOBBY,SALA PÚBLICA,SALON PUBLIC
+wc_194,PUBLIC MATCH RECORDS • updated after eligible matches,,,PUBLIC MATCH RECORDS • updated after eligible matches,RÉCORDS PÚBLICOS • Se actualizan tras partidas válidas,RECORDS PUBLICS • Actualisés après les parties admissibles
+wc_195,Party,,,Party,Grupo,Groupe
+wc_196,Party invitation,,,Party invitation,Invitación de grupo,Invitation de groupe
+wc_197,Pathfinder,,,Pathfinder,Explorador,Éclaireur
+wc_198,Pearl Crown,,,Pearl Crown,Corona Perla,Couronne Perle
+wc_199,Pearl Vanguard,,,Pearl Vanguard,Vanguardia Perla,Avant-garde Perle
+wc_200,Port,,,Port,Puerto,Port
+wc_201,Ports trade automatically with eligible destinations.,,,Ports trade automatically with eligible destinations.,Los puertos comercian automáticamente con destinos válidos.,Les ports commercent automatiquement avec les destinations admissibles.
+wc_202,Ports trade automatically with other players unless embargoed.,,,Ports trade automatically with other players unless embargoed.,Los puertos comercian automáticamente con otros jugadores salvo embargo.,Les ports commercent automatiquement avec les autres joueurs sauf embargo.
+wc_203,Preparing next match...,,,Preparing next match...,Preparando la próxima partida...,Préparation de la prochaine partie...
+wc_204,Previous,,,Previous,Anterior,Précédent
+wc_205,Private Match,,,Private Match,Partida privada,Partie privée
+wc_206,Profile,,,Profile,Perfil,Profil
+wc_207,Public Match,,,Public Match,Partida pública,Partie publique
+wc_208,RANK,,,RANK,RANGO,RANG
+wc_209,READY,,,READY,LISTO,PRÊT
+wc_210,RECRUIT,,,RECRUIT,RECLUTAS,RECRUES
+wc_211,RECRUITMENT,,,RECRUITMENT,RECLUTAMIENTO,RECRUTEMENT
+wc_212,Rally your allies. Prepare for deployment. Matches may include AI opponents.,,,Rally your allies. Prepare for deployment. Matches may include AI opponents.,Reúne a tus aliados. Prepárate para jugar. Las partidas pueden incluir oponentes de IA.,Rassemblez vos alliés. Préparez le déploiement. Les parties peuvent inclure des adversaires IA.
+wc_213,Rank,,,Rank,Rango,Rang
+wc_214,Reconnecting to the match…,,,Reconnecting to the match…,Reconectando a la partida…,Reconnexion à la partie…
+wc_215,Recruitment,,,Recruitment,Reclutamiento,Recrutement
+wc_216,Refresh verified ownership,,,Refresh verified ownership,Actualizar compras verificadas,Actualiser les achats vérifiés
+wc_217,Remove,,,Remove,Expulsar,Retirer
+wc_218,"Reporting: open the Roblox system menu, choose Report, then select the player and reason. Roblox also provides voice and text moderation controls. This game cannot override age, parental, blocking or microphone permissions.",,,"Reporting: open the Roblox system menu, choose Report, then select the player and reason. Roblox also provides voice and text moderation controls. This game cannot override age, parental, blocking or microphone permissions.","Para denunciar: abre el menú de Roblox, elige Denunciar, jugador y motivo. Roblox también ofrece moderación de voz y texto. El juego no puede anular permisos de edad, familiares, bloqueo o micrófono.","Signalement : ouvrez le menu Roblox, choisissez Signaler, puis le joueur et le motif. Roblox propose aussi une modération vocale et textuelle. Le jeu ne peut contourner les permissions d’âge, parentales, de blocage ou du microphone."
+wc_219,Return transport,,,Return transport,Retirar transporte,Rappeler le transport
+wc_220,Roblox voice available,,,Roblox voice available,Voz de Roblox disponible,Voix Roblox disponible
+wc_221,SAM Launcher,,,SAM Launcher,Lanzador antiaéreo,Lanceur antiaérien
+wc_222,SAM defence intercepts automatically,,,SAM defence intercepts automatically,La defensa SAM intercepta automáticamente,La défense SAM intercepte automatiquement
+wc_223,SETTINGS,,,SETTINGS,AJUSTES,PARAMÈTRES
+wc_224,SOLDIERS,,,SOLDIERS,SOLDADOS,SOLDATS
+wc_225,STARS,,,STARS,ESTRELLAS,ÉTOILES
+wc_226,STARTER PACK • Permanent ownership,,,STARTER PACK • Permanent ownership,PAQUETE INICIAL • Propiedad permanente,PACK DE DÉPART • Acquisition permanente
+wc_227,Save nation name,,,Save nation name,Guardar nombre de nación,Enregistrer le nom de nation
+wc_228,Saved.,,,Saved.,Guardado.,Enregistré.
+wc_229,"Sea trade, warship launch and repairs; coastal rail stop",,,"Sea trade, warship launch and repairs; coastal rail stop","Comercio marítimo, construcción y reparación naval; estación costera","Commerce maritime, lancement et réparation des navires ; gare côtière"
+wc_230,"Select enemy territory to attack shared borders. Defence, terrain and reserves matter. Enemy retreat loses soldiers; eliminated players spectate.",,,"Select enemy territory to attack shared borders. Defence, terrain and reserves matter. Enemy retreat loses soldiers; eliminated players spectate.","Selecciona territorio enemigo para atacar por fronteras comunes. Importan la defensa, el terreno y las reservas. La retirada causa bajas; los eliminados pueden observar.","Sélectionnez un territoire ennemi pour attaquer une frontière commune. Défense, terrain et réserves comptent. La retraite coûte des soldats ; les éliminés deviennent spectateurs."
+wc_231,Select neutral land to expand along eligible borders. Recruitment rebuilds your reserve. Drag to pan; wheel or Settings controls zoom Earth.,,,Select neutral land to expand along eligible borders. Recruitment rebuilds your reserve. Drag to pan; wheel or Settings controls zoom Earth.,Selecciona tierra neutral para expandirte por fronteras válidas. El reclutamiento repone tus reservas. Arrastra para mover el mapa; usa la rueda o los ajustes para ampliar.,Sélectionnez une terre neutre pour étendre vos frontières. Le recrutement reconstitue vos réserves. Faites glisser la carte et utilisez la molette ou les paramètres pour zoomer.
+wc_232,Select one of your buildings during gameplay.,,,Select one of your buildings during gameplay.,Selecciona uno de tus edificios durante la partida.,Sélectionnez l’un de vos bâtiments pendant la partie.
+wc_233,Settings,,,Settings,Ajustes,Paramètres
+wc_234,Seven Horizons,,,Seven Horizons,Siete Horizontes,Sept Horizons
+wc_235,Shop,,,Shop,Tienda,Boutique
+wc_236,Silos hold launch slots. SAM launchers intercept automatically.,,,Silos hold launch slots. SAM launchers intercept automatically.,Los silos contienen turnos de lanzamiento. Los SAM interceptan automáticamente.,Les silos contiennent des créneaux de lancement. Les SAM interceptent automatiquement.
+wc_237,Skip tutorial,,,Skip tutorial,Saltar tutorial,Passer le tutoriel
+wc_238,Soft gold lettering with the existing dark text outline.,,,Soft gold lettering with the existing dark text outline.,Letras doradas suaves con el contorno oscuro existente.,Lettres dorées discrètes avec le contour sombre existant.
+wc_239,Soldiers,,,Soldiers,Soldados,Soldats
+wc_240,Source & licences,,,Source & licences,Código y licencias,Sources et licences
+wc_241,Spawn into the match first.,,,Spawn into the match first.,Elige primero tu inicio en la partida.,Choisissez d’abord votre point de départ.
+wc_242,Stars,,,Stars,Estrellas,Étoiles
+wc_243,Stars…,,,Stars…,Estrellas…,Étoiles…
+wc_244,Start match,,,Start match,Iniciar partida,Lancer la partie
+wc_245,Starter,,,Starter,Inicial,Départ
+wc_246,Starter Pack,,,Starter Pack,Paquete inicial,Pack de départ
+wc_247,Stay,,,Stay,Quedarse,Rester
+wc_248,Stop / return,,,Stop / return,Detener / retirar,Arrêter / rappeler
+wc_249,"Subtle diagonal shading, visible at close zoom. Ownership colours remain clear.",,,"Subtle diagonal shading, visible at close zoom. Ownership colours remain clear.",Sombreado diagonal sutil al ampliar. Los colores de propiedad siguen claros.,Hachures diagonales discrètes à fort zoom. Les couleurs de propriété restent lisibles.
+wc_250,Synchronising the new round...,,,Synchronising the new round...,Sincronizando la nueva ronda...,Synchronisation de la nouvelle manche...
+wc_251,TERRITORY,,,TERRITORY,TERRITORIO,TERRITOIRE
+wc_252,TERRITORY / TOP 10,,,TERRITORY / TOP 10,TERRITORIO / TOP 10,TERRITOIRE / TOP 10
+wc_253,TROOPS,,,TROOPS,TROPAS,TROUPES
+wc_254,Territory,,,Territory,Territorio,Territoire
+wc_255,Text chat is unavailable or restricted by Roblox account permissions.,,,Text chat is unavailable or restricted by Roblox account permissions.,El chat no está disponible o está restringido por los permisos de Roblox.,Le chat est indisponible ou restreint par les permissions du compte Roblox.
+wc_256,The WorldConquest General profile badge.,,,The WorldConquest General profile badge.,La insignia de perfil de WorldConquest General.,L’insigne de profil de WorldConquest General.
+wc_257,The national flag of Japan.,,,The national flag of Japan.,La bandera nacional de Japón.,Le drapeau national du Japon.
+wc_258,The national tricolour of France.,,,The national tricolour of France.,La bandera tricolor nacional de Francia.,Le drapeau tricolore national de la France.
+wc_259,The permanent Starter Pack profile badge.,,,The permanent Starter Pack profile badge.,La insignia de perfil permanente del paquete inicial.,L’insigne de profil permanent du pack de départ.
+wc_260,Three original cosmetics. One purchase. No combat advantage.,,,Three original cosmetics. One purchase. No combat advantage.,Tres cosméticos originales. Una compra. Sin ventaja en combate.,Trois cosmétiques originaux. Un achat. Aucun avantage au combat.
+wc_261,Today's reward is already claimed.,,,Today's reward is already claimed.,Ya has reclamado la recompensa de hoy.,La récompense du jour a déjà été récupérée.
+wc_262,Toggle microphone,,,Toggle microphone,Activar o silenciar micrófono,Activer ou couper le microphone
+wc_263,Trains trade with connected cities/ports; 110-cell range,,,Trains trade with connected cities/ports; 110-cell range,Trenes comerciales entre ciudades y puertos conectados; alcance de 110 celdas,Commerce ferroviaire entre villes et ports reliés ; portée de 110 cases
+wc_264,Transport Ship,,,Transport Ship,Transporte naval,Navire de transport
+wc_265,Tutorial,,,Tutorial,Tutorial,Tutoriel
+wc_266,Under construction,,,Under construction,En construcción,En construction
+wc_267,Unequip,,,Unequip,Desequipar,Retirer
+wc_268,Unlocked,,,Unlocked,Desbloqueado,Débloqué
+wc_269,Unmute voice,,,Unmute voice,Activar voz,Rétablir la voix
+wc_270,Unstoppable,,,Unstoppable,Imparable,Inarrêtable
+wc_271,Upgrade,,,Upgrade,Mejorar,Améliorer
+wc_272,Upgrade: current shop price for one level,,,Upgrade: current shop price for one level,Mejorar: precio actual por nivel,Améliorer : prix actuel par niveau
+wc_273,Use Roblox username,,,Use Roblox username,Usar nombre de Roblox,Utiliser le nom Roblox
+wc_274,Use Roblox's chat button to send messages. Native filtering and mute commands apply.,,,Use Roblox's chat button to send messages. Native filtering and mute commands apply.,Usa el botón de chat de Roblox para enviar mensajes. Se aplican filtros y comandos de silencio nativos.,Utilisez le bouton de chat Roblox. Le filtrage et les commandes de silence natifs s’appliquent.
+wc_275,VICTORY,,,VICTORY,VICTORIA,VICTOIRE
+wc_276,Veteran,,,Veteran,Veterano,Vétéran
+wc_277,Voice requires Roblox eligibility and experience communication settings,,,Voice requires Roblox eligibility and experience communication settings,La voz requiere permiso de Roblox y ajustes de comunicación de la experiencia,La voix nécessite l’admissibilité Roblox et les paramètres de communication de l’expérience
+wc_278,Voice unavailable,,,Voice unavailable,Voz no disponible,Voix indisponible
+wc_279,Voice unavailable for this account or session,,,Voice unavailable for this account or session,Voz no disponible para esta cuenta o sesión,Voix indisponible pour ce compte ou cette session
+wc_280,WORLDCONQUEST GENERAL • Permanent pass,,,WORLDCONQUEST GENERAL • Permanent pass,WORLDCONQUEST GENERAL • Pase permanente,WORLDCONQUEST GENERAL • Pass permanent
+wc_281,Waiting for players...,,,Waiting for players...,Esperando jugadores...,En attente de joueurs...
+wc_282,Warship,,,Warship,Buque de guerra,Navire de guerre
+wc_283,"When the map is ready, choose unoccupied land during the countdown. Tap again to move your spawn. No choice? The server assigns one.",,,"When the map is ready, choose unoccupied land during the countdown. Tap again to move your spawn. No choice? The server assigns one.","Cuando el mapa esté listo, elige terreno libre durante la cuenta atrás. Toca de nuevo para cambiar tu inicio. Si no eliges, el servidor lo asigna.","Quand la carte est prête, choisissez une terre libre pendant le compte à rebours. Touchez à nouveau pour déplacer votre départ. Sans choix, le serveur vous en attribue un."
+wc_284,Wins,,,Wins,Victorias,Victoires
+wc_285,World Dominator,,,World Dominator,Dominador mundial,Dominateur mondial
+wc_286,Zoom in,,,Zoom in,Acercar,Zoom avant
+wc_287,Zoom out,,,Zoom out,Alejar,Zoom arrière
+wc_288,unavailable,,,unavailable,no disponible,indisponible

@@ -1,0 +1,109 @@
+WorldConquest — unofficial Roblox adaptation, modified 2026-11-20.
+Copyright OpenFront and Contributors.
+Upstream: https://github.com/openfrontio/OpenFrontIO
+Revision: 8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94
+
+Random32, MinHeap, DetMath, grid bit semantics, execution scheduling, recruitment,
+neutral and human-combat AttackExecution/RetreatExecution, SpawnExecution, simpleHash, spawn-footprint logic,
+and EngineConfig combat formulas/adjacent remnant conquest are
+adapted from the pinned upstream source into Luau. See module headers and
+docs/OPENFRONT_SOURCE_INDEX.md. The combined adaptation is distributed under
+the upstream AGPL v3 licence and additional terms preserved in LICENSE.
+No official endorsement or affiliation is claimed.
+
+Natural Earth 1:10m land and lakes 5.1.2 are public domain. See data/README.md
+and the source/hash manifests. OpenFront proprietary assets are not included.
+
+For public network use, provide players a working, prominent offer for the complete
+corresponding source of the deployed version, including modified server code and
+build/data generation scripts. Config.SourceURL points to the owner's intended
+public repository: https://github.com/gbsk001/WorldConquest . Upload and public
+availability verification remain owner-controlled release steps; a configured
+address alone is not an available source distribution. Preserve visible upstream
+copyright and the unofficial WorldConquest name. See LICENSE and docs/SOURCE_RELEASE.md.
+
+Modified 2026-11-24, Stages 12-13: original Roblox Unicode name-filter adapter,
+native communications integration, localisation, persistent progression/records,
+repairable leaderboard indexing, cosmetics and verified party transfer adapters.
+The corresponding-source package includes the modified server/client sources,
+asset sources, tests and build instructions. No credentials or player data are
+part of this distribution. No additional upstream proprietary assets were imported.
+
+Modified 2026-11-18: PlayerExecution encirclement, sovereign ranking, diagonal
+pinch and hole/connectivity passes translated to Connectivity.luau. Shared
+TileTraversalScratch adapted to sparse packed pages; source scheduling retained.
+NOAA NCEI ETOPO 2022 v1 60 arc-second ice-surface elevation: CC0-1.0,
+DOI 10.25921/fd45-gt74. Sampled/classified for this grid; see
+data/elevation-manifest.json for provenance and explicit classification differences.
+
+Modified 2026-11-18, Stage 4: starting/passive gold rules, PlayerImpl accounting,
+GameImpl capture loot and donation accounting translated into Economy.luau;
+Format.ts compact money rendering adapted; exact decimal Gold storage and
+server-only idempotent transactions added for Roblox. See docs/STAGE4_IMPLEMENTATION.md.
+
+Modified 2026-11-18, Stage 5: EngineConfig building costs, PlayerImpl placement/
+counts/upgrade rules, ConstructionExecution, UpgradeStructureExecution,
+DeleteUnitExecution and UnitImpl ownership lifecycle translated to BuildingRules
+and Buildings. Original AStar/BucketQueue, RailNetworkImpl, RailroadSpatialGrid,
+TrainStation, City/Factory station creation, Port rail activation and train
+executions translated to RailPath, RailRules and Rail. Roblox UI/packed transport
+adapters added. Original copyright, AGPL-3.0 and additional terms remain intact.
+No proprietary artwork was copied. See docs/STAGE5_IMPLEMENTATION.md and
+tests/stage5 source hashes for exact source mapping and deviations.
+
+Modified 2026-11-18, Stage 6: TransportShipExecution, WarshipExecution,
+ShellExecution, TradeShipExecution, PortExecution, boat retreat and warship move,
+SpatialQuery, water A*, shoreline/path stepping and naval EngineConfig/UnitImpl
+rules translated to Naval, Warship, ShoreQuery, WaterPath and NavalRules.
+Source-tile AttackExecution enabled. Roblox authoritative ship replication,
+controls and original text-glyph icons added. Full-resolution A* replaces the
+upstream HPA/minimap routing pipeline; this difference is documented, not claimed
+as exact upstream route parity. AGPL-3.0 and upstream additional terms preserved.
+See docs/STAGE6_IMPLEMENTATION.md and tests/stage6/source-hashes.json.
+
+Modified 2026-11-20, Stage 7: packed connectivity scans, frontier read reductions,
+rail reachability prechecks preserving accepted routes, copy-on-write snapshots,
+bounded join/recovery buffers, ordered disconnect release, profiling and Roblox
+client rendering optimisations. No Stage 8 gameplay was added. Copyright,
+AGPL-3.0 and additional upstream terms remain unchanged. See
+docs/STAGE7_IMPLEMENTATION.md and tests/stage7/source-hashes.json.
+
+Modified 2026-11-20, Stage 8 and technical acceptance: Nuke/MIRV/SAM/silo
+executions, deterministic Bezier flight, fallout/casualties, normal FFA/team
+victory and train-carriage impact integration translated from the same pinned
+revision. Roblox results/restart, round isolation, text-glyph controls and pooled
+missile animations added. Blast geometry reuse, terrain windows, ordered bulk
+loss, packed state deltas and exact uniform-state transport encoding preserve
+simulation rules. No proprietary visual/audio assets imported. Copyright,
+AGPL-3.0 and additional terms remain unchanged. See docs/STAGE8_IMPLEMENTATION.md,
+docs/FINAL_TECHNICAL_ACCEPTANCE.md and tests/stage8/source-hashes.json.
+
+Modified 2026-11-20, Stage 9: selected NationExecution, AiAttackBehavior,
+NationAttackBehavior, NationStructureBehavior and NationNukePlanning algorithms
+translated/adapted from the same pinned OpenFront revision. Added deterministic
+bounded server AI scheduling, fair-resource bot controllers and solo admission.
+Bounded terrain caching and private bot-stat omission reduce server work without
+changing terrain bytes or simulation formulas. Complete upstream nation AI is
+not ported; see docs/STAGE9_IMPLEMENTATION.md and tests/stage9/source-hashes.json.
+AGPL-3.0, additional terms and original copyrights remain unchanged.
+
+Modified 2026-11-20, Stage 10: original Roblox main menu, public/private lobby,
+MemoryStore admission and discovery, reserved-server routing, native friends
+and invitations, settings/tutorial and authoritative gameplay-session bridge.
+Exactly two match types; existing OpenFront simulation formulas remain.
+No third-party visual/audio assets added. AGPL-3.0, additional terms and
+original copyrights remain unchanged. See docs/STAGE10_IMPLEMENTATION.md.
+
+Modified 2026-11-21: original presentation polish, transparent territory labels,
+bounded owned-cell label anchors and deterministic cosmetic bot usernames.
+No gameplay formula changes or new third-party assets. Existing AGPL-3.0,
+additional terms and copyrights remain. See docs/GUI_POLISH_ACCEPTANCE.md.
+
+Modified 2026-11-23: original runtime menu/lobby composition, line iconography,
+decorative Earth silhouette from the bundled map, lobby-to-match bot identities,
+compact gameplay cards and supported CoreGui suppression. No new external assets.
+Existing OpenFront copyrights, AGPL-3.0 and additional terms remain unchanged.
+
+Modified 2026-11-23: original generated abstract participant profile icons,
+unified participant labels and general match-level AI disclosure. Server AI
+identification and behaviour unchanged. All existing licence notices retained.

@@ -1,0 +1,9 @@
+All project Luau scripts compile.
+Spawn, single-cell starts, entire frontier, deterministic waves, capacity, release and island isolation passed.
+1184 screen/map/marker round trips; exact square ownership passed.
+Server checks passed: exact spawn points, deadline, simultaneous start, expansion deltas, conflicts, late join, cleanup, reset.
+Tile scheduler passed: one-pixel uploads, concurrent dirty changes, cancelled-job recovery.
+100 players / 1000 ticks / 256000 added cells: mean 1.064ms, p95 1.638ms, max 6.118ms
+256100 exact ownership cells inserted in 0.047s
+LOD0 new 26.73ms / repaint 0.07ms; LOD1 new 49.47ms / repaint 0.07ms; LOD2 new 22.10ms / repaint 0.06ms; LOD3 new 20.10ms / repaint 0.06ms; LOD4 new 22.40ms / repaint 0.06ms; LOD5 new 17.14ms / repaint 0.05ms
+Performance samples are local Luau CPU timings, excluding Roblox networking, GPU and device variability.
