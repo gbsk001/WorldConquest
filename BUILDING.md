@@ -60,7 +60,7 @@ the optional CLI test tools. Test-service stubs are not live Roblox acceptance.
 
 ## Deployment configuration
 
-Keep `CommerceConfig.luau` paid IDs at zero until configured and accepted. Studio
+Keep `CommerceConfig.luau` `EnablePaidPurchasePrompts=false` and `PurchaseTestUserIDs={}` until controlled live acceptance. All six IDs are configured; see `docs/MONETISATION_ACCEPTANCE.md`. Studio
 uses temporary progression deliberately. Review `docs/STAGE12_13_ACCEPTANCE.md`,
 `docs/MOBILE_ACCEPTANCE.md` and `docs/SOURCE_RELEASE.md` before updating the existing
 experience. Building or testing does not publish anything.

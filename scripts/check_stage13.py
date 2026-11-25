@@ -8,6 +8,7 @@ def module(name,p,replacements=()):
  for a,b in replacements:s=s.replace(a,b)
  return '\nlocal '+name+'=(function()\n'+s+'\nend)()\n'
 h=''
+h+=module('ProductionCommerceConfig','src/server/CommerceConfig.luau')
 h+=module('Catalog','src/shared/ProgressionCatalog.luau')
 h+=module('Rules','src/server/ProgressionRules.luau',[('local Catalog=require(game:GetService("ReplicatedStorage").Shared.ProgressionCatalog)','local Catalog=Catalog')])
 h+=module('ProfileStore','src/server/ProfileStore.luau',[('local Rules=require(script.Parent.ProgressionRules)','local Rules=Rules')])

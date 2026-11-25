@@ -103,6 +103,17 @@ Strings.Rows={
  {"PARTY • Queue together • Up to six friends","GRUPO • Entrad juntos • Hasta seis amigos","GROUPE • Jouez ensemble • Jusqu’à six amis"},
 }
 local more={
+ {"Finish the current Roblox purchase prompt first.","Termina primero la compra actual en Roblox.","Terminez d’abord l’achat Roblox en cours."},
+ {"Roblox updated this price. Review it and select Purchase again.","Roblox ha actualizado el precio. Revísalo y vuelve a seleccionar Comprar.","Roblox a actualisé le prix. Vérifiez-le puis sélectionnez à nouveau Acheter."},
+ {"Purchase cancelled.","Compra cancelada.","Achat annulé."},
+ {"Waiting for Roblox verification and a successful save…","Esperando la verificación de Roblox y el guardado…","En attente de vérification Roblox et d’enregistrement…"},
+ {"Purchase status is pending. Rejoin if your saved balance has not updated.","Compra pendiente. Vuelve a entrar si tu saldo guardado no se actualiza.","Achat en attente. Reconnectez-vous si le solde enregistré n’a pas été actualisé."},
+ {"Purchase saving is pending. Rejoin to retry; no purchase confirmation has been issued.","Guardado de compra pendiente. Vuelve a entrar para reintentarlo; aún no se ha confirmado la compra.","Enregistrement de l’achat en attente. Reconnectez-vous pour réessayer ; aucun achat n’a été confirmé."},
+ {"Ownership checked; no purchased passes found.","Propiedad comprobada; no se encontraron pases comprados.","Vérification terminée ; aucun pass acheté trouvé."},
+ {"Permanent ownership checked. Saved rewards are in Inventory.","Propiedad permanente verificada. Las recompensas guardadas están en Inventario.","Acquisition permanente vérifiée. Les récompenses enregistrées sont dans l’inventaire."},
+ {"Ownership verification or saving is unavailable. Use Refresh verified ownership to retry.","No se puede verificar o guardar la compra. Usa Actualizar compras verificadas para reintentarlo.","Vérification ou enregistrement indisponible. Utilisez Actualiser les achats vérifiés pour réessayer."},
+ {"Paid offers are not enabled in this environment.","Las compras de pago no están activadas en este entorno.","Les achats payants ne sont pas activés dans cet environnement."},
+ {"Roblox could not open this purchase. No items were granted.","Roblox no pudo abrir esta compra. No se concedieron objetos.","Roblox n’a pas pu ouvrir cet achat. Aucun objet attribué."},
  {"LEADER","LÍDER","CHEF"},{"Party invitation","Invitación de grupo","Invitation de groupe"},{"Loading…","Cargando…","Chargement…"},{"Stars…","Estrellas…","Étoiles…"},
  {"TROOPS","TROPAS","TROUPES"},{"RECRUIT","RECLUTAS","RECRUES"},{"GOLD","ORO","OR"},{"INCOME","INGRESOS","REVENUS"},{"LAND","TERRITORIO","TERRITOIRE"},{"RANK","RANGO","RANG"},
  {"SOLDIERS","SOLDADOS","SOLDATS"},{"RECRUITMENT","RECLUTAMIENTO","RECRUTEMENT"},{"TERRITORY","TERRITORIO","TERRITOIRE"},
@@ -170,6 +181,10 @@ local lookup={};for _,row in ipairs(Strings.Rows)do lookup[row[1]]=row end
 function Strings.translate(source,locale)
  local code=string.sub(string.lower(locale or "en"),1,2);local index=if code=="es"then 2 elseif code=="fr"then 3 else 1
  local row=lookup[source];if row then return row[index],true end
+ local stars,price=source:match("^Buy (%d+) Stars • (%d+) Robux$")
+ if stars then return (if index==2 then "Comprar "elseif index==3 then "Acheter "else "Buy ")..stars..(if index==2 then " estrellas • "elseif index==3 then " étoiles • "else " Stars • ")..price.." Robux",true end
+ stars=source:match("^Purchase verified: (%d+) Stars saved%.$")
+ if stars then return (if index==2 then "Compra verificada: "elseif index==3 then "Achat vérifié : "else "Purchase verified: ")..stars..(if index==2 then " estrellas guardadas."elseif index==3 then " étoiles enregistrées."else " Stars saved."),true end
  -- Composed UI templates retain numeric costs and identifiers exactly.
  local a,b=source:match("^(.-)\n(.*)$");if a then local x,k=Strings.translate(a,locale);local y,j=Strings.translate(b,locale);return x.."\n"..y,k or j end
  a,b=source:match("^(.-)  %$(.*)$");if a and lookup[a]then return lookup[a][index].."  $"..b,true end

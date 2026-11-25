@@ -15,11 +15,19 @@ function Server.new(session)
  local rankings=LeaderboardStore.new(Data,Config.DataStoreName,store)
  local remote=Instance.new("RemoteEvent");remote.Name="WorldConquestProgression";remote.Parent=RS
  local limits={};local offers={};local boards={};local observed={};local matchID=nil;local matchAt=0;local done=false
- local function send(p,message)
+ local verifying={}
+ local products={}
+ for _,product in ipairs(Config.StarsProducts)do
+  assert(type(product.ID)=="number"and product.ID>0 and product.ID%1==0 and not products[product.ID],"Invalid or duplicate Stars product")
+  assert(type(product.Stars)=="number"and product.Stars>0 and product.Stars%1==0,"Invalid Stars quantity")
+  products[product.ID]=product.Stars
+ end
+ local function promptsEnabled(p)return not studio and (Config.EnablePaidPurchasePrompts==true or table.find(Config.PurchaseTestUserIDs or {},p.UserId)~=nil)end
+ local function send(p,message,confirmedProduct)
   if p.Parent~=Players then return end
   local profile=store.Cache[p.UserId];local featured,refresh=Catalog.featured(os.time())
   local projected=if profile then {Version=profile.Version,Revision=profile.Revision,Stars=profile.Stars,Owned=profile.Owned,Equipped=profile.Equipped,Achievements=profile.Achievements,Daily=profile.Daily,Stats=profile.Stats,Entitlements=profile.Entitlements}else nil
-  remote:FireClient(p,{Profile=projected,Message=message,Temporary=studio,Offers=offers,Now=os.time(),Featured=featured,RefreshAt=refresh})
+  remote:FireClient(p,{Profile=projected,Message=message,ConfirmedProduct=confirmedProduct,Temporary=studio,PurchasesEnabled=promptsEnabled(p),Offers=if promptsEnabled(p)then offers else {},Now=os.time(),Featured=featured,RefreshAt=refresh})
  end
  local function saved(p,action,data)
   local profile,message=store.transact(p.UserId,action,data)
@@ -27,33 +35,55 @@ function Server.new(session)
   send(p,message);return profile
  end
  local function passes(p)
-  if studio then return end
-  for _,o in ipairs({{Key="Starter",ID=Config.StarterPassID,Items={"missile_founder","flag_founder","badge_founder"}},{Key="General",ID=Config.GeneralPassID,Items={"flag_general","badge_general"}}})do
+  if studio then return "Roblox ownership verification requires a live session; Studio progression is temporary."end
+  if verifying[p]then return "Ownership verification is already in progress."end
+  if p.Parent~=Players or not store.Cache[p.UserId]then return "Load your profile before verifying ownership."end
+  verifying[p]=true;local unavailable=false;local ownedCount=0
+  for _,o in ipairs({{Key="Starter",ID=Config.StarterPassID,Items=Catalog.PassItems.Starter},{Key="General",ID=Config.GeneralPassID,Items=Catalog.PassItems.General}})do
    if o.ID>0 then
     local ok,ownership=pcall(function()return Market:GetPassOwnershipAsync(p,o.ID)end)
     -- Temporary trials must never turn into permanent inventory grants.
-    if ok and ownership.Owned==true and not (store.Cache[p.UserId]and store.Cache[p.UserId].Entitlements[o.Key])then saved(p,"Entitlement",o)end
+    if not ok or type(ownership)~="table"or type(ownership.Owned)~="boolean"then unavailable=true
+    elseif ownership.Owned and p.Parent==Players and not (store.Cache[p.UserId]and store.Cache[p.UserId].Entitlements[o.Key])then
+     local result=saved(p,"Entitlement",o);if not result or not result.Entitlements[o.Key]then unavailable=true end
+    end
+    if ok and type(ownership)=="table"and ownership.Owned==true then ownedCount+=1 end
    end
   end
+  verifying[p]=nil
+  return if unavailable then "Ownership verification or saving is unavailable. Use Refresh verified ownership to retry."elseif ownedCount>0 then "Permanent ownership checked. Saved rewards are in Inventory."else "Ownership checked; no purchased passes found."
  end
  task.spawn(function()
-  for _,o in ipairs({{Key="Starter",ID=Config.StarterPassID},{Key="General",ID=Config.GeneralPassID},{Key="Stars",ID=if Config.EnableStarsProduct then Config.StarsProductID else 0}})do
-   if o.ID>0 then local ok,info=pcall(Market.GetProductInfoAsync,Market,o.ID,if o.Key=="Stars"then Enum.InfoType.Product else Enum.InfoType.GamePass)
-    local supported=o.Key=="Stars"or pcall(function()assert(Market.GetPassOwnershipAsync)end)
-    if ok and supported and info.IsForSale and type(info.PriceInRobux)=="number"then offers[o.Key]={ID=o.ID,Kind=if o.Key=="Stars"then "Product"else "Pass"}end
+  if studio or (Config.EnablePaidPurchasePrompts~=true and #(Config.PurchaseTestUserIDs or {})==0)then return end
+  local definitions={{Key="Starter",ID=Config.StarterPassID,Kind="Pass"},{Key="General",ID=Config.GeneralPassID,Kind="Pass"}}
+  for _,item in ipairs(Config.StarsProducts)do table.insert(definitions,{Key="Stars"..item.Stars,ID=item.ID,Kind="Product",Stars=item.Stars})end
+  for _,o in ipairs(definitions)do
+   if o.ID>0 then local ok,info=pcall(Market.GetProductInfoAsync,Market,o.ID,if o.Kind=="Product"then Enum.InfoType.Product else Enum.InfoType.GamePass)
+    local supported=o.Kind=="Product"or pcall(function()assert(Market.GetPassOwnershipAsync)end)
+    if ok and supported and type(info)=="table"and info.IsForSale then offers[o.Key]={ID=o.ID,Kind=o.Kind,Stars=o.Stars}end
    end
   end
   for _,p in ipairs(Players:GetPlayers())do send(p)end
  end)
  Market.ProcessReceipt=function(receipt)
-  if studio or not Config.EnableStarsProduct or Config.StarsProductID<=0 or receipt.ProductId~=Config.StarsProductID then return Enum.ProductPurchaseDecision.NotProcessedYet end
+  if studio or type(receipt)~="table"or type(receipt.PlayerId)~="number"or receipt.PlayerId<=0 or receipt.PlayerId%1~=0 or type(receipt.PurchaseId)~="string"or #receipt.PurchaseId==0 or #receipt.PurchaseId>200 then return Enum.ProductPurchaseDecision.NotProcessedYet end
+  local amount=products[receipt.ProductId];if not amount then return Enum.ProductPurchaseDecision.NotProcessedYet end
   local p=Players:GetPlayerByUserId(receipt.PlayerId);if not p then return Enum.ProductPurchaseDecision.NotProcessedYet end
-  local result=store.transact(p.UserId,"Receipt",{ID=tostring(receipt.PurchaseId),Stars=Config.StarsPerPurchase})
-  if result and result.Receipts[tostring(receipt.PurchaseId)]then send(p,"Purchase saved.");return Enum.ProductPurchaseDecision.PurchaseGranted end
+  -- Disabling new prompts must never discard receipts from earlier/off-platform sales.
+  -- Currency and receipt ID commit together in the SAME atomic profile UpdateAsync.
+  local result
+  for attempt=1,3 do
+   result=store.transact(p.UserId,"Receipt",{ID=receipt.PurchaseId,Stars=amount})
+   if result then break end
+   if attempt<3 then task.wait(attempt)end
+  end
+  if result and result.Receipts[receipt.PurchaseId]then send(p,"Purchase verified: "..amount.." Stars saved.",receipt.ProductId);return Enum.ProductPurchaseDecision.PurchaseGranted end
+  send(p,"Purchase saving is pending. Rejoin to retry; no purchase confirmation has been issued.")
   return Enum.ProductPurchaseDecision.NotProcessedYet
  end
- Market.PromptGamePassPurchaseFinished:Connect(function(p,id)
-  if id==Config.StarterPassID or id==Config.GeneralPassID then task.spawn(passes,p)end
+ Market.PromptGamePassPurchaseFinished:Connect(function(p,id,wasPurchased)
+  -- A signal (including a free-trial signal) is not proof of permanent ownership.
+  if wasPurchased==true and (id==Config.StarterPassID or id==Config.GeneralPassID)then task.spawn(function()send(p,passes(p))end)end
  end)
  local function board(p,metric)
   if not table.find(Catalog.Metrics,metric)then return end
@@ -81,7 +111,7 @@ function Server.new(session)
   local ok=pcall(function()
    if action=="Hello"then if not store.Cache[p.UserId]then saved(p,nil,nil)else send(p)end
    elseif action=="Board"then board(p,data)
-   elseif action=="RefreshPurchases"then passes(p);send(p)
+   elseif action=="RefreshPurchases"then send(p,passes(p))
    elseif action=="Buy"or action=="Equip"or action=="Unequip"or action=="Daily"then
     if not store.Cache[p.UserId]then send(p,"Load your profile before making changes.");return end
     if session.Allowed[p]and (action=="Equip"or action=="Unequip")then send(p,"Equip cosmetics from the main menu between matches.");return end

@@ -1,5 +1,10 @@
 # Stage 12–13 completion work and acceptance candidate
 
+**Monetisation follow-up:** [six-product integration](MONETISATION_ACCEPTANCE.md)
+supersedes the zero IDs, suggested prices and single Stars-product configuration
+below. Both passes and four Stars packs are now configured; purchase prompts remain
+disabled. The historical implementation details remain for reference.
+
 24 November 2026. This report supersedes `STAGE13_ACCEPTANCE.md` for current status.
 **Source-upload follow-up:** the owner subsequently authorized upload to
 `gbsk001/WorldConquest`. The source-hosting blocker for this candidate is cleared;

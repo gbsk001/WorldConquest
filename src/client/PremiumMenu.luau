@@ -10,6 +10,8 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
  local player=Players.LocalPlayer;local profile=nil;local offers={};local party={Members={}};local rows={};local metric="Wins"
  local remote=nil;local partyRemote=nil;local identityRemote=nil;local nationName=nil;local active="Home";local category="All";local inventory=false;local priceCache={}
  local temporary=false;local serverAt=0;local receivedAt=0;local featured=nil;local refreshAt=0;local invitationRequested=false
+ local purchasesEnabled=false;local offerGeneration=0
+ local pendingPurchase=nil
  local gold=Color3.fromRGB(223,188,111);local white=Color3.fromRGB(235,241,250)
  local function now()return serverAt+os.clock()-receivedAt end
  local function send(action,data)
@@ -38,11 +40,32 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
  end
  local function product(key)
   local offer=offers[key]
-  if not offer or temporary then message.Text="Paid offers are not enabled in this environment.";return end
+  if not purchasesEnabled or not offer or temporary then message.Text="Paid offers are not enabled in this environment.";return end
+  if pendingPurchase then message.Text="Finish the current Roblox purchase prompt first.";return end
+  local pending={ID=offer.ID,Key=key,Kind=offer.Kind,Confirmed=false};pendingPurchase=pending
   local ok=pcall(function()
+   -- Fetch the player's current Managed Price again immediately before prompting.
+   local info=Market:GetProductInfoAsync(offer.ID,if offer.Kind=="Product"then Enum.InfoType.Product else Enum.InfoType.GamePass)
+   if not purchasesEnabled or temporary or offers[key]~=offer then return end
+   if not info.IsForSale or type(info.PriceInRobux)~="number"then error("Offer unavailable")end
+   if info.PriceInRobux~=offer.Price then
+    offer.Price=info.PriceInRobux;repaint();message.Text="Roblox updated this price. Review it and select Purchase again.";return
+   end
+   pending.Opened=true
    if offer.Kind=="Product"then Market:PromptProductPurchase(player,offer.ID)else Market:PromptGamePassPurchase(player,offer.ID)end
-  end);if not ok then message.Text="Roblox could not open this purchase. No items were granted."end
+  end)
+  if not ok or not pending.Opened then if pendingPurchase==pending then pendingPurchase=nil end end
+  if not ok then message.Text="Roblox could not open this purchase. No items were granted."end
+  task.delay(60,function()if pendingPurchase==pending then pendingPurchase=nil;message.Text="Purchase status is pending. Rejoin if your saved balance has not updated."end end)
  end
+ local function promptClosed(id,kind,purchased)
+  local pending=pendingPurchase;if not pending or pending.ID~=id or pending.Kind~=kind then return end
+  pendingPurchase=nil
+  if not purchased then message.Text="Purchase cancelled."
+  elseif not pending.Confirmed then message.Text="Waiting for Roblox verification and a successful save…"end
+ end
+ if Market.PromptProductPurchaseFinished then Market.PromptProductPurchaseFinished:Connect(function(user,id,purchased)if user==player.UserId then promptClosed(id,"Product",purchased)end end)end
+ if Market.PromptGamePassPurchaseFinished then Market.PromptGamePassPurchaseFinished:Connect(function(who,id,purchased)if who==player then promptClosed(id,"Pass",purchased)end end)end
  local function itemCard(item,index,cols,y)
   local width=1/cols;local card=Instance.new("Frame");card.Name=item.ID;Theme.surface(card);card.Size=UDim2.new(width,-10,0,242);card.Position=UDim2.new(((index-1)%cols)*width,0,0,y+math.floor((index-1)/cols)*254);card.Parent=content
   local preview=Cosmetic.preview(card,item,58);preview.Position=UDim2.fromOffset(16,16)
@@ -98,7 +121,12 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
     if show then count+=1;itemCard(item,count,cardCols,y)end
    end
    content.CanvasSize=UDim2.fromOffset(0,y+math.ceil(count/cardCols)*254)
-   if offers.Stars then local b=button(content,"Get Stars • "..offers.Stars.Price.." Robux",function()product("Stars")end,UDim2.fromOffset(0,content.CanvasSize.Y.Offset),UDim2.new(1,-8,0,48));content.CanvasSize+=UDim2.fromOffset(0,56)end
+   local packs={};for key,offer in pairs(offers)do if offer.Kind=="Product"and offer.Stars then table.insert(packs,{Key=key,Offer=offer})end end
+   table.sort(packs,function(a,b)return a.Offer.Stars<b.Offer.Stars end)
+   for _,pack in ipairs(packs)do
+    button(content,"Buy "..pack.Offer.Stars.." Stars • "..pack.Offer.Price.." Robux",function()product(pack.Key)end,UDim2.fromOffset(0,content.CanvasSize.Y.Offset),UDim2.new(1,-8,0,48))
+    content.CanvasSize=UDim2.fromOffset(0,content.CanvasSize.Y.Offset+56)
+   end
    return true
   elseif page=="Daily"then
    text("DAILY REWARDS • A new day begins at 00:00 UTC",48)
@@ -110,14 +138,14 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
   elseif page=="Starter"or page=="General"then
    local starter=page=="Starter";text(if starter then "STARTER PACK • Permanent ownership"else "WORLDCONQUEST GENERAL • Permanent pass",48)
    text(if starter then "Three original cosmetics. One purchase. No combat advantage."else "Exclusive General badge and nation flag. A one-time purchase, not a recurring subscription.",64)
-   local ids=if starter then {"missile_founder","flag_founder","badge_founder"}else {"flag_general","badge_general"}
+   local ids=Catalog.PassItems[page]
    for _,id in ipairs(ids)do
     local card=Instance.new("Frame");Theme.surface(card);card.Size=UDim2.new(1,-8,0,90);card.LayoutOrder=#content:GetChildren();card.Parent=content
     local preview=Cosmetic.preview(card,Catalog.ByID[id],48);preview.Position=UDim2.fromOffset(16,14)
     label(card,Catalog.ByID[id].Name,UDim2.fromOffset(84,12),UDim2.new(1,-100,0,56),18,gold)
    end
    local owned=profile and profile.Entitlements[page];local offer=offers[page]
-   if owned then text("OWNED • Find your items in Inventory.")elseif offer and not temporary then action("Purchase • "..offer.Price.." Robux",function()product(page)end,true)else text("Not currently on sale. No purchase is available.",48)end
+   if owned then text("OWNED • Find your items in Inventory.")elseif purchasesEnabled and offer and not temporary then action("Purchase • "..offer.Price.." Robux",function()product(page)end,true)else text("Not currently on sale. No purchase is available.",48)end
    action("Refresh verified ownership",function()send("RefreshPurchases")end);action("Not Now",function()go("Home")end);return true
   elseif page=="Profile"then
    local avatar=Instance.new("ImageLabel");avatar.Size=UDim2.fromOffset(70,70);avatar.BackgroundTransparency=1;avatar.Image="rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=150&h=150";avatar.LayoutOrder=#content:GetChildren();avatar.Parent=content
@@ -173,21 +201,22 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
   if not remote then message.Text="Progression unavailable. Matchmaking remains available.";return end
   remote.OnClientEvent:Connect(function(data)
    if data.Board then metric=data.Board;rows=data.Rows or {}else
-    if data.Profile then profile=data.Profile end;temporary=data.Temporary==true
+    if data.Profile then profile=data.Profile end;temporary=data.Temporary==true;purchasesEnabled=data.PurchasesEnabled==true and not temporary
     if data.Offers then
-     offers={}
-     for key,offer in pairs(data.Offers)do
+     offerGeneration+=1;local generation=offerGeneration;offers={}
+     for key,offer in pairs(if purchasesEnabled then data.Offers else {})do
       local cached=priceCache[offer.ID]
       if cached and cached.At>os.clock()-300 then offers[key]=cached.Value
       else task.spawn(function()
        local ok,info=pcall(function()return Market:GetProductInfoAsync(offer.ID,if offer.Kind=="Product"then Enum.InfoType.Product else Enum.InfoType.GamePass)end)
-       if ok and info.IsForSale and type(info.PriceInRobux)=="number"then
-        local priced={ID=offer.ID,Kind=offer.Kind,Price=info.PriceInRobux};priceCache[offer.ID]={Value=priced,At=os.clock()};offers[key]=priced;repaint()
+       if generation==offerGeneration and purchasesEnabled and ok and type(info)=="table"and info.IsForSale and type(info.PriceInRobux)=="number"then
+        local priced={ID=offer.ID,Kind=offer.Kind,Stars=offer.Stars,Price=info.PriceInRobux};priceCache[offer.ID]={Value=priced,At=os.clock()};offers[key]=priced;repaint()
        end
       end)end
      end
     end
     serverAt=data.Now or serverAt;receivedAt=os.clock();featured=data.Featured or featured;refreshAt=data.RefreshAt or refreshAt
+    if pendingPurchase and (data.ConfirmedProduct==pendingPurchase.ID or pendingPurchase.Kind=="Pass"and data.Profile and data.Profile.Entitlements[pendingPurchase.Key])then pendingPurchase.Confirmed=true end
     if data.Message then message.Text=data.Message end
    end;repaint()
   end);send("Hello")

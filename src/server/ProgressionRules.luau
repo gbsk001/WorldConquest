@@ -49,6 +49,9 @@ function Rules.apply(p,action,data,now)
   p.Entitlements[data.Key]=true;for _,id in ipairs(data.Items)do assert(Catalog.ByID[id]);p.Owned[id]=true end;credit(p,data.Stars or 0)
  elseif action=="Receipt"then
   if p.Receipts[data.ID]then return false,"Already granted."end
+  assert(type(data.Stars)=="number"and data.Stars>0 and data.Stars%1==0,"Invalid receipt amount")
+  -- Never acknowledge a purchase after silently truncating its paid quantity.
+  if p.Stars>1000000000-data.Stars then return false,"Stars balance limit reached; purchase remains pending."end
   local count=0;for _ in pairs(p.Receipts)do count+=1 end
   -- Do not prune purchase IDs: a late receipt retry must never grant twice.
   assert(count<8000,"Receipt ledger requires migration; purchase deferred")

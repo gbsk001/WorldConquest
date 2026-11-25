@@ -1,7 +1,7 @@
 {
   "repository": "https://github.com/gbsk001/WorldConquest",
   "license": "AGPL-3.0 with preserved upstream Section 7 terms",
-  "artifact_sha256": "345c6c46848b4c852dc77ac03ecc1650564e41f8dd1fcb7fcb0ba11a573d5c07",
+  "artifact_sha256": "e3bfb501b89305594df04fc92dbaa13760a180bd2b342e068c04aac2c6968177",
   "files": {
     ".gitignore": {
       "sha256": "e38b490bb577ac040bbcd0d30ddd93f9f1b67ab34b419246de3a7d5f619ef2e7",
@@ -132,8 +132,8 @@
       "bytes": 254
     },
     "BUILDING.md": {
-      "sha256": "a08adbbab922115fc33adfc4da9969a4bf2aa202e61fe075f0bbf578b49805d8",
-      "bytes": 3769
+      "sha256": "83d5d6786cda7c98d22f4286c597359fb0393c88d602d5e36f8f0620af96d6bb",
+      "bytes": 3885
     },
     "data/earth-elevation-rle.bin": {
       "sha256": "4249fb0adaa414b4259eed719fabb298225100a708325b0239f153df9e6dc634",
@@ -152,8 +152,8 @@
       "bytes": 2488
     },
     "data/localisation.csv": {
-      "sha256": "c472c70d72cb8da0618a35bc1f3b0606bb56a12bf5bae2d7085f814fab223b3d",
-      "bytes": 40276
+      "sha256": "02720537c3a5cc5c4ae100694cd740e33d2e7a8b38a459903b7a88aa6897d346",
+      "bytes": 43192
     },
     "data/ne_10m_lakes.geojson": {
       "sha256": "2d036f53dedec578001c5c30c2959ee7d4eebc1306900fa4367c49929ec8f2d9",
@@ -215,6 +215,10 @@
       "sha256": "038e64b875d910743d159d27d9e9bb3207dc0d74297b788e2f277b0a8ddeb5f2",
       "bytes": 13365
     },
+    "docs/MONETISATION_ACCEPTANCE.md": {
+      "sha256": "f1cfba270ed18b66fde49f3448ed9923a20f9f27188281053c61cc7a69a7c175",
+      "bytes": 11203
+    },
     "docs/openfront-audit-manifest.json": {
       "sha256": "b3e8874266d903bcdb1ba6dd76bfd678929c9884dd7d7e944520f8d1a70b054f",
       "bytes": 69890
@@ -272,8 +276,8 @@
       "bytes": 14591
     },
     "docs/STAGE12_13_ACCEPTANCE.md": {
-      "sha256": "e08ef9da51a146fb582f3779d0233c1642adee0944dca132c7280bbf99f07314",
-      "bytes": 18293
+      "sha256": "6cd10c9083bc22bde872b5548a2ed0d46d2afd0ff29199d716cb41df486d40c1",
+      "bytes": 18616
     },
     "docs/STAGE13_ACCEPTANCE.md": {
       "sha256": "4b3bf4445f749f8b7a7cb49c5ec4d7aef8f074ef65e838f46a2cd1be1efcc44e",
@@ -344,8 +348,8 @@
       "bytes": 7329
     },
     "README.md": {
-      "sha256": "b4a34c3d3e9f7d779ceab452d75c4fa4db256744f2b724dab1bea3ac974731b9",
-      "bytes": 16236
+      "sha256": "f7848aba295e9f3ef22ac3e78743cd9c0a00b501f418ddd33e211242a82f0c0a",
+      "bytes": 16510
     },
     "scripts/benchmark_bots.py": {
       "sha256": "496f30380ee15bc57a614d6004856c831e6c8f933c93967e851abb445e7538a9",
@@ -436,8 +440,8 @@
       "bytes": 2020
     },
     "scripts/check_stage13.py": {
-      "sha256": "c67c08dd166cabfbed94fff8de388625ae0c9d9dc6c6c688595d176a254370fe",
-      "bytes": 5190
+      "sha256": "d4286ba796eeffcc33c729276fb146e3c2ffc69593006608d06c6f0c7faae67d",
+      "bytes": 5261
     },
     "scripts/check_stage2.py": {
       "sha256": "2492230bdcabb24ab0017fe3c7006f97c1d42efd94b985f95fcf1d1877f90430",
@@ -668,8 +672,8 @@
       "bytes": 1551
     },
     "scripts/premium_ui_checks.luau": {
-      "sha256": "2b3e473cb8688edbd9630a67aac1a555b62fa4682eab5487e035ce5e2996ede2",
-      "bytes": 3901
+      "sha256": "f29e43facbf5b819f1a759ef8a3c036330cbc0944afa70f5c1b50bea9c34eafa",
+      "bytes": 8601
     },
     "scripts/prepare_buildings_oracle.mjs": {
       "sha256": "4f36a392ea0501054b5dbf1b712b3dc8ec1682ca2b2e640f57681c22d5da4e8b",
@@ -704,12 +708,12 @@
       "bytes": 1348
     },
     "scripts/progression_checks.luau": {
-      "sha256": "1afcdad7509930523b35e270a3bec50ac31a7ccbac36b2d5210114e16c4c1651",
-      "bytes": 3273
+      "sha256": "bbfa05cfe3161785bfe54081b8e65bf81922837ea00cdb68cbd8ace51bc88f3d",
+      "bytes": 3899
     },
     "scripts/progression_server_checks.luau": {
-      "sha256": "faf4a434a0fcf1eb130e4a6dff900f37f791d7ed32072a7566f2c5500dab33c2",
-      "bytes": 5467
+      "sha256": "535795feaf5774aba809e15e4b511a1526b5a2557107e5b00eab581554ab8e1b",
+      "bytes": 13328
     },
     "scripts/rail_checks.luau": {
       "sha256": "f28c8bc097c9f040e932f4bc49b8d7ea92cd18beb7f49629a3bfb971c40de778",
@@ -936,8 +940,8 @@
       "bytes": 1202
     },
     "src/client/PremiumMenu.luau": {
-      "sha256": "e6a7b7f3a476e1b06d0a3efb958eccbdff29a86bff7ab6d4b243ad66edc418be",
-      "bytes": 18984
+      "sha256": "20f04779699ff4c59b85be2990d02b4df95de7ba713abaefc019bbac84926698",
+      "bytes": 21549
     },
     "src/client/SourceOffer.luau": {
       "sha256": "3111f54bd6d9d56b3c126abd439d87a9f2f0c260aa2749952a75d049eda2fba9",
@@ -956,8 +960,8 @@
       "bytes": 1347
     },
     "src/server/CommerceConfig.luau": {
-      "sha256": "3ea1886fd013cc908df0b7de40a398b24fd0cae9ff8af49b38e1175d789385e2",
-      "bytes": 491
+      "sha256": "020638016472739d82fc7b4f6d83c95a183a7ca6e397b7664511049a21ac2ccc",
+      "bytes": 1054
     },
     "src/server/CommunicationPolicy.luau": {
       "sha256": "507ea16ea0b0569ff1f9af0f73f073ebda7d5910d4c4ae9e53f02cf87ca0daab",
@@ -1112,12 +1116,12 @@
       "bytes": 944
     },
     "src/server/ProgressionRules.luau": {
-      "sha256": "1b007f7be3b7b7c01fa4a920298713243b8f895bb3625be989b0b5f09890e1a3",
-      "bytes": 3791
+      "sha256": "521f6b78cfcef9ab8c89c5fa5941cf88f1b61ad719e688c65531d38c942f721b",
+      "bytes": 4081
     },
     "src/server/ProgressionServer.luau": {
-      "sha256": "ff01d1da663ee55d3049b8724abf23d3c3824c51df52d920eed7c86d1fabf16d",
-      "bytes": 10845
+      "sha256": "1c4d6c1f0fef5c6739ad1ef41b4384b31bcc2c912d65f5a54af293fce7d43c2c",
+      "bytes": 13337
     },
     "src/server/Rules.luau": {
       "sha256": "c3992dc24910b9e5b6d84c5f5dcc3c00e21a06d78635a748e14429b09bd3c024",
@@ -1136,8 +1140,8 @@
       "bytes": 2734025
     },
     "src/shared/LocaleStrings.luau": {
-      "sha256": "abd99d9ddddfa238246f73e3ba42af97bf92320292d9fb5e067066f457276c2e",
-      "bytes": 35740
+      "sha256": "2167b3f2b99c1337e2174f962ceec9a75c1759586fbfdac79fa7a1800bf62213",
+      "bytes": 38609
     },
     "src/shared/Map.luau": {
       "sha256": "b3a2ab9e191b2d2714d8f2d6e83884e7e12eb340ab56fa309963e6be272c52a2",
@@ -1220,8 +1224,8 @@
       "bytes": 2485
     },
     "src/shared/ProgressionCatalog.luau": {
-      "sha256": "5af297971899bb20ce678d4e9f859b7e3155bc3eea1ef195f77fdc41e5f9621b",
-      "bytes": 5400
+      "sha256": "3b214c75a98f610e441d8a13f5e90c8a111dda888d0f2eb1ed7fea4759502ccd",
+      "bytes": 5607
     },
     "src/shared/TerritoryRanking.luau": {
       "sha256": "abd52807c472e7868e6d419bea44243595115bb2b19eb1d50bd8757229d46452",

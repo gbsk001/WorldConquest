@@ -1,6 +1,8 @@
 --!strict
 -- Original WorldConquest cosmetics. AGPL-3.0. No competitive statistics.
 local Catalog={}
+-- Shared presentation/grant contents; no Robux prices or client-granted entitlements.
+Catalog.PassItems={Starter={"missile_founder","flag_founder","badge_founder"},General={"flag_general","badge_general"}}
 Catalog.Daily={25,35,50,65,80,100,150}
 Catalog.Rewards={Completion=40,Victory=60,Achievement=50,MinimumSeconds=180,ActiveWindows=6,MinimumTerritory=1000}
 Catalog.Categories={"Flag","Missile","Warship","Transport","Building","Attack","Explosion","Color","Pattern","Border","NameTag","Crown","Badge","Victory"}

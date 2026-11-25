@@ -29,6 +29,16 @@ assert(a.transact(1,"Daily"));assert(b.transact(1,"Daily"));assert(saved.u1.Star
 fail=true;local failed=a.transact(1,"Daily");assert(not failed and saved.u1.Stars==25);fail=false
 assert(a.transact(1,"Receipt",{ID="abc",Stars=500}));assert(b.transact(1,"Receipt",{ID="abc",Stars=500}));assert(saved.u1.Stars==525)
 saved.u2={Version=99};assert(not a.transact(2));assert(saved.u2.Version==99)
+local concurrent={};local second=nil;local interleave=true
+local concurrentDS={UpdateAsync=function(_,key,fn)
+ if interleave then
+  interleave=false;fn(concurrent[key]) -- first server's initial, uncommitted attempt
+  assert(second.transact(7,"Receipt",{ID="same-payment",Stars=5000}))
+ end
+ concurrent[key]=fn(concurrent[key]);return concurrent[key]
+end}
+local first=ProfileStore.new(concurrentDS,function()return now end);second=ProfileStore.new(concurrentDS,function()return now end)
+assert(first.transact(7,"Receipt",{ID="same-payment",Stars=5000}));assert(concurrent.u7.Stars==5000,"interleaved servers must grant once")
 local parties=PartyState.new();local group=parties.create("p",1)
 assert(parties.add("p",2));assert(not parties.add("p",2));assert(not parties.remove(1,2))
 for id=3,6 do assert(parties.add("p",id))end;assert(not parties.add("p",7))

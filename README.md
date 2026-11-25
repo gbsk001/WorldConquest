@@ -1,6 +1,8 @@
 # WorldConquest
 
-Stage 12–13 acceptance candidate: [implemented names, native communications, localisation, progression/records, parties, configuration and remaining blockers](docs/STAGE12_13_ACCEPTANCE.md). Paid IDs are disabled. Automated Stage 1–13 regressions pass; rendered Studio, real platform services, translation review and physical mobile acceptance remain pending.
+Latest monetisation candidate: [six configured products, exact pass contents, receipt tests and safe activation](docs/MONETISATION_ACCEPTANCE.md). IDs are connected; **live purchase prompts remain disabled** and the tester allowlist is empty. No Roblox update has been published automatically.
+
+Stage 12–13 acceptance candidate: [implemented names, native communications, localisation, progression/records, parties, configuration and remaining blockers](docs/STAGE12_13_ACCEPTANCE.md). Automated Stage 1–13 regressions pass; rendered Studio, real platform services, translation review and physical mobile acceptance remain pending.
 
 Corresponding source: [https://github.com/gbsk001/WorldConquest](https://github.com/gbsk001/WorldConquest). The source upload was authorized and completed on 24 November 2026; the full source archive was downloaded without authentication and compared with the audited package. See [publication evidence](docs/SOURCE_PUBLICATION.md), [source update steps](docs/SOURCE_RELEASE.md), [build instructions](BUILDING.md) and [dependencies/licences](DEPENDENCIES.md). The Roblox game has not been republished by this task.
 
