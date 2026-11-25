@@ -1,11 +1,11 @@
 assert(ProductionCommerceConfig.StarterPassID==2098697285 and ProductionCommerceConfig.GeneralPassID==2099891345)
 assert(ProductionCommerceConfig.EnablePaidPurchasePrompts==false)
-assert(#ProductionCommerceConfig.PurchaseTestUserIDs==0)
+assert(#ProductionCommerceConfig.PurchaseTestUserIDs==1 and ProductionCommerceConfig.PurchaseTestUserIDs[1]==11327713454)
 local expectedStars={[3735920468]=100,[3735920863]=500,[3735920948]=1000,[3735921042]=5000}
 assert(#ProductionCommerceConfig.StarsProducts==4)
 for _,product in ipairs(ProductionCommerceConfig.StarsProducts)do assert(expectedStars[product.ID]==product.Stars)end
 local commerceConfig=table.clone(ProductionCommerceConfig)
-commerceConfig.DataStoreName="TEST";commerceConfig.EnablePaidPurchasePrompts=true
+commerceConfig.DataStoreName="TEST";commerceConfig.EnablePaidPurchasePrompts=true;commerceConfig.PurchaseTestUserIDs={}
 local liveStore={};local failSave=false;local storedDS={UpdateAsync=function(_,key,fn)if failSave then error("offline")end;liveStore[key]=fn(liveStore[key]);return liveStore[key]end}
 local dataService={GetDataStore=function()return storedDS end,GetOrderedDataStore=function()return {UpdateAsync=function()end,GetSortedAsync=function()return{GetCurrentPage=function()return {}end}end}end}
 local persons={};local playerService={PlayerAdded=signal(),PlayerRemoving=signal()}
@@ -17,7 +17,7 @@ marketService.GetPassOwnershipAsync=function()return {Owned=false,Active=true}en
 local serverRemotes={};local oldInstance=Instance.new
 Instance.new=function(class)
  local obj=oldInstance(class)
- if class=="RemoteEvent"then obj.OnServerEvent=signal();function obj:FireClient(_,payload)self.Last=payload end;table.insert(serverRemotes,obj)end
+ if class=="RemoteEvent"then obj.OnServerEvent=signal();obj.ByUser={};function obj:FireClient(p,payload)self.Last=payload;self.ByUser[p.UserId]=payload end;table.insert(serverRemotes,obj)end
  return obj
 end
 services.Players=playerService;services.MarketplaceService=marketService;services.DataStoreService=dataService;services.RunService={IsStudio=function()return false end};services.BadgeService={AwardBadgeAsync=function()end}
@@ -124,6 +124,36 @@ assert(serverRemotes[#serverRemotes].Last.PurchasesEnabled==true,"explicit liste
 commerceConfig.PurchaseTestUserIDs={102};ProgressionServer.new({Allowed={}})
 assert(serverRemotes[#serverRemotes].Last.PurchasesEnabled==false and next(serverRemotes[#serverRemotes].Last.Offers)==nil,"unlisted users must remain disabled")
 commerceConfig.PurchaseTestUserIDs={}
+-- Exercise the delivered allowlist with both accounts present in the same server.
+-- A matching display/username cannot authorize a different numeric UserId.
+local owner={UserId=11327713454,Name="Owi00013",Parent=playerService}
+local outsider={UserId=102,Name="Owi00013",Parent=playerService}
+persons={owner,outsider};commerceConfig.PurchaseTestUserIDs=table.clone(ProductionCommerceConfig.PurchaseTestUserIDs)
+marketService.GetPassOwnershipAsync=function()return {Owned=false,Active=false}end
+local controlled=ProgressionServer.new({Allowed={}});local controlledNet=serverRemotes[#serverRemotes]
+local permitted=controlledNet.ByUser[owner.UserId];local denied=controlledNet.ByUser[outsider.UserId]
+assert(commerceConfig.EnablePaidPurchasePrompts==false and permitted.PurchasesEnabled and not denied.PurchasesEnabled)
+assert(next(denied.Offers)==nil,"non-tester must receive no purchase offers")
+assert(permitted.Offers.Starter.ID==2098697285 and permitted.Offers.General.ID==2099891345)
+local count=0;for _ in pairs(permitted.Offers)do count+=1 end;assert(count==6)
+for product,quantity in pairs(expectedStars)do
+ assert(permitted.Offers["Stars"..quantity].ID==product)
+ local purchase={PlayerId=owner.UserId,ProductId=product,PurchaseId="owner-"..product}
+ assert(marketService.ProcessReceipt(purchase)==Enum.ProductPurchaseDecision.PurchaseGranted)
+ assert(marketService.ProcessReceipt(purchase)==Enum.ProductPurchaseDecision.PurchaseGranted)
+end
+assert(controlled.Store.Cache[owner.UserId].Stars==6600)
+marketService.GetPassOwnershipAsync=function(_,p)return {Owned=p.UserId==owner.UserId,Active=true}end
+local ownerRejoin=ProgressionServer.new({Allowed={}})
+assert(ownerRejoin.Store.Cache[owner.UserId].Stars==6600)
+for _,items in pairs(Catalog.PassItems)do for _,item in ipairs(items)do assert(ownerRejoin.Store.Cache[owner.UserId].Owned[item])end end
+assert(not ownerRejoin.Store.Cache[outsider.UserId].Entitlements.Starter)
+services.RunService.IsStudio=function()return true end
+ProgressionServer.new({Allowed={}})
+assert(not serverRemotes[#serverRemotes].ByUser[owner.UserId].PurchasesEnabled,"Studio must not bypass the paid-prompt gate")
+services.RunService.IsStudio=function()return false end
+persons={human};commerceConfig.PurchaseTestUserIDs={}
+print("Delivered Owi00013 numeric allowlist: all six offers, same-name outsider denied, four receipt quantities/duplicates, 6600 Stars and both pass reward sets restored in a fresh service instance; Studio remains disabled. Simulated Roblox services only.")
 print("Configured real pass IDs: exact separate reward sets, trial/cancel/unknown-ID rejection, failed-save retry, duplicate-event safety, cosmetics-only grants, disabled prompts and fresh-server inventory/equipment persistence passed with simulated Roblox storage/ownership APIs.")
 print("All four configured Stars products: exact quantities independent of price, atomic receipt/balance writes, duplicate/reordered/cross-server delivery, save retry/outage, absent player, malformed ID, disabled-prompt fulfilment, cosmetic spending/equip persistence and balance-cap deferral passed (service stubs, no Robux spent).")
 for _,population in ipairs({20,100,250,500})do

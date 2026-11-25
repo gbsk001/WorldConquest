@@ -3,7 +3,7 @@
 return {
  DataStoreName="WorldConquestProfilesV1",
  EnablePaidPurchasePrompts=false, -- Does not prevent restoring verified existing ownership.
- PurchaseTestUserIDs={}, -- Optional owner-configured live testers only; empty means nobody can bypass the prompt switch.
+ PurchaseTestUserIDs={11327713454}, -- Owi00013; verified using Roblox Users API, 2026-11-25. Live test prompts only.
  StarterPassID=2098697285, -- intended Dashboard price 49 Robux; client reads the actual price
  GeneralPassID=2099891345, -- intended Dashboard price 399 Robux; permanent, NOT a subscription
  -- Amounts are server-authoritative. Intended prices are comments only: Managed Pricing is read on the client.

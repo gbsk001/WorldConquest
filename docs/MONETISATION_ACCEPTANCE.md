@@ -1,9 +1,10 @@
 # Six-product monetisation integration — 24 November 2026
 
-All six owner-supplied IDs are connected. **Live purchase prompts are disabled**:
-`src/server/CommerceConfig.luau` has `EnablePaidPurchasePrompts=false` and an empty
-`PurchaseTestUserIDs={}`. The code has not been published to Roblox. The source
-update is prepared for the already-authorized public GitHub repository.
+All six owner-supplied IDs are connected. **Public purchase prompts are disabled**.
+Controlled-test update, 25 November 2026: `src/server/CommerceConfig.luau` retains
+`EnablePaidPurchasePrompts=false` and now contains `PurchaseTestUserIDs={11327713454}`
+for verified Owi00013 only. See [the current owner checklist](CONTROLLED_LIVE_TESTING.md).
+This candidate has not been published to Roblox by the agent.
 
 ## Products and exact contents
 
@@ -113,7 +114,7 @@ sales before its receipt handler supports these IDs.
    Confirm developer-product universe 10778763582 is that experience. Keep pass
    free trials disabled for this permanent-inventory model.
 2. Leave both code switches at their delivered values: global prompts **false**,
-   tester list **empty**. Keep passes off sale and do not advertise/enable external
+   tester list **Owi00013 only**. Keep passes off sale and do not advertise/enable external
    Store-tab or native Shop purchases until the correct receipt-handler build is
    manually deployed. The four products currently report for sale in public metadata;
    an in-game prompt switch cannot change Roblox Dashboard/off-platform availability.
@@ -121,9 +122,8 @@ sales before its receipt handler supports these IDs.
    Check Output and the current modules. Verify disabled controls, Inventory, earned
    Stars spending and temporary progression on phone/tablet/desktop viewports.
    Studio uses temporary storage and cannot certify live fulfilment in this build.
-4. For a controlled live test, enter **only approved tester Roblox UserIds**
-   in `PurchaseTestUserIDs`; leave `EnablePaidPurchasePrompts=false`. Rebuild and
-   upload matching source. The owner must then explicitly publish this candidate
+4. Owi00013 is already configured as the only approved tester by numeric UserId.
+   Leave `EnablePaidPurchasePrompts=false`. The owner must explicitly publish this candidate
    to the **existing experience/start place**, retaining a known rollback build.
    No new experience or automatic publication is part of this task.
 5. Configure the intended base pass prices in Creator Dashboard → Monetization →
@@ -158,4 +158,4 @@ No additional products, passes or subscriptions are needed for the implemented
 features. No gameplay costs, combat formulas, troops, map resolution or AI behaviour
 were changed. Remaining release blockers are live paid-service acceptance and
 rendered/physical-device validation, plus the previously documented broader
-translation/game acceptance work. **Live purchase prompts remain disabled.**
+translation/game acceptance work. **Public purchase prompts remain disabled; Owi00013 alone is allowlisted.**

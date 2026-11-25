@@ -1,6 +1,6 @@
 # WorldConquest
 
-Latest monetisation candidate: [six configured products, exact pass contents, receipt tests and safe activation](docs/MONETISATION_ACCEPTANCE.md). IDs are connected; **live purchase prompts remain disabled** and the tester allowlist is empty. No Roblox update has been published automatically.
+Latest monetisation candidate: [six configured products, exact pass contents, receipt tests and safe activation](docs/MONETISATION_ACCEPTANCE.md). IDs are connected; **public purchase prompts remain disabled**; only verified `Owi00013` (UserId `11327713454`) is approved for controlled live prompts. See [the owner setup and test checklist](docs/CONTROLLED_LIVE_TESTING.md). No Roblox update has been published automatically.
 
 Stage 12–13 acceptance candidate: [implemented names, native communications, localisation, progression/records, parties, configuration and remaining blockers](docs/STAGE12_13_ACCEPTANCE.md). Automated Stage 1–13 regressions pass; rendered Studio, real platform services, translation review and physical mobile acceptance remain pending.
 

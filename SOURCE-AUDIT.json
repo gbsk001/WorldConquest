@@ -16,7 +16,7 @@
     "runtime profiles/logs",
     "__pycache__"
   ],
-  "files_checked": 335,
+  "files_checked": 336,
   "findings": [],
   "uploaded": false,
   "scope": "Local allowlist and credential-pattern scan; no runtime player database exported."

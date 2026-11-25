@@ -1,7 +1,7 @@
 {
   "repository": "https://github.com/gbsk001/WorldConquest",
   "license": "AGPL-3.0 with preserved upstream Section 7 terms",
-  "artifact_sha256": "e3bfb501b89305594df04fc92dbaa13760a180bd2b342e068c04aac2c6968177",
+  "artifact_sha256": "0e97bc27b3f25a3883f2685d102e6336cfaa2cc5be6b8e84a532f66a594d5377",
   "files": {
     ".gitignore": {
       "sha256": "e38b490bb577ac040bbcd0d30ddd93f9f1b67ab34b419246de3a7d5f619ef2e7",
@@ -132,8 +132,8 @@
       "bytes": 254
     },
     "BUILDING.md": {
-      "sha256": "83d5d6786cda7c98d22f4286c597359fb0393c88d602d5e36f8f0620af96d6bb",
-      "bytes": 3885
+      "sha256": "b4344b37f16d4193374b9ce5df545976debb3c8f6027d1b281c45cba4a3815a5",
+      "bytes": 4083
     },
     "data/earth-elevation-rle.bin": {
       "sha256": "4249fb0adaa414b4259eed719fabb298225100a708325b0239f153df9e6dc634",
@@ -187,6 +187,10 @@
       "sha256": "f9b27dabf4106b817421190fb05f10619b88a44fae8b00261ee7c2e4a81ff3ec",
       "bytes": 2462
     },
+    "docs/CONTROLLED_LIVE_TESTING.md": {
+      "sha256": "a03b35606482856b3279c60d8a7c972af1446ffdcde5355c9e724bdcea20c547",
+      "bytes": 12289
+    },
     "docs/FINAL_TECHNICAL_ACCEPTANCE.md": {
       "sha256": "82f6b3700b3d1a1b67d4cc5e61db3f6776749cf3681a196e9d67f4c10c39439c",
       "bytes": 8004
@@ -212,12 +216,12 @@
       "bytes": 6598
     },
     "docs/MOBILE_ACCEPTANCE.md": {
-      "sha256": "038e64b875d910743d159d27d9e9bb3207dc0d74297b788e2f277b0a8ddeb5f2",
-      "bytes": 13365
+      "sha256": "5103a7746a485e305fadfb5762a787bcb6948c2b0a8ee4866b329293d4416e81",
+      "bytes": 13537
     },
     "docs/MONETISATION_ACCEPTANCE.md": {
-      "sha256": "f1cfba270ed18b66fde49f3448ed9923a20f9f27188281053c61cc7a69a7c175",
-      "bytes": 11203
+      "sha256": "51fa25a394846c59f1ecdfd2a2668ed735675f5c69b3e43efea25bb820afc1b4",
+      "bytes": 11428
     },
     "docs/openfront-audit-manifest.json": {
       "sha256": "b3e8874266d903bcdb1ba6dd76bfd678929c9884dd7d7e944520f8d1a70b054f",
@@ -348,8 +352,8 @@
       "bytes": 7329
     },
     "README.md": {
-      "sha256": "f7848aba295e9f3ef22ac3e78743cd9c0a00b501f418ddd33e211242a82f0c0a",
-      "bytes": 16510
+      "sha256": "4e9adc8c802ff1acc316293973774c061616c2fe57c6391e0e6c5ac79aacaf57",
+      "bytes": 16642
     },
     "scripts/benchmark_bots.py": {
       "sha256": "496f30380ee15bc57a614d6004856c831e6c8f933c93967e851abb445e7538a9",
@@ -712,8 +716,8 @@
       "bytes": 3899
     },
     "scripts/progression_server_checks.luau": {
-      "sha256": "535795feaf5774aba809e15e4b511a1526b5a2557107e5b00eab581554ab8e1b",
-      "bytes": 13328
+      "sha256": "2a65ff93c960026bed66e24e2dafa8a58f4005d846582d9bd87379dc3883b6ba",
+      "bytes": 15993
     },
     "scripts/rail_checks.luau": {
       "sha256": "f28c8bc097c9f040e932f4bc49b8d7ea92cd18beb7f49629a3bfb971c40de778",
@@ -960,8 +964,8 @@
       "bytes": 1347
     },
     "src/server/CommerceConfig.luau": {
-      "sha256": "020638016472739d82fc7b4f6d83c95a183a7ca6e397b7664511049a21ac2ccc",
-      "bytes": 1054
+      "sha256": "4afd1565debc5c48fefe36aec27519ff54ae72c8222665718e60d6f0d2d75622",
+      "bytes": 1050
     },
     "src/server/CommunicationPolicy.luau": {
       "sha256": "507ea16ea0b0569ff1f9af0f73f073ebda7d5910d4c4ae9e53f02cf87ca0daab",
