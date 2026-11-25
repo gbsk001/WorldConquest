@@ -4,6 +4,8 @@
 |---|---|---|
 | WorldConquest adaptation and original code/art | This source distribution | AGPL-3.0, with upstream Section 7 terms retained in `LICENSE`; modification notices in `NOTICE` |
 | OpenFrontIO algorithms/formulas | `openfrontio/OpenFrontIO`, commit `8f1a0addc4b3ca7863dd370ba06dcafa17ba1f94` | Upstream AGPL and notices in `third_party/OpenFrontIO`; source mappings in `docs/OPENFRONT_SOURCE_INDEX.md`, stage reports and `tests` hashes |
+| Natural Earth II shaded relief / idealized land cover | 3.2.0, source 10800x5400 | Public domain; original archive in `data/NE2_50M_SR.zip`, hash/method in `data/geography-manifest.json` |
+| Pillow | 13.0.0 | MIT-CMU / HPND; build-only geography generation, not Roblox runtime |
 | Natural Earth land/lakes | 1:10m 5.1.2 | Public domain; original GeoJSON and hashes in `data`; historical 110m input is not active |
 | NOAA NCEI ETOPO | 2022 v1, 60 arc-second surface, DOI 10.25921/fd45-gt74 | CC0-1.0; external unmodified TIFF URL/hash plus modified generated data/scripts supplied |
 | GUI icons, profile artwork and cosmetics | Original SVG/code geometry in this project | `assets/gui-icons/LICENSE.txt`, AGPL; no upstream proprietary cosmetic/audio/map assets copied |

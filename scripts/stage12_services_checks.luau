@@ -45,6 +45,21 @@ bridge.Allowed[one]=true;current+=4;remote.OnServerEvent:Fire(one,"Reset");asser
 current+=4;remote.OnServerEvent:Fire(one,"Reset");assert(one:GetAttribute("WCNationName")==nil and bridge.DisplayName(one)==one.Name)
 bridge.ProfileReady(two,{NationName="Rejected"});assert(two:GetAttribute("WCNationName")==nil)
 bridge.ProfileReady(two,{NationName="République"});assert(bridge.DisplayName(two)=="République")
+-- Stage 14: names are editable during selection, and locked when filtering yields
+-- across the authoritative gameplay boundary. Never replicate unfiltered text.
+local selecting=true;local changed=nil
+bridge.CanChangeNationName=function()return selecting end
+bridge.NationChanged=function(p,name)changed={UserId=p.UserId,Name=name}end
+bridge.Allowed[one]=true;current+=4;remote.OnServerEvent:Fire(one,"Set","New nation")
+assert(changed.Name=="New nation"and one:GetAttribute("WCNationName")=="New nation")
+selecting=false;current+=4;remote.OnServerEvent:Fire(one,"Set","Must remain locked")
+assert(changed.Name=="New nation")
+selecting=true;local beforeFilter=services.TextService.FilterStringAsync
+services.TextService.FilterStringAsync=function(self,value)selecting=false;return beforeFilter(self,value)end
+current+=4;remote.OnServerEvent:Fire(one,"Set","Late filter")
+assert(changed.Name=="New nation"and identityDisk[one.UserId].NationName=="New nation")
+services.TextService.FilterStringAsync=beforeFilter;bridge.Allowed[one]=nil
+print("Selection-phase nation names: filtered update accepted; active match and phase transition during filtering rejected.")
 local scope={[one]="public",[two]="public"};bridge.CommunicationScope=function(p)return scope[p]end
 Communication.new(bridge)
 local microphones={};for _,o in ipairs(remotes)do if o.ClassName=="AudioDeviceInput"then microphones[o.Player]=o end end

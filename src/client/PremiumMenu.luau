@@ -83,27 +83,47 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
   if active=="Inactive"then return false end
   local w=content.AbsoluteSize.X;local short=gui.AbsoluteSize.Y<500;local narrow=gui.AbsoluteSize.X<700
   if page=="Home"then
-   layout.Parent=nil;content.Position=UDim2.fromOffset(10,0);content.Size=UDim2.new(1,-20,1,-65);content.AutomaticCanvasSize=Enum.AutomaticSize.None
-   local height=math.max(if narrow then 470 else 420,content.AbsoluteSize.Y);content.CanvasSize=UDim2.fromOffset(0,height);content.ScrollingEnabled=content.AbsoluteSize.Y<height;content.ScrollBarThickness=if content.ScrollingEnabled then 3 else 0
-   local bw=if narrow then 1/3 else 1/6
-   local nav={{"Party","Party","Friends"},{"Settings","Settings","Settings"},{"Tutorial","Tutorial","Tutorial"},{if profile then tostring(profile.Stars).." Stars"else "Stars…","Profile","Rank"},{"Arsenal","Arsenal","Missiles"},{"Shop","Shop","Gold"}}
-   for i,n in ipairs(nav)do local row=if narrow then math.floor((i-1)/3)else 0;local col=if narrow then (i-1)%3 else i-1
-    button(content,n[1],function()go(n[2])end,UDim2.new(col*bw,0,0,row*50),UDim2.new(bw,-6,0,44),if narrow then nil else n[3])
+   layout.Parent=nil;content.Position=UDim2.fromOffset(8,0);content.Size=UDim2.new(1,-16,1,-48);content.AutomaticCanvasSize=Enum.AutomaticSize.None
+   content.ScrollingEnabled=false;content.ScrollBarThickness=0
+   local width=math.max(240,content.AbsoluteSize.X);local height=math.max(230,content.AbsoluteSize.Y)
+   content.CanvasSize=UDim2.fromOffset(0,height)
+   local phone=width<620;local compact=height<440
+   button(content,"Party",function()go("Party")end,UDim2.fromOffset(0,0),UDim2.fromOffset(if phone then 84 else 132,44),"Friends")
+   local settings=button(content,"",function()go("Settings")end,UDim2.fromOffset(if phone then 90 else 140,0),UDim2.fromOffset(44,44),"Settings");settings.Name="Settings"
+   local tutorial=button(content,"",function()go("Tutorial")end,UDim2.fromOffset(if phone then 138 else 188,0),UDim2.fromOffset(44,44),"Tutorial");tutorial.Name="Tutorial"
+   local stars=button(content,if profile then tostring(profile.Stars).." Stars"else "Stars?",function()go("Profile")end,UDim2.new(1,-(if phone then (if width<340 then 88 else 124)else 162),0,0),UDim2.fromOffset(if phone then (if width<340 then 88 else 124)else 162,44),nil);stars.TextColor3=gold;stars.Name="StarsBalance"
+   local heroY=if compact then 56 else 84
+   local hero=label(content,"WORLD CONQUEST",UDim2.fromOffset(0,heroY),UDim2.new(1,-(if phone then 0 else 250),0,if compact then 50 else 94),if compact then 34 elseif phone then 34 else 64)
+   hero.Name="WorldConquestTitle";hero.Font=Enum.Font.GothamBlack;hero.TextStrokeColor3=Color3.fromRGB(4,10,18);hero.TextStrokeTransparency=.3;hero.TextXAlignment=Enum.TextXAlignment.Center;hero.TextColor3=Color3.fromRGB(255,240,209)
+   local sub=label(content,"BUILD A NATION. SHAPE THE WORLD.",UDim2.fromOffset(0,heroY+(if compact then 50 else 96)),UDim2.new(1,-(if phone then 0 else 250),0,22),10,gold);sub.TextXAlignment=Enum.TextXAlignment.Center
+   local promoWidth=if phone then (width-12)/3 else 238
+   local promoTop=if phone then heroY+(if compact then 80 else 135)else (if compact then 50 else 108)
+   local promoHeight=if compact then 44 elseif phone then 116 else 100
+   local entries={{"Flag Shop","Flags","flag_aurora",Color3.fromRGB(46,54,89)},{"Starter Pack","Starter","missile_founder",Color3.fromRGB(86,46,43)},{"General Pass","General","badge_general",Color3.fromRGB(62,55,38)}}
+   for i,entry in ipairs(entries)do
+    local x=if phone then (i-1)*(promoWidth+6)else width-promoWidth
+    local y=if phone then promoTop else promoTop+(i-1)*(promoHeight+(if compact then 4 else 8))
+    local card=button(content,entry[1],function()go(entry[2])end,UDim2.fromOffset(x,y),UDim2.fromOffset(promoWidth,promoHeight));card.Name=entry[1];card.BackgroundColor3=entry[4];card.TextSize=if phone then 12 else 17;card.TextYAlignment=Enum.TextYAlignment.Bottom
+    local pad=Instance.new("UIPadding");pad.PaddingBottom=UDim.new(0,8);pad.Parent=card
+    local art=Cosmetic.preview(card,Catalog.ByID[entry[3]],if compact then 26 else 48);art.AnchorPoint=Vector2.new(.5,0);art.Position=UDim2.new(.5,0,0,6)
    end
-   local y=if narrow then 106 else 60
-   local hero=label(content,"WORLD CONQUEST",UDim2.new(0,0,0,y+32),UDim2.new(1,0,0,if short then 44 else 82),if short then 30 elseif narrow then 36 else 64);hero.Font=Enum.Font.GothamBold;hero.TextXAlignment=Enum.TextXAlignment.Center
-   local sub=label(content,"BUILD A NATION. SHAPE THE WORLD.",UDim2.new(0,0,0,y+(if short then 78 else 112)),UDim2.new(1,0,0,24),11,gold);sub.TextXAlignment=Enum.TextXAlignment.Center
-   local info=party.MatchInfo or {};local status=if info.Unavailable then "Match directory unavailable"elseif info.Available then string.format("%d / %d %s",info.Count or 0,info.Capacity or 20,if info.ReservationCount then "human reservations"else "participants")else "PLAY to find or create a public lobby"
-   if info.Deadline then status..=" • Starts in "..math.max(0,math.ceil(info.Deadline-now())).."s"end
-   local nextY=y+(if short then 106 else 148)
-   local s=label(content,status,UDim2.new(.15,0,0,nextY),UDim2.new(.7,0,0,32),12);s.TextXAlignment=Enum.TextXAlignment.Center
-   local bottom=math.max(nextY+40,height-160)
-   local b=button(content,"PLAY",play,UDim2.new(.25,0,0,bottom),UDim2.new(.5,0,0,56),"Play",true);b.Name="Play";b:SetAttribute("ActionLabel","PLAY");b.TextSize=25
-   button(content,"Private Match",function()go("Private")end,UDim2.new(.25,0,0,bottom+64),UDim2.new(.5,0,0,44),"Private")
-   button(content,"Global Rankings",function()go("Global");send("Board",metric)end,UDim2.new(.25,0,0,bottom+114),UDim2.new(.5,0,0,44),"Leaderboard")
-   if not narrow and not short then
-    button(content,"Daily Rewards",function()go("Daily")end,UDim2.new(0,0,0,bottom),UDim2.new(.23,-12,0,56),"Rank")
-    button(content,"Starter Pack",function()go("Starter")end,UDim2.new(.77,12,0,bottom),UDim2.new(.23,-12,0,56),"Missiles")
+   local arsenalY=if phone then promoTop+promoHeight+10 else (if compact then 194 else 54)
+   local arsenalX=if phone then 0 else width-238
+   button(content,"Arsenal",function()go("Arsenal")end,UDim2.fromOffset(arsenalX,arsenalY),UDim2.fromOffset(if phone then (width-8)/2 else 115,44),"Missiles")
+   button(content,"Shop",function()go("Shop")end,UDim2.fromOffset(arsenalX+(if phone then (width+8)/2 else 123),arsenalY),UDim2.fromOffset(if phone then (width-8)/2 else 115,44),"Gold")
+   if not phone and compact and height<242 then height=242;content.CanvasSize=UDim2.fromOffset(0,height);content.ScrollingEnabled=true end
+   local bottom=height-(if compact then 104 else 126)
+   local playWidth=if phone then width else math.min(700,width-270)
+   local playX=if phone then 0 else math.max(0,(width-250-playWidth)/2)
+   local b=button(content,"PLAY",play,UDim2.fromOffset(playX,bottom),UDim2.fromOffset(playWidth,if compact then 50 else 62),"Play",true);b.Name="Play";b:SetAttribute("ActionLabel","PLAY");b.Font=Enum.Font.GothamBlack;b.TextSize=28
+   button(content,"Private Match",function()go("Private")end,UDim2.fromOffset(playX,bottom+(if compact then 56 else 68)),UDim2.fromOffset(playWidth/2-4,44),"Private")
+   button(content,"Global Rankings",function()go("Global");send("Board",metric)end,UDim2.fromOffset(playX+playWidth/2+4,bottom+(if compact then 56 else 68)),UDim2.fromOffset(playWidth/2-4,44),"Leaderboard")
+   if not phone then button(content,"Daily Rewards",function()go("Daily")end,UDim2.fromOffset(0,54),UDim2.fromOffset(142,44),"Rank")end
+   -- Portrait uses stacked artwork; short landscape keeps promotions to the right.
+   if phone and arsenalY+50>bottom then
+    local extra=arsenalY+50-bottom;content.CanvasSize=UDim2.fromOffset(0,height+extra);content.ScrollingEnabled=true;content.ScrollBarThickness=3
+    b.Position=UDim2.fromOffset(playX,bottom+extra)
+    for _,name in ipairs({"Private Match","Global Rankings"})do local control=content:FindFirstChild(name);control.Position=UDim2.fromOffset(control.Position.X.Offset,control.Position.Y.Offset+extra)end
    end
    if temporary then message.Text="Studio preview • progression is temporary • purchases disabled"end
    return true

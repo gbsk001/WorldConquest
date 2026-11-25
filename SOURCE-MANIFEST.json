@@ -1,7 +1,7 @@
 {
   "repository": "https://github.com/gbsk001/WorldConquest",
   "license": "AGPL-3.0 with preserved upstream Section 7 terms",
-  "artifact_sha256": "0e97bc27b3f25a3883f2685d102e6336cfaa2cc5be6b8e84a532f66a594d5377",
+  "artifact_sha256": "b7ff25e00194b926b46a2dfcde363462df7f1c8e7701516788a920addc2dfef0",
   "files": {
     ".gitignore": {
       "sha256": "e38b490bb577ac040bbcd0d30ddd93f9f1b67ab34b419246de3a7d5f619ef2e7",
@@ -132,8 +132,8 @@
       "bytes": 254
     },
     "BUILDING.md": {
-      "sha256": "b4344b37f16d4193374b9ce5df545976debb3c8f6027d1b281c45cba4a3815a5",
-      "bytes": 4083
+      "sha256": "63aa0bd431b14772695e8cc61430743f745bbc1f35af0b1fd084c5edfed5549d",
+      "bytes": 4863
     },
     "data/earth-elevation-rle.bin": {
       "sha256": "4249fb0adaa414b4259eed719fabb298225100a708325b0239f153df9e6dc634",
@@ -151,9 +151,17 @@
       "sha256": "89e090c29f7ecaf79a4f93904f1316c73a50dc11467e8c50989ae3ca6fe3ae3f",
       "bytes": 2488
     },
+    "data/geography-manifest.json": {
+      "sha256": "c601cb52d6073cdd785571b806730969323a16738f97e409dae863e7aa5a2d06",
+      "bytes": 1015
+    },
     "data/localisation.csv": {
-      "sha256": "02720537c3a5cc5c4ae100694cd740e33d2e7a8b38a459903b7a88aa6897d346",
-      "bytes": 43192
+      "sha256": "a88ba231fc4a6a40dc3f969355385b388309da675d71563caf28f293c86dc9d8",
+      "bytes": 43766
+    },
+    "data/NE2_50M_SR.zip": {
+      "sha256": "0e9838cb3acb10ce4674b74a8f79bd5aae02e4b715185d54f018afaf4d9451f4",
+      "bytes": 41618548
     },
     "data/ne_10m_lakes.geojson": {
       "sha256": "2d036f53dedec578001c5c30c2959ee7d4eebc1306900fa4367c49929ec8f2d9",
@@ -168,8 +176,8 @@
       "bytes": 138160
     },
     "data/README.md": {
-      "sha256": "ce8233f75a9870acea42b26731c27fe494ef5e2bf42ea7572b5a9990daa776b9",
-      "bytes": 4586
+      "sha256": "030a3bda47badefa0b24138c2b6cb1ea12cf84e47af93dd3aa36f8dc66a3ec40",
+      "bytes": 5457
     },
     "data/spawn-atlas-manifest.json": {
       "sha256": "8b41f6c81ac8570519804eb6f5c22bd6d5b8ebbaff0df615484b5712160fab66",
@@ -180,8 +188,8 @@
       "bytes": 1584
     },
     "DEPENDENCIES.md": {
-      "sha256": "c15f96e3e9469d2ecfb1cb9c1710dfaf9cbf53c828cbbcbb55e55ac1803e37a8",
-      "bytes": 2603
+      "sha256": "5df4a041ea942c75fd72560468a0ad2878a3c116bd13db86974500fc36795c32",
+      "bytes": 2911
     },
     "docs/AI_PRESENTATION.md": {
       "sha256": "f9b27dabf4106b817421190fb05f10619b88a44fae8b00261ee7c2e4a81ff3ec",
@@ -287,6 +295,10 @@
       "sha256": "4b3bf4445f749f8b7a7cb49c5ec4d7aef8f074ef65e838f46a2cd1be1efcc44e",
       "bytes": 20996
     },
+    "docs/STAGE14_ACCEPTANCE.md": {
+      "sha256": "5fb5d61010d06adf93731931b3bb6d849b2c833fe6baac5d4f8aece212169bd7",
+      "bytes": 15087
+    },
     "docs/STAGE1_IMPLEMENTATION.md": {
       "sha256": "5bedb1abae4187348e5796f226cbf64810e7fa26f89a0586661d3dde96b73edc",
       "bytes": 7288
@@ -348,12 +360,12 @@
       "bytes": 35148
     },
     "NOTICE": {
-      "sha256": "d89f7f7295b93f34101369015cf291f202dcaa97eebd3bc1dde2d73818ac0359",
-      "bytes": 7329
+      "sha256": "49a5ee0466af5dbeda34ef9df6fcd5ce55135faf44ba98f437f990127985bac7",
+      "bytes": 7746
     },
     "README.md": {
-      "sha256": "4e9adc8c802ff1acc316293973774c061616c2fe57c6391e0e6c5ac79aacaf57",
-      "bytes": 16642
+      "sha256": "3869ad1f346843c2e1b172286a86e255c4ed2cb3a6cff205e71ee470d5cd9f9f",
+      "bytes": 16908
     },
     "scripts/benchmark_bots.py": {
       "sha256": "496f30380ee15bc57a614d6004856c831e6c8f933c93967e851abb445e7538a9",
@@ -446,6 +458,10 @@
     "scripts/check_stage13.py": {
       "sha256": "d4286ba796eeffcc33c729276fb146e3c2ffc69593006608d06c6f0c7faae67d",
       "bytes": 5261
+    },
+    "scripts/check_stage14.py": {
+      "sha256": "07b549e89f86951ba6886c956d066199680ae3a0a51435de0cde003bd1b034b2",
+      "bytes": 4109
     },
     "scripts/check_stage2.py": {
       "sha256": "2492230bdcabb24ab0017fe3c7006f97c1d42efd94b985f95fcf1d1877f90430",
@@ -555,6 +571,10 @@
       "sha256": "de699c8a24ab9e6849d01ac1dee5e2d2290a38f1fb9841afbcaeb1cf45b076ab",
       "bytes": 3975
     },
+    "scripts/generate_geography.py": {
+      "sha256": "35ba33c318823684573a9f542726eb79c80b36a03fcc54ac53e722c6429530c4",
+      "bytes": 3640
+    },
     "scripts/generate_gui_icons.py": {
       "sha256": "7547038de96011562d23a20df209e8050a29bb42571fd4111784cb03687a9783",
       "bytes": 5579
@@ -652,8 +672,8 @@
       "bytes": 4470
     },
     "scripts/package_stage10.py": {
-      "sha256": "8fbcb978683b85d1bb4aed76658f76685c9b2b92103d64fedc22393baba5a136",
-      "bytes": 1962
+      "sha256": "2a3b5c9d5d1742fcd06d9dec54fba7c020cd83d04d9c16b7058d76d5bcf61300",
+      "bytes": 1994
     },
     "scripts/package_stage8.py": {
       "sha256": "66506e4fe58fc44c9e95dab89276ad50a44eda6c0c0bc965dbd0ea72ab06d071",
@@ -707,17 +727,21 @@
       "sha256": "24f071ec04ce8ef97cec58fb1c99c22a06c4e07c9c36606d62726f6b84f2e356",
       "bytes": 5257
     },
+    "scripts/profile_actual_gameplay.client.luau": {
+      "sha256": "23a01e5ca3520b4d9c4cd9f4725445b690c236ff788666d95fb9a04aeace2408",
+      "bytes": 1784
+    },
     "scripts/profile_rail_limit.py": {
       "sha256": "e69953b9a6d25e772bfa37a1206cc8dcd57ffa7dbb60e4793177aa30ed1c9eb6",
       "bytes": 1348
     },
     "scripts/progression_checks.luau": {
-      "sha256": "bbfa05cfe3161785bfe54081b8e65bf81922837ea00cdb68cbd8ace51bc88f3d",
-      "bytes": 3899
+      "sha256": "44188c77380ebad5399a02bdfd686f121a0ab227a6924461275355cea37f39b1",
+      "bytes": 4817
     },
     "scripts/progression_server_checks.luau": {
-      "sha256": "2a65ff93c960026bed66e24e2dafa8a58f4005d846582d9bd87379dc3883b6ba",
-      "bytes": 15993
+      "sha256": "d0724f2c416fba35bb7697aef1a329bfb511b2b1c4c94ea5443e33a5c414a74d",
+      "bytes": 16182
     },
     "scripts/rail_checks.luau": {
       "sha256": "f28c8bc097c9f040e932f4bc49b8d7ea92cd18beb7f49629a3bfb971c40de778",
@@ -747,6 +771,10 @@
       "sha256": "a89f37334dfcd8c2a04f4ce5d87a4b921306a4dcafa74daf94be6556d46baf8f",
       "bytes": 59
     },
+    "scripts/requirements-geography.txt": {
+      "sha256": "050ca6e9a899db8c7f868683cb92af35383daed88b2c8cfe74c92ca2169325f3",
+      "bytes": 16
+    },
     "scripts/server_checks.luau": {
       "sha256": "1fa1a67dc42b38805af25ec9f1731789963e4555da2565636dc908e77325e673",
       "bytes": 5410
@@ -768,8 +796,8 @@
       "bytes": 4539
     },
     "scripts/stage12_services_checks.luau": {
-      "sha256": "2a56c654261619cfc1d63b9e5472172118ec7e64c958fc814aea3a19c5d269a0",
-      "bytes": 4706
+      "sha256": "d63d3e06fa15ef6d0af844ad23daf1069a86cc5ada3c240ea13e8e38164428dc",
+      "bytes": 5943
     },
     "scripts/stage1_checks.luau": {
       "sha256": "b92590aff5aee0f66e702219511fcb53ed9d5ea5c2290c2e4095e8272bc62557",
@@ -836,8 +864,8 @@
       "bytes": 2684
     },
     "scripts/strategy_ui_scenarios.luau": {
-      "sha256": "6c3ee573bd70484510629fd1b2fb939236c5c4126d0389466aa2021fb4f6fdaa",
-      "bytes": 8338
+      "sha256": "b4a91a37c65a6386b0e67e79b3ecd2431f9ecbbca7346543845d8235c466691b",
+      "bytes": 10945
     },
     "scripts/studio_performance_observer.client.luau": {
       "sha256": "63fc5976de26f2863d33993e16b8968df3913e08cfd3ee72a2908a629f935a62",
@@ -868,16 +896,16 @@
       "bytes": 2463
     },
     "src/client/BuildingShop.luau": {
-      "sha256": "020eba201afc1e022ac3234be4a5d2b592b8a4b443c6db17c632f51e485ec04a",
-      "bytes": 9412
+      "sha256": "9aa4168197f47f92d6bbe0086c40e2b8a8803c3c7653f7c91b460fcdbe750e72",
+      "bytes": 11852
     },
     "src/client/CommunicationClient.luau": {
       "sha256": "25afdc4bf1a4a84ec453247ba8688a5775e535d0cc1beba44d494b78c286d15b",
       "bytes": 6479
     },
     "src/client/CompatibleTiles.luau": {
-      "sha256": "7532dbe3d8c80da0f63a00aa9fa09de45299998c84b496cfb28c61d8df06d289",
-      "bytes": 3141
+      "sha256": "f7c6aa4267af630b55dad8339eabf7df7d8ffd06f822cd85b7c2aef4962b1ab6",
+      "bytes": 3644
     },
     "src/client/CosmeticArt.luau": {
       "sha256": "2c11b1d1c7e0f898ad9216276bf253c22d9e76a7e61412793bbf11f6fa9a5a64",
@@ -888,12 +916,12 @@
       "bytes": 1605
     },
     "src/client/IconLayer.luau": {
-      "sha256": "418f8e5cf9e91610b27bfe4eea50be1c5efb2447e0fc0bae7590abcbcba49a88",
-      "bytes": 2787
+      "sha256": "38a4427e2b9e005f5ec7c6d8a69a3b98b2a2411a971a96cc08ea644766c1ddb6",
+      "bytes": 3811
     },
     "src/client/InterfaceArt.luau": {
-      "sha256": "95fc408420ccd0ddf06db75294d5c14d7ee91deaba2948784f0bd9a88ed437a0",
-      "bytes": 197587
+      "sha256": "2a841bb1f3f9ee1aae2c413df42ea11e3138ad6f1978b054df77454bad6237a4",
+      "bytes": 195678
     },
     "src/client/Localisation.client.luau": {
       "sha256": "f6b2cac9e96b1c46ed193405a069566a3d5399771efc252fad4c3efd24eb72f7",
@@ -904,36 +932,36 @@
       "bytes": 1873
     },
     "src/client/Main.client.luau": {
-      "sha256": "82130ca630c6eacec0432bcec37a7f666956aa6154916a12e4c1860d5d680d80",
-      "bytes": 23601
+      "sha256": "0b6d1de9d4cb3369be91b17a3827900c22198175a8a0b677d778f33b07950360",
+      "bytes": 24484
     },
     "src/client/MainMenu.luau": {
-      "sha256": "f024138836e7e80b01c0c3f3f2515123295f12d724c664baa63b7a13b8b69be2",
-      "bytes": 23359
+      "sha256": "4051931f76bc00918b3e4501cb6139d38c5372662e76728ab21df317da3834c9",
+      "bytes": 23662
     },
     "src/client/MapTiles.luau": {
-      "sha256": "fef41e649d9d6950f831ea70303743838239e7a2f621b4433246b377c24ae2ee",
-      "bytes": 12600
+      "sha256": "f4039e4d9d862e6987aa8c3424c0f8cab6a91159492704ca82ad03dd302178f1",
+      "bytes": 12649
     },
     "src/client/MapTransform.luau": {
       "sha256": "69a14fb66f52f9d329cf055c9764d250dcddf044e36e9287c75ea7313c3f6ae7",
       "bytes": 1152
     },
     "src/client/MapView.luau": {
-      "sha256": "f81581d8bf4251a36c3550ba4beda535a5268a2b45f930912e840f3cad5b066b",
-      "bytes": 28277
+      "sha256": "fc20f929424cbb86de244a154decc9b5499aaf3e0ce176dd888fcb4c7cc15bde",
+      "bytes": 29713
     },
     "src/client/MatchHUD.luau": {
-      "sha256": "c3ea482cdcca0fb3604a91a97af900772b73f41acd17231b1ea3cb21a1a7cab5",
-      "bytes": 7216
+      "sha256": "619b4eed88ae688c97b3d10ebee2c044cad06d925a1fd398b941146087c8ce81",
+      "bytes": 7238
     },
     "src/client/MissileControls.luau": {
-      "sha256": "f103f8affb773ee1f759cb02f82411a1958fc9a1075cd1808e132dedccc6643b",
-      "bytes": 4256
+      "sha256": "bbd79edb9742f52a06d20bbb7a28cee5870a33ac10e5ac05e36a07c9c5830018",
+      "bytes": 4294
     },
     "src/client/NavalControls.luau": {
-      "sha256": "da5f3df79c95f25b5b7e54d5bf945156410af67e1e869476d2ceef5f1345be67",
-      "bytes": 5157
+      "sha256": "099567ea80949781abd8cc592bd1408400d787a8dbf4c8bb5306309cef75e6d1",
+      "bytes": 5314
     },
     "src/client/OwnershipRaster.luau": {
       "sha256": "9cf368d7978508c99a19add6442c52dd361f26e4b6ff3743f3644e0eebd85705",
@@ -944,20 +972,24 @@
       "bytes": 1202
     },
     "src/client/PremiumMenu.luau": {
-      "sha256": "20f04779699ff4c59b85be2990d02b4df95de7ba713abaefc019bbac84926698",
-      "bytes": 21549
+      "sha256": "cdc464d1157b3f91245ba555e09df765ab110b71b18712fa3edec0657d95e196",
+      "bytes": 24208
     },
     "src/client/SourceOffer.luau": {
       "sha256": "3111f54bd6d9d56b3c126abd439d87a9f2f0c260aa2749952a75d049eda2fba9",
       "bytes": 2402
     },
     "src/client/StrategyUI.luau": {
-      "sha256": "50f89fe83a9386acf68f57b8d4780f2b6990581b3fca268a5aee6cd7c4bf52b2",
-      "bytes": 12565
+      "sha256": "48a438c67e3be0a9699c08ee03585ef271730a6fa2c0e46a8ca706b9e3e3f107",
+      "bytes": 19651
+    },
+    "src/client/TerrainColors.luau": {
+      "sha256": "fed3b4d14a5dd43b0247eba89173b732b57f42ec47a1005d0d16c170cb98038e",
+      "bytes": 2465
     },
     "src/client/TilePainter.luau": {
-      "sha256": "c8bec7b237d39499dc328f532c112fa39530020586675850453d1e6c16827ae4",
-      "bytes": 1498
+      "sha256": "c25aa77cef6924c213a5f5ba40bdf6c25dd75e7bd86face9a2800ce3c49c704d",
+      "bytes": 2487
     },
     "src/client/TouchGestures.luau": {
       "sha256": "e66901c20166957fbe336089086d81bd43aa014dcd7376274ef9132c9a0b0c28",
@@ -980,8 +1012,8 @@
       "bytes": 5136
     },
     "src/server/IdentityServer.luau": {
-      "sha256": "53253794d0b3a804a9588fc8b192ffdd327ded71074ff14a2b2f62558539bed0",
-      "bytes": 2383
+      "sha256": "829a536f4cbf72658954e35ac587f8f29f22d531d40a5b0ab0f34b4a276e4fa7",
+      "bytes": 2625
     },
     "src/server/LeaderboardStore.luau": {
       "sha256": "dd5e12f861efe0ba2f42273b78b6677bb5bd0ec6348db2e5a287c8577d5ab511",
@@ -1040,8 +1072,8 @@
       "bytes": 6936
     },
     "src/server/OpenFront/FoundationServer.luau": {
-      "sha256": "34ff46de1ecb670b75e8d585b24e152182134a6d7a1b4f37fff0cc2994fe5732",
-      "bytes": 15511
+      "sha256": "c5c9d808c066bbd496f07abb5bc585214ecfc387ad578f24934e850cbdb7472b",
+      "bytes": 15831
     },
     "src/server/OpenFront/Match.luau": {
       "sha256": "175a124c30730f5402fdb2472c48d4a9f401daa3cdcd67cab390c561d47e74ff",
@@ -1120,12 +1152,12 @@
       "bytes": 944
     },
     "src/server/ProgressionRules.luau": {
-      "sha256": "521f6b78cfcef9ab8c89c5fa5941cf88f1b61ad719e688c65531d38c942f721b",
-      "bytes": 4081
+      "sha256": "0258a2dd42bc1f40d3663b9ec4d5b4af3ee814f0685b0f11f561e5eccf292a00",
+      "bytes": 4457
     },
     "src/server/ProgressionServer.luau": {
-      "sha256": "1c4d6c1f0fef5c6739ad1ef41b4384b31bcc2c912d65f5a54af293fce7d43c2c",
-      "bytes": 13337
+      "sha256": "455ef2800c61e6ab141d8e203d267ade1d30dfa23ebe5b6caf59d58c385bbc6e",
+      "bytes": 13520
     },
     "src/server/Rules.luau": {
       "sha256": "c3992dc24910b9e5b6d84c5f5dcc3c00e21a06d78635a748e14429b09bd3c024",
@@ -1143,9 +1175,41 @@
       "sha256": "caea5d63ab10f51444080e5f01498000a4c42a9574e4d85ab9625b4455d65334",
       "bytes": 2734025
     },
+    "src/shared/Geography/Level0.luau": {
+      "sha256": "9c2d4b98f9b3134537cda5d3161175379f3d227868a7402dcc2f2b155512ee90",
+      "bytes": 16691239
+    },
+    "src/shared/Geography/Level1.luau": {
+      "sha256": "6d18a0f98ea6d8068e6b240315bf686ae03a89dc97a89c8e996d97d3f1634e56",
+      "bytes": 4347171
+    },
+    "src/shared/Geography/Level2.luau": {
+      "sha256": "e18d297fe1d98a3e7cadfd0ec1d1f71a423f002f2a56b53a12c0933aa47f2371",
+      "bytes": 1162767
+    },
+    "src/shared/Geography/Level3.luau": {
+      "sha256": "4954f5eb2691a379cd9ef3f14a099bb39ffbbfc72d74a9689bf6a1fcb233c1d5",
+      "bytes": 309274
+    },
+    "src/shared/Geography/Level4.luau": {
+      "sha256": "f7ae676099c2968d2b28611ad76fc3fe2c6a339404ddb51900af77885d0d3c86",
+      "bytes": 85909
+    },
+    "src/shared/Geography/Level5.luau": {
+      "sha256": "fe7156d29beb1366095e0d6049afb5b24ba1473ce8b409592e00e677ec9c08a2",
+      "bytes": 26065
+    },
+    "src/shared/Geography/Level6.luau": {
+      "sha256": "a6faec6db34cc88066bca2aa88e92116c114b8b48fc1211eb52836122a986283",
+      "bytes": 7930
+    },
+    "src/shared/Geography/Palette.luau": {
+      "sha256": "9e743487788ac7fe934389e84ce128849d22c805e7a01cb5e399d613121fcd40",
+      "bytes": 1206
+    },
     "src/shared/LocaleStrings.luau": {
-      "sha256": "2167b3f2b99c1337e2174f962ceec9a75c1759586fbfdac79fa7a1800bf62213",
-      "bytes": 38609
+      "sha256": "136e046d38860ca256074b799aa0cc836f11513ff6cffd37cdeec5554c9dab89",
+      "bytes": 39068
     },
     "src/shared/Map.luau": {
       "sha256": "b3a2ab9e191b2d2714d8f2d6e83884e7e12eb340ab56fa309963e6be272c52a2",

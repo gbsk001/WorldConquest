@@ -1,0 +1,28 @@
+{
+  "dataset": "Natural Earth II v3.2.0 shaded relief, idealized land cover",
+  "url": "https://naturalearth.s3.amazonaws.com/50m_raster/NE2_50M_SR.zip",
+  "license": "Public domain",
+  "license_url": "https://www.naturalearthdata.com/about/terms-of-use/",
+  "source_sha256": "0e9838cb3acb10ce4674b74a8f79bd5aae02e4b715185d54f018afaf4d9451f4",
+  "source_dimensions": [
+    10800,
+    5400
+  ],
+  "display_dimensions": [
+    8192,
+    4096
+  ],
+  "projection": "Equirectangular; original georeferencing retained",
+  "palette_colors": 128,
+  "encoded_bytes_per_level": [
+    12483508,
+    3251382,
+    869646,
+    231244,
+    64160,
+    19390,
+    5818
+  ],
+  "method": "Downsample source to simulation dimensions, median-cut palette, no dithering; prefiltered display LODs. Existing detailed land/lake mask is authoritative.",
+  "limitations": "Idealized land cover and shaded relief, not current satellite photography or a new elevation DEM. ETOPO gameplay elevation remains unchanged."
+}

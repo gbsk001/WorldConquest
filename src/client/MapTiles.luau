@@ -63,7 +63,7 @@ function Tiles.new(canvas: Frame, raster: any)
 	overview.Label.ImageRectSize = Vector2.new(256,128)
 	overview.Label.Visible = true
 	-- Its upload scratch buffers are not needed after the initial overview.
-	overview.Pixels, overview.Coverage = nil, nil
+	overview.Pixels, overview.Coverage, overview.Base = nil, nil, nil
 	if not createSlot() then overview.Label:Destroy(); overview.Image:Destroy(); return nil end
 	local function key(level: number, x: number, y: number): string return level .. ":" .. x .. ":" .. y end
  local result = {Metrics={PaintMilliseconds=0,UploadMilliseconds=0,UploadBytes=0,PaintWorstMilliseconds=0,UploadWorstMilliseconds=0,AllocationMilliseconds=0,InvalidationMilliseconds=0,InvalidationVisits=0}}
@@ -199,7 +199,7 @@ function Tiles.new(canvas: Frame, raster: any)
   if not job then return end
 		local started = os.clock()
 		repeat
-			local last = math.min(job.Bounds[4], job.Row+7)
+			local last = math.min(job.Bounds[4], job.Row+(if Map.terrain then 0 else 7))
 			Painter.paint(job.Slot, raster, job.Time, job.Fresh, job.Row, last, job.Bounds[1], job.Bounds[3])
 			job.Row = last+1
 		until job.Row > job.Bounds[4] or os.clock()-started >= Config.RenderBudgetSeconds

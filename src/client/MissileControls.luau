@@ -13,11 +13,12 @@ function Controls.new(parent,send,notice,nextSequence,cancelOther)
  local rows={}
  for i,entry in ipairs({{"AtomBomb","Atomic bomb"},{"HydrogenBomb","Hydrogen bomb"},{"MIRV","MIRV"}}) do
   local kind=entry[1];local row=Instance.new("TextButton");row.Size=UDim2.new(1,-12,0,42);row.Position=UDim2.fromOffset(6,6+(i-1)*46);row.Text=entry[2];row.TextWrapped=true;row.TextSize=13;row.TextColor3=Color3.new(1,1,1);row.BackgroundColor3=Color3.fromRGB(47,58,72);row.ZIndex=33;row.Parent=panel;local symbol=Art.icon(row,kind,18,Color3.fromRGB(173,208,233));symbol.Position=UDim2.fromOffset(8,10);local padding=Instance.new("UIPadding");padding.PaddingLeft=UDim.new(0,34);padding.PaddingRight=UDim.new(0,6);padding.Parent=row;rows[kind]={Button=row,Name=entry[2]}
-  row.Activated:Connect(function()
-   local quote=profile and profile.Missiles and profile.Missiles.Quotes[kind]
-   if phase~="Started" or not profile or profile.Spectator or profile.Eliminated or not quote or not quote.Affordable then notice("Missile unavailable or insufficient gold.");return end
-   cancelOther();mode=kind;panel.Visible=false;toggle.Text="Cancel target";notice("Choose a target for "..entry[2]..". The nearest ready silo launches; the server validates the target.")
-  end)
+  row.Activated:Connect(function()api.select(kind)end)
+ end
+ function api.select(kind)
+  local quote=profile and profile.Missiles and profile.Missiles.Quotes[kind]
+  if phase~="Started"or not profile or profile.Spectator or profile.Eliminated or not quote or not quote.Affordable then notice("Missile unavailable or insufficient gold.");return end
+  cancelOther();mode=kind;panel.Visible=false;toggle.Text="Cancel target";notice("Choose a target for "..kind..". The nearest ready silo launches; the server validates the target.")
  end
  local summary=Instance.new("TextLabel");summary.Size=UDim2.new(1,-12,0,90);summary.Position=UDim2.fromOffset(6,146);summary.BackgroundTransparency=1;summary.TextWrapped=true;summary.TextSize=12;summary.TextColor3=Color3.fromRGB(210,220,230);summary.ZIndex=33;summary.Parent=panel
  function api.update(p,currentPhase)

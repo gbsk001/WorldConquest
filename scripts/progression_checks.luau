@@ -46,3 +46,14 @@ group.Queued=true;assert(not parties.remove(2,1));group.Queued=false
 assert(parties.remove(1,1));assert(group.Leader==2);assert(parties.remove(3,2));assert(not parties.remove(4,7))
 local started=os.clock();for i=1,10000 do local q=Rules.new();Rules.apply(q,"Daily",nil,now)end
 print(string.format("Stage 13 rules: ownership, balance, UTC daily calendar, duplicate match/receipt/pass grants, retries, failure-closed saves, schema safety and party permissions passed. 10,000 fresh profile/daily operations: %.2f ms (local CPU).",(os.clock()-started)*1000))
+
+-- Stage 14 optional flags: migration retains ownership and every paid item.
+do
+ local fresh=Rules.new();assert(fresh.Equipped.Flag==nil and fresh.Owned.flag_horizon)
+ local legacy=Rules.new();legacy.Equipped.Flag="flag_horizon";legacy.Owned.flag_general=true;legacy.Stars=123
+ local migrated=Rules.copy(legacy);assert(migrated.Equipped.Flag==nil and migrated.Stars==123 and migrated.Owned.flag_general)
+ assert(Rules.apply(migrated,"Equip","flag_horizon",0));assert(Rules.copy(migrated).Equipped.Flag=="flag_horizon")
+ assert(Rules.apply(migrated,"Unequip","Flag",0));assert(Rules.copy(migrated).Equipped.Flag==nil)
+ legacy.Equipped.Flag="flag_general";assert(Rules.copy(legacy).Equipped.Flag=="flag_general")
+ print("Optional flags: no auto-equip, legacy default migration, explicit choice survives reload, unequip and purchased ownership preserved.")
+end

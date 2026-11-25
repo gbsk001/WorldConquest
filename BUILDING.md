@@ -64,3 +64,20 @@ Keep `CommerceConfig.luau` `EnablePaidPurchasePrompts=false`. The delivered `Pur
 uses temporary progression deliberately. Review `docs/STAGE12_13_ACCEPTANCE.md`,
 `docs/MOBILE_ACCEPTANCE.md` and `docs/SOURCE_RELEASE.md` before updating the existing
 experience. Building or testing does not publish anything.
+
+## Stage 14 geographical colour data
+
+Pre-generated `src/shared/Geography` modules build with Rojo without Python image
+libraries or asset uploads. To regenerate the display-only geography:
+
+```powershell
+python -m pip install --target build/stage14libs -r scripts/requirements-geography.txt
+python scripts/generate_geography.py
+python scripts/check_stage14.py
+```
+
+The original public-domain raster archive is included under `data`; the generator
+checks its SHA-256 and georeferencing. It never modifies gameplay terrain/ownership.
+Run `python scripts/check_stage10_all.py` for all Stage 1?13 regressions and then
+`python scripts/package_stage10.py` to rebuild the legacy-named place artifact.
+Rendered acceptance is separate; see `docs/STAGE14_ACCEPTANCE.md`.

@@ -107,3 +107,9 @@ Existing OpenFront copyrights, AGPL-3.0 and additional terms remain unchanged.
 Modified 2026-11-23: original generated abstract participant profile icons,
 unified participant labels and general match-level AI disclosure. Server AI
 identification and behaviour unchanged. All existing licence notices retained.
+
+Modified 2026-11-25: original Stage 14 full-screen interface, explicit background
+layering, floating HUD/construction, optional flags and cached terrain presentation.
+Natural Earth II v3.2.0 shaded-relief/idealized land-cover raster is public domain;
+original archive, hashes and generator supplied. No RoWorld artwork, branding or
+closed-source code is included. OpenFront copyrights and AGPL terms retained.

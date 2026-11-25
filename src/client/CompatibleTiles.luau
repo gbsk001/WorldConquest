@@ -32,6 +32,13 @@ function Tiles.new(canvas,raster)
    local function color(px)
     local t=y*job.Step*Map.Width+px*job.Step
     local r,g,b,owned=raster.sample(job.Level,px,y,0)
+    if Map.terrain then
+     local land=Map.isLand(t+1);local tr,tg,tb=39,91,133
+     if land then tr,tg,tb=Map.terrain(math.min(job.Level,6),math.floor(px*job.Step/2^math.min(job.Level,6)),math.floor(y*job.Step/2^math.min(job.Level,6)))end
+     if owned==1 then tr=tr*.42+r*.58;tg=tg*.42+g*.58;tb=tb*.42+b*.58 end
+     -- Reduce colours only in the recovery renderer, to merge adjacent GUI runs.
+     return Color3.fromRGB(math.floor(tr/12)*12,math.floor(tg/12)*12,math.floor(tb/12)*12)
+    end
     if owned==1 then return Color3.fromRGB(r,g,b)end
     return if Map.isLand(t+1)then Color3.fromRGB(115,139,128)else Color3.fromRGB(20,45,65)
    end

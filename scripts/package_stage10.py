@@ -17,6 +17,6 @@ if not preview_path.exists():preview_path=r/'build/studio-performance-preview-20
 if not preview_path.exists():preview_path=r/'build/studio-gui-update-preview-2026-11-23.json'
 preview=json.loads(preview_path.read_text()) if preview_path.exists() else {}
 preview_matches=preview.get('files')==files
-manifest={'stage':13,'simulation_stage':11,'stage12_implemented':True,'stage12_live_verified':False,'artifact':artifact.relative_to(r).as_posix(),'sha256':hashlib.sha256(artifact.read_bytes()).hexdigest(),'files':files,'studio_full_acceptance':False,'studio_render_preview':preview.get('scope') if preview_matches else None,'live_services_tested':False,'published':False}
+manifest={'stage':14,'stage14_visual_accepted':False,'simulation_stage':11,'stage12_implemented':True,'stage12_live_verified':False,'artifact':artifact.relative_to(r).as_posix(),'sha256':hashlib.sha256(artifact.read_bytes()).hexdigest(),'files':files,'studio_full_acceptance':False,'studio_render_preview':preview.get('scope') if preview_matches else None,'live_services_tested':False,'published':False}
 (r/'build/stage10-build-manifest.json').write_text(json.dumps(manifest,indent=2))
 print(f'Verified {len(files)} current sources in Stage 10 candidate. No live testing or publication.')

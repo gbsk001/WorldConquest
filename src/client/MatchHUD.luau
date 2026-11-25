@@ -77,7 +77,7 @@ function HUD.new(parent,locate,localUserId)
  function api.update(state)
   latest=state
   if state.MatchID~=lastMatch then panel.Visible=false;lastMatch=state.MatchID;previousPhase=nil end
-  if state.Phase=="Started"and previousPhase~="Started"then panel.Visible=parent.AbsoluteSize.X>=700 and parent.AbsoluteSize.Y>=350 end
+  if state.Phase=="Started"and previousPhase~="Started"then panel.Visible=false end -- Live rankings are opened explicitly; results still open automatically.
   if (state.Phase=="Victory"or state.Phase=="Results")and previousPhase~="Victory"and previousPhase~="Results"then panel.Visible=true end
   if state.Phase=="Victory"and previousPhase~="Victory"and state.Winner and state.Winner.UserId==localUserId then
    for _,p in ipairs(state.Players or {})do if p.UserId==localUserId and p.Cosmetics and p.Cosmetics.Victory then

@@ -34,7 +34,7 @@ ui.mount(shop.Toggle,shop.Panel,2,shop.cancel);ui.mount(navy.Toggle,navy.Panel,3
 shop.Toggle.Activated:Fire();navy.Toggle.Activated:Fire();assert(navy.Panel.Visible and not shop.Panel.Visible)
 click(root,"Settings");assert(not navy.Panel.Visible);click(root,"Fit Earth");click(root,"Zoom in");click(root,"Zoom out");click(root,"Motion: subtle");assert(fits==1 and zoom>1)
 for _,size in ipairs({{320,568},{390,844},{768,1024},{844,390},{1366,768},{1920,1080}})do
- root.AbsoluteSize=Vector2.new(size[1],size[2]);local height=size[2]+viewport.Size.Y.Offset;assert(height>0 and viewport.Position.Y.Offset+height<=size[2]-(if size[2]<500 then 80 else 100))
+ root.AbsoluteSize=Vector2.new(size[1],size[2]);assert(viewport.Size.X.Scale==1 and viewport.Size.Y.Scale==1 and viewport.Position.X.Offset==0 and viewport.Position.Y.Offset==0,"HUD must not shrink the map")
 end
 ui.stats(profile,{Rankings={profile}});ui.notify("Test");ui.close();assert(not shop.Panel.Visible and not navy.Panel.Visible)
 hud.update({MatchID=1,Phase="Victory",Tick=10,RestartAt=190,Winner={Name="Tester"},Rankings={}});assert(hud.Panel.Visible)
@@ -59,7 +59,7 @@ do
  local board=MatchHUD.new(parent,function(x,y)located={x,y}end,1)
  local people={};for i=1,500 do people[i]={UserId=i,SmallId=i,Username="Player"..i,Count=i,X=i,Y=i+1}end
  local state={MatchID=9,Phase="Started",Tick=1,Players=people}
- board.update(state);assert(board.Panel.Visible,"Live rankings open once on match start")
+ board.update(state);assert(not board.Panel.Visible,"Live rankings start collapsed");board.Toggle.Activated:Fire()
  local function cards()local out={};for _,o in ipairs(board.Panel:GetChildren())do if o.Name=="RankingCard"and o.Visible then table.insert(out,o)end end;return out end
  assert(#cards()==11,"Top ten plus own outside-rank row")
  cards()[1].Activated:Fire();assert(located)
@@ -82,7 +82,41 @@ do
  click(root,"Leave Game");assert(root:FindFirstChild("LeaveConfirmation").Visible and left==0)
  click(root,"Stay");assert(not root:FindFirstChild("LeaveConfirmation").Visible and left==0)
  click(root,"Leave Game");click(root,"Leave Match");assert(left==1 and not root:FindFirstChild("LeaveConfirmation").Visible)
- ui.Army.Visible=true;root:GetDescendants();local x=viewport:FindFirstChild("ArmyClose");assert(x and x.Visible);x.Activated:Fire();assert(not ui.Army.Visible)
+ ui.Army.Visible=true;root:GetDescendants();local x=root:FindFirstChild("ArmyClose");assert(x and x.Visible);x.Activated:Fire();assert(not ui.Army.Visible)
  ui.Army.Visible=true;input.InputBegan:Fire({KeyCode=Enum.KeyCode.Escape},true);assert(not ui.Army.Visible,"Escape closes custom panels even when CoreGui processes it")
  print("Permanent Leave confirmation, Stay, server callback and independent graphical close controls passed.")
+end
+
+-- Stage 14: real adapters share the horizontal construction menu and exact orders.
+do
+ profile.Spectator=false;owned.Type="Warship";shop.attach(navy,missiles)
+ shop.update(profile,"Started");navy.update(profile,"Started");missiles.update(profile,"Started")
+ for _,entry in ipairs({{"Warship","Warship"},{"Atom Bomb","AtomBomb"},{"Hydrogen Bomb","HydrogenBomb"},{"MIRV","MIRV"}})do
+  shop.Panel.Visible=true;shop.update(profile,"Started");click(shop.Panel,entry[1])
+  if entry[2]=="Warship"then assert(navy.click(100,120))else assert(missiles.click(100,120))end
+  assert((orders[#orders].Type or orders[#orders].Action)==entry[2])
+ end
+ assert(shop.Panel.ScrollingDirection==Enum.ScrollingDirection.X)
+ print("Horizontal construction: six existing buildings plus warship/three missiles share authoritative actions and quotes.")
+end
+do
+ local root=Instance.new("Frame");local viewport=Instance.new("Frame");viewport.Parent=root
+ local labels={};for i=1,6 do labels[i]=Instance.new("TextLabel")end
+ local fits,focus,ratio,nation=0,0,nil,nil
+ local ui=nil
+ -- A separate instance supplies explicit map callbacks for phase transitions.
+ root=Instance.new("Frame");viewport=Instance.new("Frame");viewport.Parent=root
+ ui=StrategyUI.new(root,viewport,labels[1],labels[2],labels[3],labels[4],labels[5],labels[6],{reset=function()fits+=1 end,focus=function()focus+=1 end})
+ ui.bindAllocation(function(value)ratio=value end);ui.bindNation(function(value)nation=value end)
+ click(root,"35%");assert(ratio==.35)
+ local field=root:FindFirstChild("SpawnSelection"):FindFirstChild("NationNameInput");field.Text="Nova Republic";click(root,"Save name");assert(nation=="Nova Republic")
+ local p={UserId=7,Troops=1000,Cap=2000,Count=100,Gold="100",Spawn=1,X=1,Y=1}
+ local state={Phase="Selecting",Players={p},SelectedSpawns=3,Participants=20,EndTick=200,Tick=50}
+ ui.stats(p,state);assert(fits==1)
+ assert(root:FindFirstChild("SpawnSelection").Visible and not root:FindFirstChild("CommandBar").Visible)
+ state.Phase="Started";ui.stats(p,state);ui.stats(p,state);assert(focus==1 and root:FindFirstChild("CommandBar").Visible)
+ for _,size in ipairs({{320,568},{390,844},{844,390},{768,1024},{1024,768},{1920,1080}})do
+  root.AbsoluteSize=Vector2.new(size[1],size[2]);local bar=root:FindFirstChild("CommandBar");assert(bar.Size.X.Offset<=size[1] and bar.Size.Y.Offset<=124)
+ end
+ print("Floating HUD: exact allocation callback, accessible nation submission, selecting/gameplay visibility, one-time fit/focus and phone/tablet/desktop bounds passed.")
 end

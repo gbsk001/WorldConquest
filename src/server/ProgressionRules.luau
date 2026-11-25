@@ -3,13 +3,17 @@
 local Catalog=require(game:GetService("ReplicatedStorage").Shared.ProgressionCatalog)
 local Rules={}
 function Rules.new()
- return {Version=1,Revision=0,Stars=0,Owned={flag_horizon=true},Equipped={Flag="flag_horizon"},Achievements={},Daily={Day=-1,Streak=0},Stats={Wins=0,Matches=0,Territory=0,HumanEliminations=0,BestStreak=0,Soldiers=0,Streak=0},Matches={},Receipts={},Entitlements={}}
+ return {Version=1,Revision=0,Stars=0,Owned={flag_horizon=true},Equipped={},Achievements={},Daily={Day=-1,Streak=0},Stats={Wins=0,Matches=0,Territory=0,HumanEliminations=0,BestStreak=0,Soldiers=0,Streak=0},Matches={},Receipts={},Entitlements={}}
 end
 function Rules.copy(old)
  if old==nil then return Rules.new()end
  assert(old.Version==1,"Unsupported profile schema; refusing to overwrite data")
  local function clone(v)if type(v)~="table"then return v end;local out={};for k,x in pairs(v)do out[k]=clone(x)end;return out end
- return clone(old)
+ local p=clone(old)
+ -- Legacy starter flags were automatically equipped. Preserve ownership; require
+ -- an explicit Equip action before displaying that default flag in gameplay.
+ if not p.FlagSelectionExplicit and p.Equipped.Flag=="flag_horizon"then p.Equipped.Flag=nil end
+ return p
 end
 local function credit(p,n)p.Stars=math.min(1000000000,p.Stars+n)end
 function Rules.apply(p,action,data,now)
@@ -25,7 +29,7 @@ function Rules.apply(p,action,data,now)
   p.Stars-=item.Price;p.Owned[data]=true
  elseif action=="Equip"then
   local item=Catalog.ByID[data];if not item or not p.Owned[data]then return false,"You do not own that item."end
-  p.Equipped[item.Category]=data
+  p.Equipped[item.Category]=data;if item.Category=="Flag"then p.FlagSelectionExplicit=true end
  elseif action=="Unequip"then
   if not table.find(Catalog.Categories,data)then return false,"Unknown category."end;p.Equipped[data]=nil
  elseif action=="Daily"then

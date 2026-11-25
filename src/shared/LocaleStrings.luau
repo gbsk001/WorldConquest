@@ -3,6 +3,10 @@
 local Strings={}
 Strings.Locales={"auto","en-us","es-es","fr-fr"}
 Strings.Rows={
+ {"CHOOSE YOUR STARTING LOCATION","ELIGE TU POSICIÓN INICIAL","CHOISISSEZ VOTRE POSITION DE DÉPART"},
+ {"Tap available land to place your capital.","Toca tierra disponible para colocar tu capital.","Touchez une terre disponible pour placer votre capitale."},
+ {"Save name","Guardar nombre","Enregistrer le nom"},{"Flag Shop","Tienda de banderas","Boutique de drapeaux"},
+ {"General Pass","Pase General","Pass Général"},{"BUILD","CONSTRUIR","CONSTRUIRE"},
  {"PLAY","JUGAR","JOUER"},{"Party","Grupo","Groupe"},{"Settings","Ajustes","Paramètres"},{"Tutorial","Tutorial","Tutoriel"},
  {"Shop","Tienda","Boutique"},{"Arsenal","Arsenal","Arsenal"},{"Profile","Perfil","Profil"},{"Inventory","Inventario","Inventaire"},
  {"Private Match","Partida privada","Partie privée"},{"Public Match","Partida pública","Partie publique"},{"Global Rankings","Clasificación global","Classement mondial"},

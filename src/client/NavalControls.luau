@@ -12,9 +12,11 @@ function Controls.new(parent,send,notice,hit,nextSequence,allocation,cancelBuild
  toggle.Activated:Connect(function()if mode then api.cancel() else if not panel.Visible then cancelBuilding() end;panel.Visible=not panel.Visible end end)
  local function select(value)
   if phase~="Started" or not profile or profile.Spectator or profile.Eliminated then notice("Spawn into the match first.");return end
+  if value=="Warship"and (not profile.Naval or not profile.Naval.Affordable)then notice("Insufficient money for a warship.");return end
   cancelBuilding();mode=value;selected=nil;panel.Visible=false;toggle.Text="Cancel naval"
   notice(if value=="Transport" then "Click an unclaimed or enemy coast. Uses the army allocation; maximum 3 transports; no port required." elseif value=="Warship" then "Click water reachable from your completed port to buy a patrolling warship." elseif value=="Move" then "Click your warship, then its new patrol location." else "Click your transport to return it to your coast. Successful return loses 25% of its troops.")
  end
+ api.select=select
  local rows={}
  for i,entry in ipairs({{"Transport","Launch invasion"},{"Warship","Buy warship"},{"Move","Move warship"},{"Retreat","Return transport"}}) do
   local action=entry[1];local b=Instance.new("TextButton");b.Size=UDim2.new(1,-12,0,44);b.Position=UDim2.fromOffset(6,6+(i-1)*48);b.Text=entry[2];b.TextSize=13;b.TextColor3=Color3.new(1,1,1);b.BackgroundColor3=Color3.fromRGB(37,60,76);b.ZIndex=31;b.Parent=panel;local kind=if string.find(string.lower(entry[2]),"warship")then "Warship"elseif string.find(string.lower(entry[2]),"trade")then "TradeShip"else "TransportShip";local symbol=Art.icon(b,kind,18,Color3.fromRGB(173,208,233));symbol.Position=UDim2.fromOffset(8,10);local padding=Instance.new("UIPadding");padding.PaddingLeft=UDim.new(0,34);padding.PaddingRight=UDim.new(0,6);padding.Parent=b;rows[action]=b

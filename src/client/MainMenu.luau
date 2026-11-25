@@ -13,18 +13,18 @@ function Menu.request(action,data)if activeRequest then activeRequest(action,dat
 function Menu.new(showGame)
  local player=Players.LocalPlayer;local remote=RS:WaitForChild("WorldConquestLobby")
  local gui=Instance.new("ScreenGui");gui.Name="WorldConquestMenu";gui.ResetOnSpawn=false;gui.DisplayOrder=30;gui.ScreenInsets=Enum.ScreenInsets.None;gui.ClipToDeviceSafeArea=false;gui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;gui.Parent=player.PlayerGui
- local shade=Instance.new("Frame");shade.Size=UDim2.fromScale(1,1);shade.BackgroundColor3=Color3.fromRGB(9,14,23);shade.BackgroundTransparency=0.12;shade.BorderSizePixel=0;shade.Active=true;shade.Parent=gui
+ local shade=Instance.new("Frame");shade.Size=UDim2.fromScale(1,1);shade.BackgroundColor3=Color3.fromRGB(9,14,23);shade.BackgroundTransparency=0;shade.BorderSizePixel=0;shade.Active=false;shade.Name="MenuBackground";shade.ZIndex=0;shade.Parent=gui
  -- Decorative map must never block menu controls or depend on image permission.
  local schedule=task.defer or task.spawn
  schedule(function()pcall(function()local map=require(RS.Shared.Map);if shade.Parent then Art.world(shade,map)end end)end)
- local overlay=Instance.new("Frame");overlay.Size=UDim2.fromScale(1,1);overlay.BackgroundColor3=Color3.fromRGB(5,10,20);overlay.BackgroundTransparency=.3;overlay.BorderSizePixel=0;overlay.Parent=shade
- local panel=Instance.new("Frame");panel.AnchorPoint=Vector2.new(.5,.5);panel.Position=UDim2.fromScale(.5,.5);panel.BackgroundTransparency=1;panel.Parent=shade;panel.Name="MenuComposition"
+ local overlay=Instance.new("Frame");overlay.Size=UDim2.fromScale(1,1);overlay.BackgroundColor3=Color3.fromRGB(5,10,20);overlay.BackgroundTransparency=.38;overlay.BorderSizePixel=0;overlay.Name="BackgroundShade";overlay.ZIndex=2;overlay.Active=false;overlay.Parent=shade
+ local panel=Instance.new("Frame");panel.AnchorPoint=Vector2.new(.5,.5);panel.Position=UDim2.fromScale(.5,.5);panel.BackgroundTransparency=1;panel.ZIndex=10;panel.Parent=gui;panel.Name="MenuComposition"
  local scale=Instance.new("UIScale");scale.Parent=panel
  local title=Instance.new("TextLabel");title.Position=UDim2.fromOffset(20,12);title.Size=UDim2.new(1,-40,0,80);title.BackgroundTransparency=1;title.Font=Enum.Font.GothamBold;title.TextSize=64;title.TextColor3=Color3.fromRGB(235,241,250);title.TextXAlignment=Enum.TextXAlignment.Left;title.Text="WORLD CONQUEST";title.Parent=panel
  local subtitle=Instance.new("TextLabel");subtitle.Position=UDim2.fromOffset(22,94);subtitle.Size=UDim2.new(1,-40,0,36);subtitle.BackgroundTransparency=1;subtitle.Font=Enum.Font.Gotham;subtitle.TextSize=12;subtitle.TextXAlignment=Enum.TextXAlignment.Left;subtitle.TextWrapped=true;subtitle.TextColor3=Color3.fromRGB(180,194,215);subtitle.Text="Earth is yours to contest.\nUnofficial adaptation · © OpenFront and Contributors";subtitle.Parent=panel
- local content=Instance.new("ScrollingFrame");content.Position=UDim2.fromOffset(20,150);content.Size=UDim2.new(1,-40,1,-220);content.BackgroundTransparency=1;content.BorderSizePixel=0;content.ScrollBarThickness=4;content.AutomaticCanvasSize=Enum.AutomaticSize.Y;content.CanvasSize=UDim2.new();content.Parent=panel
+ local content=Instance.new("ScrollingFrame");content.Position=UDim2.fromOffset(20,150);content.Size=UDim2.new(1,-40,1,-220);content.BackgroundTransparency=1;content.BorderSizePixel=0;content.ScrollBarThickness=4;content.AutomaticCanvasSize=Enum.AutomaticSize.Y;content.CanvasSize=UDim2.new();content.ZIndex=20;content.Parent=panel
  local layout=Instance.new("UIListLayout");layout.Padding=UDim.new(0,10);layout.SortOrder=Enum.SortOrder.LayoutOrder;layout.Parent=content
- local message=Instance.new("TextLabel");message.Position=UDim2.new(0,20,1,-66);message.Size=UDim2.new(1,-40,0,54);message.BackgroundTransparency=1;message.Font=Enum.Font.Gotham;message.TextSize=13;message.TextWrapped=true;message.TextColor3=Color3.fromRGB(139,195,244);message.Parent=panel
+ local message=Instance.new("TextLabel");message.Position=UDim2.new(0,20,1,-66);message.Size=UDim2.new(1,-40,0,54);message.BackgroundTransparency=1;message.Font=Enum.Font.Gotham;message.TextSize=13;message.TextWrapped=true;message.TextColor3=Color3.fromRGB(139,195,244);message.ZIndex=70;message.Parent=panel
  local state={Screen="Menu"};local page="Home";local sequence=0;local revision=0;local renderKey="";local countdown=nil;local tutorial=1;local received=false
  local render;local premium=nil
  local matchmaking=false;local playButton=nil;local busySerial=0
@@ -99,6 +99,7 @@ function Menu.new(showGame)
   content.Position=UDim2.fromOffset(20,if hero then 150 else 126)
   content.Size=UDim2.new(1,-40,1,if hero then -220 else -196)
   if gui.AbsoluteSize.X>=800 then content.ScrollBarThickness=0 end
+  if gui.AbsoluteSize.Y<500 and not hero then content.Position=UDim2.fromOffset(12,82);content.Size=UDim2.new(1,-24,1,-132)end
   local premiumPage=premium and premium.render(page,state)
   title.Visible=not (premiumPage and page=="Home");subtitle.Visible=title.Visible
   if premiumPage then
@@ -206,7 +207,7 @@ function Menu.new(showGame)
   if key~=renderKey then renderKey=key;render()end
   if countdown then countdown.Text=if state.Countdown then tostring(state.Countdown).."s"else "READY"end
  end)
- local credit=Instance.new("TextLabel");credit.Name="Attribution";credit.BackgroundTransparency=1;credit.Position=UDim2.new(0,20,1,-22);credit.Size=UDim2.new(1,-40,0,18);credit.Font=Enum.Font.Gotham;credit.TextSize=10;credit.TextColor3=Color3.fromRGB(140,159,181);credit.Text="Unofficial OpenFront adaptation / OpenFront and Contributors / AGPL-3.0"..(if Config.SourceURL and Config.SourceURL~=""then " / "..Config.SourceURL else "");credit.Parent=panel
+ local credit=Instance.new("TextLabel");credit.Name="Attribution";credit.BackgroundTransparency=1;credit.Position=UDim2.new(0,20,1,-22);credit.Size=UDim2.new(1,-40,0,18);credit.Font=Enum.Font.Gotham;credit.TextSize=10;credit.TextColor3=Color3.fromRGB(140,159,181);credit.Text="Unofficial OpenFront adaptation / ? OpenFront and Contributors / AGPL-3.0";credit.TextWrapped=true;credit.Size=UDim2.new(1,-40,0,26);credit.Position=UDim2.new(0,20,1,-26);credit.Parent=panel
  local close=Instance.new("TextButton");close.Name="CloseMenuPage";close.Text="";close.Size=UDim2.fromOffset(44,44);close.Position=UDim2.new(1,-56,0,8);close.BackgroundTransparency=.2;close.BackgroundColor3=Color3.fromRGB(27,39,55);close.ZIndex=60;close.Parent=panel
  local x=Art.icon(close,"Close",18,Color3.fromRGB(223,235,248));x.Position=UDim2.fromOffset(13,13)
  close.Activated:Connect(function()navigate("Home")end)

@@ -64,7 +64,7 @@ for i=1,6 do sim.Tick=i*300;sim.Players[101].TileVersion=i*100;bridge.Observe(si
 sim.Phase="Victory";bridge.Observe(sim,{});assert(liveStore.u101.Stars==balance)
 bridge.ActiveID="afkMatch";bridge.MatchKind="Public";sim.Tick=0;sim.Phase="Started";bridge.Observe(sim,{})
 sim.Tick=2000;sim.Phase="Victory";bridge.Observe(sim,{});assert(liveStore.u101.Stars==balance)
-local meta={Players={{UserId=101}}};bridge.Decorate(meta);assert(meta.Players[1].Cosmetics.Flag=="flag_horizon")
+local meta={Players={{UserId=101}}};bridge.Decorate(meta);assert(meta.Players[1].Cosmetics.Flag==nil,"No automatically equipped flags")
 net.OnServerEvent:Fire(human,"Match","fake");assert(liveStore.u101.Stars==balance)
 print("Stage 13 production server: receipt retry/idempotency, unknown product, DataStore outage deferral, authoritative completion/victory, private/AFK exclusion, no client reward endpoint and cosmetic projection passed. Roblox services simulated; no live purchase or persistence verification.")
 local purchased={};local checkCount=0

@@ -19,6 +19,13 @@ return function(session)
   return Simulation.new(Terrain,Map,(if session and session.MatchSeed then session.MatchSeed else Config.SimulationSeed+round-1),{Stage=Config.PortStage,Economy=Config.Economy,Buildings=Config.Buildings,Match=match,MatchID=round,Bots=if session then session.BotSettings else Config.Bots})
  end
  local sim=createMatch()
+ if session then
+  session.CanChangeNationName=function(p)return not session.Allowed[p]or sim.Phase=="Selecting"end
+  session.NationChanged=function(p,name)
+   local participant=sim.Players[p.UserId]
+   if participant and sim.Phase=="Selecting"then participant.Username=name;sim.MetadataDirty=true end
+  end
+ end
 	Players.CharacterAutoLoads=false
 	local remote=Instance.new("RemoteEvent"); remote.Name="WorldConquestEvent"
 	local connected,requests,transfers,ready={},{},{},{}

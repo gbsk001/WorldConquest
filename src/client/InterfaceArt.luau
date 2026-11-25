@@ -133,44 +133,25 @@ function Art.profile(parent,name,size)
  return root
 end
 function Art.world(parent,map)
- local world=Instance.new("Frame");world.Name="EarthSilhouette";world.BackgroundTransparency=1;world.Size=UDim2.fromScale(1.3,1);world.Position=UDim2.fromScale(-.15,0);world.Parent=parent
- -- Original static cartography. Two cached paintings cross-fade only in the menu;
- -- no world simulation, new allocations, or texture writes during animation.
- local ok,texture=pcall(function()return game:GetService("AssetService"):CreateEditableImage({Size=Vector2.new(256,128)})end)
- if ok and texture then
-  local pixels=buffer.create(256*128*4);local alternate=buffer.create(256*128*4);local deadline=os.clock()+.002
-  local paints={{62,118,160},{66,146,132},{188,142,74},{118,104,162},{161,91,102},{78,133,156}}
-  local sites={{30,32},{54,44},{65,77},{82,96},{116,30},{128,60},{145,86},{164,32},{188,44},{205,66},{221,101},{155,49}}
-  for y=0,127 do
-   for x=0,255 do
-    if map.isLand(math.floor((y+.5)*map.Height/128)*map.Width+math.floor((x+.5)*map.Width/256)+1)then
-     local closest,best=1,math.huge;for i,s in ipairs(sites)do local d=(x-s[1])^2+(y-s[2])^2;if d<best then best=d;closest=i end end
-     local c=paints[(closest-1)%#paints+1];local d=paints[(closest+(if closest%3==0 then 1 else 0)-1)%#paints+1]
-     buffer.writeu32(pixels,(y*256+x)*4,c[1]+c[2]*256+c[3]*65536+215*16777216)
-     buffer.writeu32(alternate,(y*256+x)*4,d[1]+d[2]*256+d[3]*65536+215*16777216)
-    end
-   end
-   if task and task.wait and y%8==7 and os.clock()>=deadline then task.wait();deadline=os.clock()+.002 end
-  end
-  texture:WritePixelsBuffer(Vector2.zero,Vector2.new(256,128),pixels)
-  local image=Instance.new("ImageLabel");image.BackgroundTransparency=1;image.Size=UDim2.fromScale(1,1);image.ImageContent=Content.fromObject(texture);image.Parent=world
-  local secondOK,second=pcall(function()return game:GetService("AssetService"):CreateEditableImage({Size=Vector2.new(256,128)})end)
-  if secondOK and second then
-   local uploaded=pcall(function()second:WritePixelsBuffer(Vector2.zero,Vector2.new(256,128),alternate)end)
-   if uploaded then
-    local overlay=Instance.new("ImageLabel");overlay.BackgroundTransparency=1;overlay.Size=UDim2.fromScale(1,1);overlay.ImageContent=Content.fromObject(second);overlay.ImageTransparency=1;overlay.Parent=world
-    local screen=parent:FindFirstAncestorWhichIsA("ScreenGui");local tween=nil;local shown=false
-    local function pause()if tween then tween:Cancel();tween=nil end end
-    if screen then screen:GetPropertyChangedSignal("Enabled"):Connect(function()if not screen.Enabled then pause()end end)end
-    task.spawn(function()while world.Parent do task.wait(12);if world.Parent and (not screen or screen.Enabled)then shown=not shown;pause();tween=game:GetService("TweenService"):Create(overlay,TweenInfo.new(4,Enum.EasingStyle.Sine),{ImageTransparency=if shown then 0 else 1});tween:Play()end end end)
-    world.Destroying:Connect(function()pause();second:Destroy()end)
-   else second:Destroy()end
-  end
-  world.Destroying:Connect(function()texture:Destroy()end)
+ -- A dedicated low sibling branch; deferred imagery can never cover menu content.
+ local world=Instance.new("Frame");world.Name="EarthSilhouette";world.BackgroundTransparency=1;world.Size=UDim2.fromScale(1,1);world.ZIndex=0;world.Active=false;world.ClipsDescendants=true;world.Parent=parent
+ local canvas=Instance.new("Frame");canvas.Name="MenuTerrain";canvas.BorderSizePixel=0;canvas.BackgroundColor3=Color3.fromRGB(39,91,133);canvas.ZIndex=0;canvas.Active=false;canvas.Parent=world
+ local terrain=require(script.Parent.TerrainColors);map.terrain=terrain.sample
+ local raster={sample=function()return 0,0,0,0 end}
+ local tiles=require(script.Parent.MapTiles).new(canvas,raster)
+ if not tiles then tiles=require(script.Parent.CompatibleTiles).new(canvas,raster)end
+ local screen=parent:FindFirstAncestorWhichIsA("ScreenGui")
+ local last=nil;local lastX=nil;local lastY=nil
+ local function update()
+  local enabled=not screen or screen.Enabled;tiles.setEnabled(enabled);if not enabled then return end
+  local size=world.AbsoluteSize;if size.X<=0 or size.Y<=0 then return end
+  local scale=math.max(size.X/map.Width,size.Y/map.Height)
+  local x=(size.X-map.Width*scale)/2;local y=(size.Y-map.Height*scale)/2
+  if last~=scale or lastX~=x or lastY~=y then canvas.Position=UDim2.fromOffset(x,y);canvas.Size=UDim2.fromOffset(map.Width*scale,map.Height*scale);last=scale;lastX=x;lastY=y end
+  tiles.update(x,y,scale,size.X,size.Y)
  end
-
- for x=0,12 do local line=Instance.new("Frame");line.BackgroundColor3=Color3.fromRGB(81,118,145);line.BackgroundTransparency=.88;line.BorderSizePixel=0;line.Position=UDim2.fromScale(x/12,0);line.Size=UDim2.new(0,1,1,0);line.Parent=world end
- for y=0,6 do local line=Instance.new("Frame");line.BackgroundColor3=Color3.fromRGB(81,118,145);line.BackgroundTransparency=.88;line.BorderSizePixel=0;line.Position=UDim2.fromScale(0,y/6);line.Size=UDim2.new(1,0,0,1);line.Parent=world end
- return world
+ local connection=game:GetService("RunService").Heartbeat:Connect(update)
+ world.Destroying:Connect(function()connection:Disconnect();tiles.destroy()end)
+ update();return world
 end
 return Art

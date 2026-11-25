@@ -48,7 +48,7 @@ local MapView=require(script.Parent:WaitForChild("MapView"))
 local remote=ReplicatedStorage:WaitForChild("WorldConquestEvent") :: RemoteEvent
 local bleed=Instance.new("Frame");bleed.Name="FullScreenBackdrop";bleed.Size=UDim2.fromScale(1,1);bleed.BackgroundColor3=Color3.fromRGB(8,14,23);bleed.BorderSizePixel=0;bleed.Parent=gui
 local background=Instance.new("Frame")
-background.BackgroundColor3=Color3.fromRGB(13,25,36); background.BorderSizePixel=0
+background.Name="SafeInterface";background.Active=false;background.BackgroundTransparency=1;background.ZIndex=30; background.BorderSizePixel=0
 background.Parent=gui
 local function layoutSafeArea()
 	local topLeft,bottomRight=GuiService:GetGuiInset()
@@ -75,9 +75,9 @@ end
 local phaseLabel=label("Loading detailed Earth...",36,24)
 local playerLabel=label("Choose your starting location on land.",64,20)
 local viewport=Instance.new("Frame")
-viewport.Name="MapViewport"; viewport.Position=UDim2.fromOffset(12,94)
-viewport.Size=UDim2.new(1,-24,1,-166); viewport.BackgroundColor3=Color3.fromRGB(9,22,33)
-viewport.BorderSizePixel=0; viewport.Parent=background
+viewport.Name="MapViewport"; viewport.Position=UDim2.fromOffset(0,0)
+viewport.Size=UDim2.fromScale(1,1);viewport.ZIndex=1; viewport.BackgroundColor3=Color3.fromRGB(45,93,133)
+viewport.BorderSizePixel=0; viewport.Parent=gui
 local status=label("Loading Natural Earth 10m land and lakes...",0,22)
 status.Position=UDim2.new(0,16,1,-66)
 local help=label("Drag to pan | Wheel or +/- to zoom | Click land",0,30)
@@ -126,6 +126,7 @@ if Config.SimulationMode=="Foundation" and Config.PortStage>=8 then
  missileControls=require(script.Parent.MissileControls).new(viewport,function(order)send("Missile",order)end,function(message)status.Text=message end,nextOrderSequence,function()if buildingShop then buildingShop.cancel() end;if navalControls then navalControls.cancel() end end)
  matchHUD=require(script.Parent.MatchHUD).new(viewport,view.focus,player.UserId)
 end
+if buildingShop then buildingShop.attach(navalControls,missileControls)end
 local selectedAttackID=nil
 local attackSelector=nil
 local resources=label("",89,24)
@@ -134,6 +135,15 @@ for index,control in pairs({[2]=buildingShop,[3]=navalControls,[4]=missileContro
  if control then strategyUI.mount(control.Toggle,control.Panel,index,control.cancel) end
 end
 resources.Visible=false
+local identityRemote=nil
+task.spawn(function()
+ identityRemote=ReplicatedStorage:WaitForChild("WorldConquestIdentity",30)
+ if identityRemote then
+  strategyUI.bindNation(function(value)identityRemote:FireServer(if value==""then "Reset"else "Set",value)end)
+  identityRemote.OnClientEvent:Connect(function(payload)strategyUI.nation(payload.Name);if payload.Message then strategyUI.notify(payload.Message)end end)
+  identityRemote:FireServer("Hello")
+ end
+end)
 if Config.SimulationMode=="Foundation" and Config.PortStage>=2 then
 
 	local function control(text,x,width,callback)
@@ -155,8 +165,11 @@ if Config.SimulationMode=="Foundation" and Config.PortStage>=2 then
 	local function setPointer(position)
 		local fraction=math.clamp((position.X-slider.AbsolutePosition.X)/math.max(1,slider.AbsoluteSize.X),0,1)
 		local value=math.round(1+fraction*99);allocation=value/100
-		amount.Text=string.format("Allocate %d%%",value);fill.Size=UDim2.fromScale((value-1)/99,1);thumb.Position=UDim2.fromScale((value-1)/99,.5)
+		amount.Text=string.format("Allocate %d%%",value);fill.Size=UDim2.fromScale((value-1)/99,1);thumb.Position=UDim2.fromScale((value-1)/99,.5);strategyUI.setAllocation(allocation)
 	end
+ strategyUI.bindAllocation(function(value)
+  allocation=value;amount.Text=string.format("Allocate %d%%",math.round(value*100));fill.Size=UDim2.fromScale((value*100-1)/99,1);thumb.Position=UDim2.fromScale((value*100-1)/99,.5)
+ end)
 	slider.InputBegan:Connect(function(input)
 		if dragging then return end
 		if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then dragging=true;dragInput=input;strategyUI.Army.ScrollingEnabled=false;setPointer(input.Position) end

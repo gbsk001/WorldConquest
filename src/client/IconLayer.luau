@@ -5,7 +5,7 @@ local Layer={}
 function Layer.new(width,create,paint,transition,declutter,maxVisible)
  maxVisible=maxVisible or 256
  local active,pool={},{ }
- local list,colors={},{}
+ local list,colors={},{};local buckets={};local bucketCount=0;local bucketWidth=math.ceil(width/256)
  local dirty=true;local previous=nil
  local api={Created=0,Visible=0,Pooled=0}
  -- Replica replaces the building list whenever units change; ships use a fresh list.
@@ -15,17 +15,26 @@ function Layer.new(width,create,paint,transition,declutter,maxVisible)
    if same then for id in pairs(colors)do if palette[id]==nil then same=false;break end end end
    if same then return end
   end
-  list,colors=units,palette;dirty=true
+  list,colors=units,palette;dirty=true;table.clear(buckets);bucketCount=0
+  for index,u in ipairs(list)do local key=math.floor(u.Tile/width/256)*bucketWidth+math.floor((u.Tile%width)/256);local bucket=buckets[key];if not bucket then bucket={};buckets[key]=bucket;bucketCount+=1 end;table.insert(bucket,index)end
  end
  function api.update(ox,oy,scale,w,h)
   if not dirty and previous and previous[1]==ox and previous[2]==oy and previous[3]==scale and previous[4]==w and previous[5]==h then return end
   previous={ox,oy,scale,w,h};dirty=false
-  local visible={};local count=0;local occupied={}
-  for _,u in ipairs(list) do
+  local visible={};local visibleOrder={};local count=0;local occupied={}
+  local x0=math.max(0,math.floor((-ox-14)/scale/256));local x1=math.min(bucketWidth-1,math.floor((w-ox+14)/scale/256))
+  local y0=math.max(0,math.floor((-oy-14)/scale/256));local y1=math.floor((h-oy+14)/scale/256)
+  local candidates=list
+  if (x1-x0+1)*(y1-y0+1)<math.max(1,bucketCount/4)then
+   local indices={};for y=y0,y1 do for x=x0,x1 do local b=buckets[y*bucketWidth+x];if b then for _,index in ipairs(b)do table.insert(indices,index)end end end end
+   table.sort(indices);candidates={};for _,index in ipairs(indices)do table.insert(candidates,list[index])end
+  end
+  api.Candidates=#candidates
+  for _,u in ipairs(candidates) do
    local x=ox+(u.Tile%width+.5)*scale;local y=oy+(math.floor(u.Tile/width)+.5)*scale
    if x>=-14 and y>=-14 and x<=w+14 and y<=h+14 then
     local key=math.floor(x/26)..":"..math.floor(y/26)
-    if not declutter or not occupied[key] and count<maxVisible then visible[u.ID]=u;count+=1;occupied[key]=true end
+    if not declutter or not occupied[key] and count<maxVisible then visible[u.ID]=u;table.insert(visibleOrder,u);count+=1;occupied[key]=true end
    end
   end
   for id,record in pairs(active) do
@@ -36,7 +45,7 @@ function Layer.new(width,create,paint,transition,declutter,maxVisible)
    end
   end
   -- Preserve source list order for overlap and equal-distance input behaviour.
-  for _,u in ipairs(list) do if visible[u.ID] then
+  for _,u in ipairs(visibleOrder) do if visible[u.ID] then
    local record=active[u.ID]
    if not record then
     local icon=table.remove(pool);if not icon then icon=create();api.Created+=1 end

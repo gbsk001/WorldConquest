@@ -123,7 +123,7 @@ function Server.new(session)
  local function arrived(p)task.spawn(function()local profile=saved(p,nil,nil);passes(p);if profile and not studio then rankings.flush(p.UserId,profile)end end)end
  Players.PlayerAdded:Connect(arrived);Players.PlayerRemoving:Connect(function(p)limits[p]=nil;store.forget(p.UserId)end)
  for _,p in ipairs(Players:GetPlayers())do arrived(p)end
- local cosmetics={};local effects={};local effectID=0;local defaultNation={Flag="flag_horizon"}
+ local cosmetics={};local effects={};local effectID=0;local defaultNation={}
  function session.Decorate(meta)
   meta.CosmeticEffects=effects
   for _,list in ipairs({meta.Players or {},meta.Rankings or {}})do

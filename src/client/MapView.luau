@@ -21,12 +21,14 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 	viewport.ClipsDescendants = true
 	local canvas = Instance.new("Frame")
 	canvas.Name = "Earth"
-	canvas.BackgroundColor3 = Color3.fromRGB(20,45,65)
+	canvas.BackgroundColor3 = Color3.fromRGB(39,91,133)
 	canvas.BorderSizePixel = 0
 	canvas.ClipsDescendants = true
 	canvas.Parent = viewport
 	Art.prepareMapIcons()
     canvas:SetAttribute("IconAtlasEnabled",Art.mapIconsReady())
+	local terrainColors=require(script.Parent.TerrainColors)
+    Map.terrain=terrainColors.sample
 	local raster = Raster.new()
 	local ok,tiles = pcall(Tiles.new,canvas,raster)
 	if not ok or not tiles then
@@ -63,7 +65,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
         local bounds=viewport.AbsoluteSize
         if lastLabels.Version==labelVersion and lastLabels.X==origin.X and lastLabels.Y==origin.Y and lastLabels.Scale==scale and lastLabels.W==bounds.X and lastLabels.H==bounds.Y then return end
         lastLabels={Version=labelVersion,X=origin.X,Y=origin.Y,Scale=scale,W=bounds.X,H=bounds.Y}
-        local occupied={}
+        local occupied={};local cells={}
         for _,marker in ipairs(markerOrder) do
             local x=origin.X+marker.Position.X.Scale*Map.Width*scale
             local y=origin.Y+marker.Position.Y.Scale*Map.Height*scale
@@ -72,10 +74,13 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
             local visible=marker.Visible and y>=30
             if zoom<2 and not marker:GetAttribute("Local") and #occupied>=18 then visible=false end
             if visible then
-                for _,box in ipairs(occupied) do if math.abs(x-box[1])<168 and math.abs(y-box[2])<38 then visible=false;break end end
+                local bx,by=math.floor(x/168),math.floor(y/38)
+                for yy=by-1,by+1 do for xx=bx-1,bx+1 do
+                    local boxes=cells[xx..":"..yy];if boxes then for _,box in ipairs(boxes)do if math.abs(x-box[1])<168 and math.abs(y-box[2])<38 then visible=false;break end end end
+                end end
             end
             if label then label.Visible=visible end
-            if visible then table.insert(occupied,{x,y}) end
+            if visible then local box={x,y};table.insert(occupied,box);local key=math.floor(x/168)..":"..math.floor(y/38);local boxes=cells[key];if not boxes then boxes={};cells[key]=boxes end;table.insert(boxes,box)end
         end
     end
     local function createIcon()
@@ -146,7 +151,9 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
     end,nil,true,if UserInputService.TouchEnabled then 96 else 256)
 
  local lastMetrics=0;local iconWorst=0
- 	local function update()
+ local viewDirty=true
+ local function update()viewDirty=true end
+ 	local function flushView()
         if not screenGui.Enabled then return end
 		local bounds = viewport.AbsoluteSize
 		if bounds.X <= 0 or bounds.Y <= 0 then return end
@@ -209,14 +216,15 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 		zoom = math.clamp(zoom*factor,1,Config.MaxZoom)
 		local newScale = math.min(viewport.AbsoluteSize.X/Map.Width,viewport.AbsoluteSize.Y/Map.Height)*zoom
 		origin = point-(point-origin)*(newScale/oldScale)
+        scale=newScale -- Camera events may coalesce before the next rendered frame.
 		update()
 	end
 	local drag: InputObject? = nil
 	local startPoint, startOrigin = Vector2.zero, Vector2.zero
 	local moved = false
     local function overPanel(point)
-        for _,name in ipairs({"LeaveConfirmation","BuildingInfo","BuildingShop","NavalControls","MissileControls","MatchResults","Army","Settings"}) do
-            local panel=viewport:FindFirstChild(name)or viewport.Parent:FindFirstChild(name)
+        for _,name in ipairs({"LeaveConfirmation","BuildingInfo","BuildingShop","NavalControls","MissileControls","MatchResults","Army","Settings","SpawnSelection","CommandBar","CommandToolbar","MatchSummary","Notification"}) do
+            local panel=viewport:FindFirstChild(name)or (screenGui:FindFirstChild("SafeInterface") and screenGui.SafeInterface:FindFirstChild(name))or viewport.Parent:FindFirstChild(name)
             if panel and panel.Visible then
                 local offset=point-panel.AbsolutePosition;local size=panel.AbsoluteSize
                 if offset.X>=0 and offset.Y>=0 and offset.X<size.X and offset.Y<size.Y then return true end
@@ -250,8 +258,8 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
   if input.UserInputType==Enum.UserInputType.MouseMovement then lastTouchPoint=nil end
 		if input.UserInputType == Enum.UserInputType.MouseWheel then
 			local point = pointer(input)
-            for _,name in ipairs({"LeaveConfirmation","BuildingInfo","BuildingShop","NavalControls","MissileControls","MatchResults","Army","Settings"}) do
-            local shop=viewport:FindFirstChild(name)or viewport.Parent:FindFirstChild(name)
+            for _,name in ipairs({"LeaveConfirmation","BuildingInfo","BuildingShop","NavalControls","MissileControls","MatchResults","Army","Settings","SpawnSelection","CommandBar","CommandToolbar","MatchSummary","Notification"}) do
+            local shop=viewport:FindFirstChild(name)or (screenGui:FindFirstChild("SafeInterface") and screenGui.SafeInterface:FindFirstChild(name))or viewport.Parent:FindFirstChild(name)
             if shop and shop.Visible then
                 local localPoint=point-shop.AbsolutePosition;local bounds=shop.AbsoluteSize
                 if localPoint.X>=0 and localPoint.Y>=0 and localPoint.X<bounds.X and localPoint.Y<bounds.Y then return end
@@ -285,10 +293,12 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
             local nextZoom=zoom+(zoomGoal-zoom)*math.min(1,dt*22)
             if math.abs(zoomGoal-nextZoom)<.002 then nextZoom=zoomGoal;zoomGoal=nil end
             zoomAt(nextZoom/zoom,zoomPoint)
-        else update()end
+        end
+        if viewDirty then viewDirty=false;flushView()
+        elseif screenGui.Enabled then tiles.update(origin.X,origin.Y,scale,viewport.AbsoluteSize.X,viewport.AbsoluteSize.Y)end
     end)
-    screenGui:GetPropertyChangedSignal("Enabled"):Connect(function()if tiles.setEnabled then tiles.setEnabled(screenGui.Enabled)end end)
-	update()
+    screenGui:GetPropertyChangedSignal("Enabled"):Connect(function()if tiles.setEnabled then tiles.setEnabled(screenGui.Enabled)end;viewDirty=true end)
+	flushView()
 
 	local view = {}
  tiles.OnFailure=function()
@@ -354,7 +364,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 		origin = bounds/2-Vector2.new(x,y)*scale
 		update()
 	end
-	function view.reset() zoomGoal=nil;zoom=1; origin=Vector2.zero; update() end
+	function view.reset() zoomGoal=nil;zoom=1;scale=math.min(viewport.AbsoluteSize.X/Map.Width,viewport.AbsoluteSize.Y/Map.Height); origin=Vector2.zero; update() end
 	function view.delta(owner: number, packed: buffer, animate: boolean, deferInvalidation: boolean?)
 		local now = os.clock()
 		for offset = 0,buffer.len(packed)-1,4 do
@@ -419,7 +429,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 					local name = Instance.new("TextLabel")
 					name.Name="Username";name.AutoLocalize=false;name.RichText=false; name.AnchorPoint=Vector2.new(0.5,1)
 					name.Position=UDim2.new(0.5,0,0,-4); name.Size=UDim2.fromOffset(164,32)
-					name.BackgroundTransparency=1;name.BorderSizePixel=0;name.Active=false; name.Font=Enum.Font.GothamMedium; name.TextSize=12
+					name.BackgroundTransparency=1;name.BorderSizePixel=0;name.Active=false; name.Font=Enum.Font.GothamBold; name.TextSize=12
 					name.TextStrokeColor3=Color3.fromRGB(9,14,22);name.TextStrokeTransparency=0.35; name.ZIndex=7; name.Parent=marker
                     -- No background, badge or input surface on territory labels.
 					markers[profile.UserId]=marker
@@ -432,11 +442,13 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 				local name = marker:FindFirstChild("Username") :: TextLabel
 				local text=profile.Username..(if profile.Troops then "\n"..tostring(math.floor(profile.Troops)).." soldiers" else "");if name.Text~=text then name.Text=text end
                 name.TextColor3=Color3.fromRGB(246,248,252)
-                name.TextColor3=Cosmetic.tint(profile.Cosmetics,"NameTag",name.TextColor3)
+                name.TextStrokeColor3=Cosmetic.tint(profile.Cosmetics,"NameTag",Color3.fromRGB(9,14,22))
+                -- Names remain high-contrast; optional flags never replace the name.
+                name:SetAttribute("AccountUsername",profile.AccountUsername or profile.Username)
                 local flagID=profile.Cosmetics and profile.Cosmetics.Flag
                 if marker:GetAttribute("FlagID")~=flagID then
                     marker:SetAttribute("FlagID",flagID);local old=name:FindFirstChild("NationFlag");if old then old:Destroy()end
-                    if flagID then local flag=Cosmetic.flag(name,flagID,20);if flag then flag.Position=UDim2.new(.5,-10,0,-14)end end
+                    if flagID then local flag=Cosmetic.flag(name,flagID,20);if flag then flag.Position=UDim2.new(0,-26,.5,-7)end end
                 end
                 if profile.UserId==game:GetService("Players").LocalPlayer.UserId then table.insert(markerOrder,1,marker)else table.insert(markerOrder,marker)end
 			elseif marker then marker:Destroy(); markers[profile.UserId]=nil;labelsChanged=true end
