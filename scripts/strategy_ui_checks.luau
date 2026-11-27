@@ -13,7 +13,7 @@ local TweenInfo={new=function(...)return {...}end}
 local task={delay=function(_,fn)end}
 local objects={}
 local Instance={new=function(class)
- local props={ClassName=class,Visible=true,AbsoluteSize=Vector2.new(1000,700),AbsolutePosition=Vector2.zero,Position=UDim2.fromOffset(0,0),Size=UDim2.fromOffset(0,0),Activated=signal(),MouseEnter=signal(),MouseLeave=signal(),Destroying=signal()};local signals={};local object={}
+ local props={ZIndex=1,Font=Enum.Font.GothamMedium,TextSize=15,TextColor3=Color3.new(1,1,1),ClassName=class,Visible=true,AbsoluteSize=Vector2.new(1000,700),AbsolutePosition=Vector2.zero,Position=UDim2.fromOffset(0,0),Size=UDim2.fromOffset(0,0),Activated=signal(),MouseEnter=signal(),MouseLeave=signal(),Destroying=signal()};local signals={};local object={}
  local attributes={}
  function props:SetAttribute(k,v)attributes[k]=v end
  function props:GetAttribute(k)return attributes[k]end
@@ -28,3 +28,5 @@ local Instance={new=function(class)
 end}
 local input={InputBegan=signal()}
 local game={GetService=function(_,name)if name=="UserInputService" then return input end;if name=="TweenService" then return {Create=function(_,obj,_,values)return {Cancel=function()end,Play=function()for k,v in pairs(values)do obj[k]=v end end}end}end;return {}end}
+
+local ColorSequence={new=function(...)return {...}end}

@@ -14,11 +14,13 @@ function Match.new(sim,config)
  assert(config.Mode==nil or config.Mode=="FFA" or config.Mode=="Team","Only normal FFA/team victory is implemented")
  assert(not config.Ranked and not config.Tutorial and not config.WaterNukes,"Ranked/tutorial/water-nuke modes are not implemented")
  function api.remember(p)
+  if p.BasicNation then return end
   history[p.UserId]={IsBot=p.IsBot,UserId=p.UserId,Username=p.Username,SmallId=p.SmallId,Count=sim.Grid.Counts[p.SmallId] or 0,Troops=p.Troops,Gold=p.Gold,Team=p.Team,Disconnected=true,Eliminated=p.Eliminated}
  end
  local function ranking()
   local rows={};local live={}
   for _,p in pairs(sim.Players) do
+   if p.BasicNation then continue end
    local count=sim.Grid.Counts[p.SmallId] or 0
    local row={IsBot=p.IsBot,UserId=p.UserId,Username=p.Username,SmallId=p.SmallId,Count=count,Troops=p.Troops,Gold=p.Gold,Team=p.Team,Eliminated=p.Eliminated,Spectator=p.Spectator}
    if p.Spawn or count>0 or p.Eliminated then table.insert(rows,row) end

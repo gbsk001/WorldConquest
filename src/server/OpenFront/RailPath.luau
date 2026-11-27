@@ -3,7 +3,7 @@
 -- Copyright OpenFront and Contributors. AGPL-3.0; pinned 8f1a0add.
 -- Sparse per-search state replaces four world-sized typed arrays (512 MiB here).
 local Path={}
-function Path.search(start,goal,neighbors,cost,heuristic,maxPriority,preflight)
+function Path.search(start,goal,neighbors,cost,heuristic,maxPriority,preflight,slice)
  local closed,g,prev,buckets={},{[start]=0},{[start]=-1},{}
  local count,minBucket=0,maxPriority+1
  local function push(node,priority)
@@ -11,7 +11,7 @@ function Path.search(start,goal,neighbors,cost,heuristic,maxPriority,preflight)
  end
  push(start,heuristic(start,goal));local iterations=500000;local nb={}
  while count>0 do
-  iterations-=1;if iterations<=0 then return nil end
+  iterations-=1;if slice and iterations%64==0 then slice()end;if iterations<=0 then return nil end
   if iterations==498976 and preflight and not preflight() then return nil end
   while not buckets[minBucket] or #buckets[minBucket]==0 do minBucket+=1 end
   local current=table.remove(buckets[minBucket]);count-=1
@@ -29,7 +29,7 @@ function Path.search(start,goal,neighbors,cost,heuristic,maxPriority,preflight)
  end
  return nil
 end
-function Path.land(grid,from,to,maxNodes)
+function Path.land(grid,from,to,maxNodes,slice)
  local function shoreline(t)return bit32.band(grid.terrainByte(t),64)~=0 end
  local function heuristic(a,b)return 2*(math.abs(a%grid.Width-b%grid.Width)+math.abs(math.floor(a/grid.Width)-math.floor(b/grid.Width))) end
  local function neighbors(t,out)
@@ -46,7 +46,7 @@ function Path.land(grid,from,to,maxNodes)
   local queue,depth,seen,nb={from},{0},{[from]=true},{}
   local head=1;local found=false
   while head<=#queue do
-   local t,d=queue[head],depth[head];head+=1
+   local t,d=queue[head],depth[head];head+=1;if slice and head%64==0 then slice()end
    if t==to then found=true;break end
    if d+lower(t)+1>=maxNodes then continue end
    local n=neighbors(t,nb)
@@ -60,6 +60,6 @@ function Path.land(grid,from,to,maxNodes)
  end
  return Path.search(from,to,neighbors,function(a,b,previous)
   return (if not grid.isLand(b) or shoreline(b) then 6 else 1)+(if previous and a-previous~=b-a then 3 else 0)
- end,heuristic,2*(grid.Width+grid.Height)*9,if maxNodes then preflight else nil)
+ end,heuristic,2*(grid.Width+grid.Height)*9,if maxNodes then preflight else nil,slice)
 end
 return Path

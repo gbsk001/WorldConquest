@@ -50,14 +50,15 @@ No manual asset import or runtime network data access is required.
 
 ## Stage 14 display-only terrain, 25 November 2026
 
-Natural Earth II v3.2.0 shaded relief (10800x5400 original) is downsampled to
-8192x4096 for the visual base layer. The source archive is `NE2_50M_SR.zip`; exact
+Natural Earth II v3.2.0 shaded relief (10800x5400 original) is retained at native
+10800x5400 for the visual base layer, independently of the 8192x4096 simulation. The source archive is `NE2_50M_SR.zip`; exact
 URL, SHA-256, projection and method are in `geography-manifest.json`. This is
 public-domain idealized land cover, not current satellite imagery or an invented
 elevation DEM. Original source terms: https://www.naturalearthdata.com/about/terms-of-use/ .
 
 The display palette has 128 colours with no dithering. Pre-filtered LODs use
-independently decodable 64x64 pages, packed into Base64/RLE source modules. A shared
+independently decodable 64x64 pages, in lazy groups of at most 128 pages per
+Base64/RLE source module. A shared
 2 MiB decoded-page cache is bounded; only visible display tiles are painted. The
 existing Natural Earth 10m land/lake mask supplies exact coastlines at maximum
 zoom. Existing NOAA ETOPO gameplay elevation classes are unchanged.

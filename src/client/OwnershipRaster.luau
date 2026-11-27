@@ -15,7 +15,7 @@ function Raster.new()
 	end
 	function result.sample(level, x, y, _now)
 		local step = 2 ^ level
-		local px, py = x * step, y * step
+		local px, py = math.floor(x * step), math.floor(y * step)
 		if py < 0 or py >= Map.Height then return 0,0,0,0 end
 		local owner = if grid then (if px>=0 and px<Map.Width then grid.ownerID(py*Map.Width+px) else 0) else owners[py * Map.Width + px % Map.Width + 1]
 		local color = colors[owner]

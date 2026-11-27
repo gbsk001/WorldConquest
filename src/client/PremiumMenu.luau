@@ -25,7 +25,8 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
  local function button(parent,value,fn,pos,size,icon,accent)
   local b=Instance.new("TextButton");b.Name=value;b.Text=value;b.Position=pos;b.Size=size;Theme.button(b);b.TextSize=14;b.TextDirection=Enum.TextDirection.Auto;b.AutoLocalize=true;b.Parent=parent
   if accent then b.BackgroundColor3=gold;b.TextColor3=Color3.fromRGB(18,26,39);b.Font=Enum.Font.GothamBold end
-  if icon then local art=Art.icon(b,icon,22,if accent then Color3.fromRGB(18,26,39)else gold);art.Position=UDim2.fromOffset(12,11);local pad=Instance.new("UIPadding");pad.PaddingLeft=UDim.new(0,36);pad.PaddingRight=UDim.new(0,6);pad.Parent=b end
+  b.TextWrapped=false;b.TextScaled=false
+  if icon then Art.buttonContent(b,icon,value=="" )end
   b.Activated:Connect(fn);local tween=game:GetService("TweenService")
   b.MouseEnter:Connect(function()tween:Create(b,TweenInfo.new(.15),{BackgroundTransparency=.02}):Play()end)
   b.MouseLeave:Connect(function()tween:Create(b,TweenInfo.new(.15),{BackgroundTransparency=.14}):Play()end)
@@ -88,37 +89,51 @@ function Premium.new(gui,content,layout,navigate,refresh,play,message)
    local width=math.max(240,content.AbsoluteSize.X);local height=math.max(230,content.AbsoluteSize.Y)
    content.CanvasSize=UDim2.fromOffset(0,height)
    local phone=width<620;local compact=height<440
-   button(content,"Party",function()go("Party")end,UDim2.fromOffset(0,0),UDim2.fromOffset(if phone then 84 else 132,44),"Friends")
-   local settings=button(content,"",function()go("Settings")end,UDim2.fromOffset(if phone then 90 else 140,0),UDim2.fromOffset(44,44),"Settings");settings.Name="Settings"
-   local tutorial=button(content,"",function()go("Tutorial")end,UDim2.fromOffset(if phone then 138 else 188,0),UDim2.fromOffset(44,44),"Tutorial");tutorial.Name="Tutorial"
+   if not phone and compact and height<276 then height=276;content.CanvasSize=UDim2.fromOffset(0,height);content.ScrollingEnabled=true end
+   button(content,"Party",function()go("Party")end,UDim2.fromOffset(0,0),UDim2.fromOffset(if phone then 104 else 132,44),"Friends")
+   local settings=button(content,"",function()go("Settings")end,UDim2.fromOffset(if phone then 110 else 140,0),UDim2.fromOffset(44,44),"Settings");settings.Name="Settings"
+   local tutorial=button(content,"",function()go("Tutorial")end,UDim2.fromOffset(if phone then 158 else 188,0),UDim2.fromOffset(44,44),"Tutorial");tutorial.Name="Tutorial"
    local stars=button(content,if profile then tostring(profile.Stars).." Stars"else "Stars?",function()go("Profile")end,UDim2.new(1,-(if phone then (if width<340 then 88 else 124)else 162),0,0),UDim2.fromOffset(if phone then (if width<340 then 88 else 124)else 162,44),nil);stars.TextColor3=gold;stars.Name="StarsBalance"
-   local heroY=if compact then 56 else 84
-   local hero=label(content,"WORLD CONQUEST",UDim2.fromOffset(0,heroY),UDim2.new(1,-(if phone then 0 else 250),0,if compact then 50 else 94),if compact then 34 elseif phone then 34 else 64)
+   if width<360 then stars.Position=UDim2.new(1,-124,0,50);stars.Size=UDim2.fromOffset(124,44)end
+   local heroY=if width<360 then 100 elseif compact then 60 elseif phone then 84 else 120
+   local hero=label(content,"WORLD CONQUEST",UDim2.fromOffset(0,heroY),UDim2.new(1,-(if phone then 0 else 250),0,if phone then 84 elseif compact then 68 else 94),if phone then 32 elseif compact then 30 else 58)
    hero.Name="WorldConquestTitle";hero.Font=Enum.Font.GothamBlack;hero.TextStrokeColor3=Color3.fromRGB(4,10,18);hero.TextStrokeTransparency=.3;hero.TextXAlignment=Enum.TextXAlignment.Center;hero.TextColor3=Color3.fromRGB(255,240,209)
-   local sub=label(content,"BUILD A NATION. SHAPE THE WORLD.",UDim2.fromOffset(0,heroY+(if compact then 50 else 96)),UDim2.new(1,-(if phone then 0 else 250),0,22),10,gold);sub.TextXAlignment=Enum.TextXAlignment.Center
+   local sub=label(content,"BUILD A NATION. SHAPE THE WORLD.",UDim2.fromOffset(0,heroY+(if phone then 88 elseif compact then 72 else 96)),UDim2.new(1,-(if phone then 0 else 250),0,22),10,gold);sub.TextXAlignment=Enum.TextXAlignment.Center
    local promoWidth=if phone then (width-12)/3 else 238
-   local promoTop=if phone then heroY+(if compact then 80 else 135)else (if compact then 50 else 108)
-   local promoHeight=if compact then 44 elseif phone then 116 else 100
+   local promoTop=if phone then heroY+118 else (if compact then 106 else 108)
+   local promoHeight=if phone then 112 elseif compact then 52 else 106
    local entries={{"Flag Shop","Flags","flag_aurora",Color3.fromRGB(46,54,89)},{"Starter Pack","Starter","missile_founder",Color3.fromRGB(86,46,43)},{"General Pass","General","badge_general",Color3.fromRGB(62,55,38)}}
    for i,entry in ipairs(entries)do
     local x=if phone then (i-1)*(promoWidth+6)else width-promoWidth
     local y=if phone then promoTop else promoTop+(i-1)*(promoHeight+(if compact then 4 else 8))
     local card=button(content,entry[1],function()go(entry[2])end,UDim2.fromOffset(x,y),UDim2.fromOffset(promoWidth,promoHeight));card.Name=entry[1];card.BackgroundColor3=entry[4];card.TextSize=if phone then 12 else 17;card.TextYAlignment=Enum.TextYAlignment.Bottom
-    local pad=Instance.new("UIPadding");pad.PaddingBottom=UDim.new(0,8);pad.Parent=card
-    local art=Cosmetic.preview(card,Catalog.ByID[entry[3]],if compact then 26 else 48);art.AnchorPoint=Vector2.new(.5,0);art.Position=UDim2.new(.5,0,0,6)
+    card.Text="";card.TextTransparency=0
+    local grad=Instance.new("UIGradient");grad.Color=ColorSequence.new(entry[4],Color3.fromRGB(17,26,43));grad.Rotation=25;grad.Parent=card
+    local art
+    if entry[2]=="Starter"or entry[2]=="General"then
+     art=Instance.new("ImageLabel");art.Name="ProductArtwork";art.BackgroundTransparency=1;art.ScaleType=Enum.ScaleType.Fit;art.ResampleMode=Enum.ResamplerMode.Default
+     art.Image="rbxthumb://type=GamePass&id="..(if entry[2]=="Starter"then "2098697285"else "2099891345").."&w=150&h=150";art.Parent=card
+    else art=Cosmetic.preview(card,Catalog.ByID[entry[3]],56)end
+    local artSize=if phone then 52 elseif compact then 32 else 64
+    art.Size=UDim2.fromOffset(artSize,if entry[2]=="Flags"then artSize*.6 else artSize)
+    art.AnchorPoint=Vector2.new(0,.5);art.Position=UDim2.new(0,10,.5,if phone then -13 else 0)
+    local caption=label(card,entry[1],UDim2.fromOffset(if phone then 8 else artSize+20,8),UDim2.new(1,-(if phone then 16 else artSize+30),1,-16),if phone then 13 else 16,white);caption.Font=Enum.Font.GothamBold;caption.TextWrapped=false;caption.TextTruncate=Enum.TextTruncate.AtEnd
+    if phone then art.AnchorPoint=Vector2.new(.5,0);art.Position=UDim2.new(.5,0,0,8);caption.Position=UDim2.new(0,6,1,-34);caption.Size=UDim2.new(1,-12,0,28);caption.TextXAlignment=Enum.TextXAlignment.Center end
+
    end
-   local arsenalY=if phone then promoTop+promoHeight+10 else (if compact then 194 else 54)
+   local arsenalY=if phone then promoTop+promoHeight+10 else 54
    local arsenalX=if phone then 0 else width-238
-   button(content,"Arsenal",function()go("Arsenal")end,UDim2.fromOffset(arsenalX,arsenalY),UDim2.fromOffset(if phone then (width-8)/2 else 115,44),"Missiles")
-   button(content,"Shop",function()go("Shop")end,UDim2.fromOffset(arsenalX+(if phone then (width+8)/2 else 123),arsenalY),UDim2.fromOffset(if phone then (width-8)/2 else 115,44),"Gold")
-   if not phone and compact and height<242 then height=242;content.CanvasSize=UDim2.fromOffset(0,height);content.ScrollingEnabled=true end
+   button(content,"Arsenal",function()go("Arsenal")end,UDim2.fromOffset(arsenalX,arsenalY),UDim2.fromOffset(if phone then (width-8)/2 else 115,44),"Arsenal")
+   button(content,"Shop",function()go("Shop")end,UDim2.fromOffset(arsenalX+(if phone then (width+8)/2 else 123),arsenalY),UDim2.fromOffset(if phone then (width-8)/2 else 115,44),"Shop")
+   
    local bottom=height-(if compact then 104 else 126)
    local playWidth=if phone then width else math.min(700,width-270)
    local playX=if phone then 0 else math.max(0,(width-250-playWidth)/2)
    local b=button(content,"PLAY",play,UDim2.fromOffset(playX,bottom),UDim2.fromOffset(playWidth,if compact then 50 else 62),"Play",true);b.Name="Play";b:SetAttribute("ActionLabel","PLAY");b.Font=Enum.Font.GothamBlack;b.TextSize=28
-   button(content,"Private Match",function()go("Private")end,UDim2.fromOffset(playX,bottom+(if compact then 56 else 68)),UDim2.fromOffset(playWidth/2-4,44),"Private")
-   button(content,"Global Rankings",function()go("Global");send("Board",metric)end,UDim2.fromOffset(playX+playWidth/2+4,bottom+(if compact then 56 else 68)),UDim2.fromOffset(playWidth/2-4,44),"Leaderboard")
-   if not phone then button(content,"Daily Rewards",function()go("Daily")end,UDim2.fromOffset(0,54),UDim2.fromOffset(142,44),"Rank")end
+   local privateButton=button(content,"Private Match",function()go("Private")end,UDim2.fromOffset(playX,bottom+(if compact then 56 else 68)),UDim2.fromOffset(playWidth/2-4,44),"Private")
+   local rankingsButton=button(content,"Global Rankings",function()go("Global");send("Board",metric)end,UDim2.fromOffset(playX+playWidth/2+4,bottom+(if compact then 56 else 68)),UDim2.fromOffset(playWidth/2-4,44),"Leaderboard")
+   if phone then privateButton.Text="Private";rankingsButton.Text="Rankings"end
+   if not phone then local daily=button(content,if compact then ""else "Daily Rewards",function()go("Daily")end,UDim2.fromOffset(if compact then 240 else 0,if compact then 0 else 54),UDim2.fromOffset(if compact then 44 else 164,44),"Daily");daily.Name="Daily Rewards"end
    -- Portrait uses stacked artwork; short landscape keeps promotions to the right.
    if phone and arsenalY+50>bottom then
     local extra=arsenalY+50-bottom;content.CanvasSize=UDim2.fromOffset(0,height+extra);content.ScrollingEnabled=true;content.ScrollBarThickness=3

@@ -3,6 +3,13 @@
 local Strings={}
 Strings.Locales={"auto","en-us","es-es","fr-fr"}
 Strings.Rows={
+ {"ECONOMY","ECONOMÍA","ÉCONOMIE"},{"Economy","Economía","Économie"},
+ {"Gold balance","Saldo de oro","Solde d’or"},{"Base income / s","Ingreso base / s","Revenu de base / s"},
+ {"Rail trade / s","Comercio ferroviario / s","Commerce ferroviaire / s"},{"Maritime trade / s","Comercio marítimo / s","Commerce maritime / s"},
+ {"Total income / s","Ingreso total / s","Revenu total / s"},{"Cities","Ciudades","Villes"},{"Factories","Fábricas","Usines"},{"Ports","Puertos","Ports"},
+ {"Notifications: Important","Avisos: importantes","Notifications : importantes"},{"Notifications: All","Avisos: todos","Notifications : toutes"},{"Notifications: Minimal","Avisos: mínimos","Notifications : minimales"},
+ {"Working rail links + trade ships","Vías activas + barcos mercantes","Voies actives + navires marchands"},
+
  {"CHOOSE YOUR STARTING LOCATION","ELIGE TU POSICIÓN INICIAL","CHOISISSEZ VOTRE POSITION DE DÉPART"},
  {"Tap available land to place your capital.","Toca tierra disponible para colocar tu capital.","Touchez une terre disponible pour placer votre capitale."},
  {"Save name","Guardar nombre","Enregistrer le nom"},{"Flag Shop","Tienda de banderas","Boutique de drapeaux"},

@@ -10,12 +10,34 @@ function Path.new(grid,terrain)
  local api={Searches=0,Hits=0,CacheBytes=0,Pops=0,SearchMilliseconds=0}
  local cache={};local serial=0;local limit=24000000;local entries=0
  local terrainPages={}
+ local workers=setmetatable({},{__mode="k"});local waits=setmetatable({},{__mode="k"});local spentTick=-1;local spent=0
+ function api.configureBudget(tick,maximum)api.BudgetTick=tick;api.MaxPops=maximum or 1024 end
+ local function slice()
+  if not api.BudgetTick or not workers[coroutine.running()]then return end
+  if spentTick~=api.BudgetTick()then spentTick=api.BudgetTick();spent=0 end
+  while spent>=api.MaxPops do
+   local before=os.clock();coroutine.yield()
+   local worker=coroutine.running();waits[worker]=(waits[worker]or 0)+os.clock()-before
+   if spentTick~=api.BudgetTick()then spentTick=api.BudgetTick();spent=0 end
+  end
+  spent+=64
+ end
  local function terrainAt(ref)
   if not terrain.readPage then return grid.terrainUnchecked(ref)end
   local key=bit32.rshift(ref,12);local page=terrainPages[key]
   if not page then page=terrain.readPage(key);terrainPages[key]=page end
   return buffer.readu8(page,bit32.band(ref,4095))
  end
+ api.workSlice=slice
+ function api.beginTask(fn)
+  local count=0;for _ in pairs(workers)do count+=1 end;if count>=2 then return nil end
+  local worker=coroutine.create(fn);workers[worker]=true;return worker
+ end
+ function api.resumeTask(worker)
+  local ok,value=coroutine.resume(worker);assert(ok,value)
+  local done=coroutine.status(worker)=="dead";if done then workers[worker]=nil end;return done,value
+ end
+ function api.cancelTask(worker)if worker then workers[worker]=nil end end
  local function distance(a,b)return math.abs(a%grid.Width-b%grid.Width)+math.abs(math.floor(a/grid.Width)-math.floor(b/grid.Width)) end
  api.distance=distance
  function api.component(tile)
@@ -32,7 +54,7 @@ function Path.new(grid,terrain)
   local nb={};for i=1,grid.neighbors4(tile,nb) do if not grid.isLand(nb[i]) and api.component(nb[i])==c then return true end end;return false
  end
  function api.raw(starts,goal,bounds)
-  local began=os.clock();api.Searches+=1
+  local began=os.clock();local worker=coroutine.running();local waited=waits[worker]or 0;api.Searches+=1
   local heap=Heap.new();local closed,g,prev={},{},{};local nb={};local f=buffer.create(4)
   local readTerrain=terrainAt;local width,height=grid.Width,grid.Height
   local enqueue=heap.enqueueUnchecked or heap.enqueue
@@ -47,8 +69,9 @@ function Path.new(grid,terrain)
    enqueue(t,buffer.readf32(f,0))
   end
   for _,t in ipairs(starts) do g[t]=0;prev[t]=-1;push(t,0,false) end
-  local remaining=if bounds then 100000 else 1000000;local found=nil
+  local remaining=if bounds then 100000 else 1000000;local found=nil;local quantum=0
   while heap.size()>0 do
+   if quantum==0 then slice();quantum=64 end;quantum-=1
    remaining-=1;if remaining<=0 then break end
    local t=heap.dequeue();api.Pops+=1;if closed[t] then continue end;closed[t]=true
    if t==goal then
@@ -70,7 +93,7 @@ function Path.new(grid,terrain)
     end
    end
   end
-  api.SearchMilliseconds+=(os.clock()-began)*1000;return found
+  api.SearchMilliseconds+=math.max(0,os.clock()-began-((waits[worker]or 0)-waited))*1000;return found
  end
  local function bestWater(t)
   local best,score=nil,-1;local nb,inner={},{}
@@ -116,7 +139,7 @@ function Path.new(grid,terrain)
   end;return result
  end
  function api.stepper(memo,airSeed)
-  local destination=nil;local path=nil;local index=1
+  local destination=nil;local path=nil;local index=1;local worker=nil;local startedFrom=nil
   local function find(from,to)
    if airSeed==nil then return api.route(from,to,memo) end
    local rng=Random.new(airSeed);local list={from};local t=from
@@ -130,13 +153,25 @@ function Path.new(grid,terrain)
    end;return list
   end
   local step={}
+  function step.cancel()if worker then workers[worker]=nil;worker=nil end;path=nil;destination=nil end
   function step.next(from,to,dist)
    if not grid.valid(from) or not grid.valid(to) then return "NOT_FOUND" end
    if from==to then return "COMPLETE",to end
    if dist and dist>0 and airSeed==nil and distance(from,to)<=dist then return "COMPLETE",from end
-   if destination~=to then path=nil;index=1;destination=to end
+   if destination~=to or worker and startedFrom~=from then step.cancel();index=1;destination=to end
    if not path then
-    local list=find(from,to);if not list then return "NOT_FOUND" end
+    local list
+    if api.BudgetTick and airSeed==nil then
+     if not worker then
+      local pending=0;for _ in pairs(workers)do pending+=1 end
+      if pending>=2 then return "PENDING"end
+      startedFrom=from;worker=coroutine.create(function()return find(from,to)end);workers[worker]=true
+     end
+     local ok,value=coroutine.resume(worker);assert(ok,value)
+     if coroutine.status(worker)~="dead"then return "PENDING"end
+     workers[worker]=nil;worker=nil;list=value
+    else list=find(from,to)end
+    if not list then return "NOT_FOUND" end
     path=buffer.create(#list*4);for i,t in ipairs(list) do buffer.writeu32(path,(i-1)*4,t) end
     index=if list[1]==from then 2 else 1
    end

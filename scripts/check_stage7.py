@@ -18,7 +18,7 @@ if '--memory' in sys.argv:
     code+=(ROOT/'scripts/stage7_memory_checks.luau').read_text()
 else:
     code+='\nlocal BASELINE='+('true' if '--baseline' in sys.argv else 'false')+'\n'
-    code+=(ROOT/'scripts/stage7_checks.luau').read_text()
+    if '--quick' not in sys.argv: code+=(ROOT/'scripts/stage7_checks.luau').read_text()
     if '--baseline' not in sys.argv:
         code+=namespace['factory']('IconLayer','src/client/IconLayer.luau',{})
         code+=(ROOT/'scripts/stage7_recovery_checks.luau').read_text()
@@ -29,7 +29,7 @@ path=ROOT/('build/'+label+'.luau');path.write_text(code)
 result=subprocess.run([str(ROOT/'build/luau/luau.exe'),str(path)],capture_output=True,text=True)
 (ROOT/('build/'+label+'-results.txt')).write_text(result.stdout+result.stderr)
 print(result.stdout+result.stderr)
-if result.returncode==0 and '--memory' not in sys.argv:
+if result.returncode==0 and '--memory' not in sys.argv and '--quick' not in sys.argv:
     actual={n:int(h) for n,h in re.findall(r'DIGEST (\d+) (\d+)',result.stdout)}
     expected=json.loads((ROOT/'tests/stage7/baseline-digests.json').read_text())
     assert actual==expected, 'Deterministic match output differs from the pre-Stage-7 source'

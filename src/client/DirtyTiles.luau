@@ -15,12 +15,12 @@ function Dirty.apply(pool,packed,width,height,size,padded)
   local top,bottom=math.max(0,bounds[2]-1),math.min(height-1,bounds[4]+1)
   for _,slot in ipairs(pool)do if slot.Level then
    visited+=1
-   local step=2^slot.Level;local extent=size*step
+   local step=2^slot.Level/(slot.Density or 1);local extent=size*step
    if right>=slot.X*extent-step and left<(slot.X+1)*extent+step and bottom>=slot.Y*extent-step and top<(slot.Y+1)*extent+step then
     local x0=math.clamp(math.floor(left/step)-slot.X*size+1,0,padded-1)
-    local x1=math.clamp(math.floor(right/step)-slot.X*size+1,0,padded-1)
+    local x1=math.clamp(math.ceil((right+1)/step)-slot.X*size,0,padded-1)
     local y0=math.clamp(math.floor(top/step)-slot.Y*size+1,0,padded-1)
-    local y1=math.clamp(math.floor(bottom/step)-slot.Y*size+1,0,padded-1)
+    local y1=math.clamp(math.ceil((bottom+1)/step)-slot.Y*size,0,padded-1)
     slot.Dirty=true
     if slot.Bounds then local b=slot.Bounds;b[1]=math.min(b[1],x0);b[2]=math.min(b[2],y0);b[3]=math.max(b[3],x1);b[4]=math.max(b[4],y1)else slot.Bounds={x0,y0,x1,y1}end
    end

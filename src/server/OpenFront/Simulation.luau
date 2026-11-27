@@ -16,6 +16,7 @@ local Naval = require(script.Parent.Naval)
 local Missiles = require(script.Parent.Missiles)
 local Match = require(script.Parent.Match)
 local Bots = require(script.Parent.Bots)
+local BasicNations = require(script.Parent.BasicNations)
 local SpawnIndex = require(script.Parent.SpawnIndex)
 local SpawnPlanner = require(script.Parent.SpawnPlanner)
 local Simulation={}
@@ -34,7 +35,8 @@ function Simulation.new(terrain, map, seed: number, options)
 	local nextID=1
 	local sim={Grid=grid,Tick=0,Phase="Waiting",EndTick=0,Players=players,Seed=seed,Executions=Executions.new(),Work={Claims=0,Pops=0,CombatClaims=0,ActiveAttacks=0}}
 	sim.Stage=options and options.Stage or 1;sim.LandCount=map.LandCount or terrain.LandCount or grid.Size;sim.MatchID=options and options.MatchID or 1
- sim.Terrain=terrain
+ sim.Terrain=terrain;sim.Balance=options and options.Balance or {}
+ sim.BasicNations=BasicNations.new(sim,options and options.BasicNations)
  if sim.Stage>=11 then sim.SpawnIndex=SpawnIndex.new(grid.Width,grid.Height);sim.SpawnPlanner=SpawnPlanner.new(terrain,sim.SpawnIndex) end
  sim.TeamMode=options and options.Match and options.Match.Mode=="Team" or false
 	if stage4 then sim.Economy=Economy.new(sim,options.Economy) end
@@ -83,11 +85,11 @@ function Simulation.new(terrain, map, seed: number, options)
 			isActive=function() return active and players[p.UserId]==p end,
             init=function() lastCalc=sim.Tick+SpawnExecution.simpleHash(tostring(p.UserId))%20 end,
 			tick=function()
-                if sim.Buildings then local began=os.clock();sim.Buildings.reconcile(p);sim.Work.BuildingMilliseconds+=(os.clock()-began)*1000 end
+                if sim.Buildings and not p.BasicNation then local began=os.clock();sim.Buildings.reconcile(p);sim.Work.BuildingMilliseconds+=(os.clock()-began)*1000 end
                 local count=grid.Counts[p.SmallId] or 0
                 if stage3 and count==0 then p.Eliminated=true;sim.MetadataDirty=true;if sim.Naval then sim.Naval.removePlayer(p,stage8) end;if sim.Rail then sim.Rail.removePlayer(p) end;if sim.Economy then sim.Economy.death(p) end;active=false;return end
-                Troops.add(p,Troops.growth(p.Troops,Troops.cap(count,p.CityLevels or 0,p.Kind,p.Difficulty),p.Kind,p.Difficulty))
-                if sim.Economy then local began=os.clock();sim.Economy.tick(p);sim.Work.EconomyMilliseconds=(sim.Work.EconomyMilliseconds or 0)+(os.clock()-began)*1000 end
+                Troops.add(p,Troops.growth(p.Troops,Troops.cap(count,p.CityLevels or 0,p.Kind,p.Difficulty),p.Kind,p.Difficulty)*(if p.BasicNation then sim.Balance.BasicRecruitmentMultiplier or .2 else sim.Balance.RecruitmentMultiplier or 1))
+                if sim.Economy and not p.BasicNation then local began=os.clock();sim.Economy.tick(p);sim.Work.EconomyMilliseconds=(sim.Work.EconomyMilliseconds or 0)+(os.clock()-began)*1000 end
                 if connectivity and (sim.Tick-lastCalc>20 or count<100) and (p.LastTileChange or 0)>=lastCalc then
                     lastCalc=sim.Tick
                     local began=os.clock();connectivity.removeClusters()
@@ -164,7 +166,7 @@ function Simulation.new(terrain, map, seed: number, options)
 	function sim.metadata(includeBuildings)
 		local list={}
 		for _,p in ipairs(orderedPlayers()) do
-			local copy={IsBot=p.IsBot,BotDifficulty=p.BotDifficulty,UserId=p.UserId,Username=p.Username,SmallId=p.SmallId,Spectator=p.Spectator,Spawn=p.Spawn,X=p.X,Y=p.Y,Count=grid.Counts[p.SmallId] or 0}
+			local copy={BasicNation=p.BasicNation,IsBot=p.IsBot,BotDifficulty=p.BotDifficulty,UserId=p.UserId,Username=p.Username,SmallId=p.SmallId,Spectator=p.Spectator,Spawn=p.Spawn,X=p.X,Y=p.Y,Count=grid.Counts[p.SmallId] or 0}
             -- Presentation anchor: retain a valid owned cell; bounded fallback avoids full-world scans.
             if sim.Phase=="Started" and copy.Count>0 then
                 local anchor=p.LabelTile or (p.Spawn and p.Spawn-1)
@@ -177,7 +179,7 @@ function Simulation.new(terrain, map, seed: number, options)
             elseif sim.Phase=="Started" then copy.LabelHidden=true end
 			if stage2 then
 				if sim.Economy then copy.Gold=p.Gold;copy.GoldIncome=if copy.Count>0 and sim.Phase=="Started" and not p.Eliminated and not p.Spectator then sim.Economy.income(p) else "0" end
-				copy.Attacks=attackStats(p);copy.Eliminated=p.Eliminated;copy.Troops=p.Troops;copy.Cap=Troops.cap(copy.Count,p.CityLevels or 0);copy.Growth=if sim.Phase=="Started" and not p.Spectator and not p.Eliminated then Troops.growth(p.Troops,copy.Cap) else 0
+				copy.Attacks=attackStats(p);copy.Eliminated=p.Eliminated;copy.Troops=p.Troops;copy.Cap=Troops.cap(copy.Count,p.CityLevels or 0,p.Kind,p.Difficulty);copy.Growth=if sim.Phase=="Started" and not p.Spectator and not p.Eliminated then Troops.growth(p.Troops,copy.Cap,p.Kind,p.Difficulty)*(if p.BasicNation then sim.Balance.BasicRecruitmentMultiplier or .2 else sim.Balance.RecruitmentMultiplier or 1) else 0
 				copy.Allocation=p.Allocation;copy.Committed=if p.Attack and p.Attack.Active then p.Attack.Troops else 0
 				copy.AttackID=if p.Attack and p.Attack.Active then p.Attack.ID else 0
 				copy.Retreating=p.Attack~=nil and p.Attack.Retreating
@@ -185,14 +187,14 @@ function Simulation.new(terrain, map, seed: number, options)
 			table.insert(list,copy)
 		end
 		local selected=0;for _,row in ipairs(list)do if row.Spawn and not row.Spectator then selected+=1 end end
-		return {RailUnits=if sim.Stage>=11 and sim.Rail then sim.Rail.snapshot()else nil,SelectedSpawns=selected,Participants=#list,Foundation=true,Stage=if sim.Stage>=9 then sim.Stage elseif stage8 then 8 elseif stage7 then 7 elseif stage6 then 6 elseif stage5 then 5 elseif stage4 then 4 elseif stage3 then 3 elseif stage2 then 2 else 1,MatchID=sim.MatchID,Winner=sim.Match and sim.Match.Winner,Rankings=sim.Match and sim.Match.Rankings,RestartAt=sim.Match and sim.Match.RestartAt,Phase=sim.Phase,EndTick=sim.EndTick,Tick=sim.Tick,Revision=sim.Tick,Players=list,Seed=seed,MapHash=terrain.MaskHash,Ships=if sim.Naval and includeBuildings~=false then sim.Naval.snapshot() else nil,Buildings=if sim.Buildings and includeBuildings~=false then sim.Buildings.snapshot() else nil}
+		return {StartTick=sim.StartTick,LandCount=sim.LandCount,RailUnits=if sim.Stage>=11 and sim.Rail then sim.Rail.snapshot()else nil,SelectedSpawns=selected,Participants=#list,Foundation=true,Stage=if sim.Stage>=9 then sim.Stage elseif stage8 then 8 elseif stage7 then 7 elseif stage6 then 6 elseif stage5 then 5 elseif stage4 then 4 elseif stage3 then 3 elseif stage2 then 2 else 1,MatchID=sim.MatchID,Winner=sim.Match and sim.Match.Winner,Rankings=sim.Match and sim.Match.Rankings,RestartAt=sim.Match and sim.Match.RestartAt,Phase=sim.Phase,EndTick=sim.EndTick,Tick=sim.Tick,Revision=sim.Tick,Players=list,Seed=seed,MapHash=terrain.MaskHash,Ships=if sim.Naval and includeBuildings~=false then sim.Naval.snapshot() else nil,Buildings=if sim.Buildings and includeBuildings~=false then sim.Buildings.snapshot() else nil}
 	end
 	function sim.stats()
 		local list={}
 		for _,p in ipairs(orderedPlayers()) do
             if p.IsBot then continue end -- Bots have no private HUD/RemoteEvent recipient.
 			local count=grid.Counts[p.SmallId] or 0;local cap=Troops.cap(count,p.CityLevels or 0);local attack=p.Attack
-			table.insert(list,{Gold=p.Gold,GoldIncome=if sim.Economy and count>0 and sim.Phase=="Started" and not p.Eliminated and not p.Spectator then sim.Economy.income(p) else "0",Attacks=attackStats(p),Eliminated=p.Eliminated,UserId=p.UserId,Tick=sim.Tick,Count=count,Troops=p.Troops,Cap=cap,Growth=if sim.Phase=="Started" and not p.Spectator and not p.Eliminated then Troops.growth(p.Troops,cap) else 0,
+			table.insert(list,{Economy=sim.Economy and sim.Economy.summary(p),Gold=p.Gold,GoldIncome=if sim.Economy and count>0 and sim.Phase=="Started" and not p.Eliminated and not p.Spectator then sim.Economy.income(p) else "0",Attacks=attackStats(p),Eliminated=p.Eliminated,UserId=p.UserId,Tick=sim.Tick,Count=count,Troops=p.Troops,Cap=cap,Growth=if sim.Phase=="Started" and not p.Spectator and not p.Eliminated then Troops.growth(p.Troops,cap)*(sim.Balance.RecruitmentMultiplier or 1) else 0,
 				Missiles=sim.Missiles and sim.Missiles.summary(p),Naval=if sim.Naval then sim.Naval.summary(p) else nil,Rail=if sim.Rail then sim.Rail.summary(p) else nil,BuildingQuotes=if sim.Buildings then sim.Buildings.quotes(p) else nil,Allocation=p.Allocation,Committed=if attack and attack.Active then attack.Troops else 0,
 				AttackID=if attack and attack.Active then attack.ID else 0,Retreating=attack~=nil and attack.Retreating})
 		end
@@ -208,9 +210,10 @@ function Simulation.new(terrain, map, seed: number, options)
 			local p=players[e.UserId]
 			if e.Kind=="Join" and not p and nextID<=Grid.OwnerMask then
                 cachedPlayers=nil;rosterDirty=true
-				players[e.UserId]={UserId=e.UserId,Username=e.Username,SmallId=nextID,Spectator=sim.Phase~="Waiting" and sim.Phase~="Selecting",Kind="Human",Difficulty="Hard",Troops=if stage2 and sim.Phase~="Started" then Troops.initial("Human") else 0,Allocation=0.2,Border=OrderedSet.new(),Tiles=OrderedSet.new(),Outgoing={},Incoming={}}
+				players[e.UserId]={UserId=e.UserId,Username=e.Username,SmallId=nextID,Spectator=sim.Phase~="Waiting" and sim.Phase~="Selecting",Kind="Human",Difficulty="Hard",Troops=if stage2 and sim.Phase~="Started" then (sim.Balance.StartingSoldiers or Troops.initial("Human")) else 0,Allocation=sim.Balance.DefaultAllocation or .2,Border=OrderedSet.new(),Tiles=OrderedSet.new(),Outgoing={},Incoming={}}
                 local joined=players[e.UserId]
-                joined.IsBot=e.IsBot==true;joined.BotDifficulty=e.BotDifficulty
+                joined.IsBot=e.IsBot==true;joined.BotDifficulty=e.BotDifficulty;joined.BasicNation=e.BasicNation==true
+                if joined.BasicNation then joined.Kind="Bot";joined.Troops=math.clamp(e.StartingTroops or 1000,500,1500)end
                 if joined.IsBot then joined.Team=e.Team end
                 if options and options.Match and options.Match.SinglePlayer and not joined.IsBot then
                  for id,other in pairs(players) do if id~=e.UserId and not other.IsBot and not other.Spectator then joined.Spectator=true;break end end
@@ -287,6 +290,7 @@ function Simulation.new(terrain, map, seed: number, options)
 			end
 		end
         if sim.Bots then sim.Bots.step();sim.Work.BotMilliseconds=sim.Bots.Milliseconds end
+        sim.BasicNations.step();sim.Work.BasicMilliseconds=sim.BasicNations.Milliseconds
 		if sim.Phase=="Started" or sim.Phase=="Waiting" or sim.Phase=="Selecting" then sim.Executions.step(sim) end
   if sim.Match then sim.Match.tick() end
 		for _,p in pairs(players) do sim.Work.ActiveAttacks+=#p.Outgoing end

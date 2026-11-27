@@ -81,3 +81,27 @@ checks its SHA-256 and georeferencing. It never modifies gameplay terrain/owners
 Run `python scripts/check_stage10_all.py` for all Stage 1?13 regressions and then
 `python scripts/package_stage10.py` to rebuild the legacy-named place artifact.
 Rendered acceptance is separate; see `docs/STAGE14_ACCEPTANCE.md`.
+
+
+## Licensed interface assets
+
+The generated modules are checked in; a normal Rojo build needs no Python renderer.
+To regenerate the PNGs and embedded atlases from the pinned, vendored SVG files:
+
+```powershell
+python -m pip install --target build/iconlibs -r scripts/requirements-icons.txt
+python scripts/generate_gui_icons.py
+python scripts/check_unit_icons.py
+```
+
+`scripts/import_lucide.py` is the optional network refresh tool; it retains the
+pinned revision in `assets/lucide/manifest.json` and preserves all licence notices.
+Do not replace registry IDs with guesses. See `docs/STAGE14_CORRECTIONS.md` for the
+four Roblox atlas uploads needed on devices without EditableImage support, and
+for mandatory rendered acceptance. Native display geography is now 10800x5400;
+the authoritative grid remains 8192x4096.
+
+
+## Stage 15 CLI-only development
+
+Use `python scripts/run_idle.py scripts/check_stage15_all.py` for sequential functional checks at below-normal priority on one logical CPU. Heavy sections are explicitly omitted. Rebuild using `python scripts/run_idle.py scripts/package_stage10.py`. Do not run `benchmark_stage15.py --allow-heavy` until resource-intensive tests are authorised. See `docs/STAGE15_ACCEPTANCE.md` for actual coverage, acceptance limits and manual tests.

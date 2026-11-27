@@ -28,8 +28,7 @@ function Shop.new(parent,send,notice,hit,nextSequence,cancelNaval,preview)
  for index,kind in ipairs(Rules.Types) do
   local key=kind;local row=button(Rules.Info[kind].Name,(index-1)*72+6,66);rows[kind]=row
   row.Size=UDim2.fromOffset(108,128);row.Position=UDim2.fromOffset(8+(index-1)*116,8);row.TextYAlignment=Enum.TextYAlignment.Bottom;row.TextSize=13
-  local icon=Art.icon(row,kind,36,Color3.fromRGB(211,224,236));icon.Position=UDim2.fromOffset(36,12)
-  row.TextXAlignment=Enum.TextXAlignment.Center;local pad=Instance.new("UIPadding");pad.PaddingLeft=UDim.new(0,4);pad.PaddingRight=UDim.new(0,4);pad.PaddingBottom=UDim.new(0,12);pad.Parent=row
+  Art.cardContent(row,kind)
   row.Activated:Connect(function()
    local quote=profile and profile.BuildingQuotes and profile.BuildingQuotes[key]
    if not quote or not quote.Affordable or not quote.Enabled then notice("Building unavailable or insufficient money.");return end
@@ -45,7 +44,7 @@ function Shop.new(parent,send,notice,hit,nextSequence,cancelNaval,preview)
  local detailLimit=Instance.new("UISizeConstraint");detailLimit.MaxSize=Vector2.new(310,224);detailLimit.Parent=detail
  local corner=Instance.new("UICorner");corner.CornerRadius=UDim.new(0,12);corner.Parent=detail
  Chrome.close(detail)
- local description=Instance.new("TextLabel");description.BackgroundTransparency=1;description.Position=UDim2.fromOffset(56,12);description.Size=UDim2.new(1,-68,0,110);description.Font=Enum.Font.GothamMedium;description.TextSize=14;description.TextColor3=Color3.fromRGB(230,239,250);description.TextWrapped=true;description.TextXAlignment=Enum.TextXAlignment.Left;description.ZIndex=46;description.Parent=detail
+ local description=Instance.new("TextLabel");description.BackgroundTransparency=1;description.Position=UDim2.fromOffset(56,12);description.Size=UDim2.new(1,-68,0,120);description.Font=Enum.Font.GothamMedium;description.TextSize=14;description.TextColor3=Color3.fromRGB(230,239,250);description.TextWrapped=true;description.TextXAlignment=Enum.TextXAlignment.Left;description.ZIndex=46;description.Parent=detail
  local function action(text,x,width,fn)
   local b=Instance.new("TextButton");b.Text=text;b.Position=UDim2.fromOffset(x,138);b.Size=UDim2.fromOffset(width,40);b.TextSize=13;b.Font=Enum.Font.GothamMedium;b.TextColor3=Color3.fromRGB(230,239,250);b.BackgroundColor3=Color3.fromRGB(32,52,71);b.ZIndex=46;b.Parent=detail;b.Activated:Connect(fn);return b
  end
@@ -56,8 +55,15 @@ function Shop.new(parent,send,notice,hit,nextSequence,cancelNaval,preview)
  local upgradeButton=action("Upgrade",12,136,function()selectedAction("Upgrade")end);upgradeButton.Size=UDim2.new(.5,-18,0,44)
  local demolishButton=action("Demolish",160,136,function()selectedAction("Demolish")end);demolishButton.Position=UDim2.new(.5,6,0,138);demolishButton.Size=UDim2.new(.5,-18,0,44)
  local close=action("Close",12,284,function()detail.Visible=false end);close.Position=UDim2.fromOffset(12,188);close.Size=UDim2.new(1,-24,0,44)
+ local function layoutDetail()
+  local summary=detailHost:FindFirstChild("MatchSummary")
+  local top=if summary then summary.Position.Y.Offset+summary.Size.Y.Offset+12 else 64
+  detail.Position=UDim2.new(1,-12,0,top);detail.Size=UDim2.new(1,-24,1,-(top+100))
+ end
+ detailHost:GetPropertyChangedSignal("AbsoluteSize"):Connect(layoutDetail)
  function api.inspect(unit)
   if not Rules.Info[unit.Type]then return false end
+  layoutDetail()
   selected=unit;detail.Visible=true
   local own=profile and profile.SmallId==unit.Owner and phase=="Started"and not profile.Spectator and not profile.Eliminated
   upgradeButton.Visible=own and Rules.Info[unit.Type].Upgradeable and not unit.UnderConstruction;demolishButton.Visible=own and not unit.UnderConstruction
@@ -65,6 +71,8 @@ function Shop.new(parent,send,notice,hit,nextSequence,cancelNaval,preview)
   art=Art.icon(detail,unit.Type,30,Color3.fromRGB(173,208,233));art.Name="InformationIcon";art.Position=UDim2.fromOffset(14,18);art.ZIndex=46
   local q=profile and profile.BuildingQuotes and profile.BuildingQuotes[unit.Type]
   description.Text=Rules.Info[unit.Type].Name.." / Level "..unit.Level.."\n"..Rules.Info[unit.Type].Effect.."\n"..(if Rules.Info[unit.Type].Upgradeable then "Upgrade $"..(if q then MoneyFormat.money(q.Cost)else "unavailable")else "Not upgradeable")..(if unit.UnderConstruction then "\nUnder construction"else "")
+  local earned=profile and profile.Economy and profile.Economy.BuildingTrade and profile.Economy.BuildingTrade[tostring(unit.ID)]
+  if earned and (unit.Type=="Factory"or unit.Type=="Port"or unit.Type=="City")then description.Text..="\nTrade delivered: $"..MoneyFormat.money(earned)end
   return true
  end
  function api.cancel()if preview then preview(nil)end;detail.Visible=false;mode=nil;toggle.Text="Buildings";panel.Visible=false end
@@ -88,8 +96,7 @@ function Shop.new(parent,send,notice,hit,nextSequence,cancelNaval,preview)
   if attached then return end;attached=true
   for i,entry in ipairs({{"Warship","Warship"},{"AtomBomb","Atom Bomb"},{"HydrogenBomb","Hydrogen Bomb"},{"MIRV","MIRV"}})do
    local kind=entry[1];local b=button(entry[2],8,128);b.Name=kind.."Construction";b.Position=UDim2.fromOffset(8+(i+5)*116,8);b.Size=UDim2.fromOffset(108,128);b.TextYAlignment=Enum.TextYAlignment.Bottom
-   local pad=Instance.new("UIPadding");pad.PaddingBottom=UDim.new(0,12);pad.Parent=b
-   local art=Art.icon(b,kind,36,Color3.fromRGB(211,224,236));art.Position=UDim2.fromOffset(36,12)
+   Art.cardContent(b,kind)
    extraRows[kind]={Button=b,Name=entry[2]}
    b.Activated:Connect(function()
     if kind=="Warship"then if navy then navy.select("Warship")end elseif missiles then missiles.select(kind)end

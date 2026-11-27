@@ -12,7 +12,7 @@ function Controls.new(parent,send,notice,nextSequence,cancelOther)
  toggle.Activated:Connect(function()if mode then api.cancel() else cancelOther();panel.Visible=not panel.Visible end end)
  local rows={}
  for i,entry in ipairs({{"AtomBomb","Atomic bomb"},{"HydrogenBomb","Hydrogen bomb"},{"MIRV","MIRV"}}) do
-  local kind=entry[1];local row=Instance.new("TextButton");row.Size=UDim2.new(1,-12,0,42);row.Position=UDim2.fromOffset(6,6+(i-1)*46);row.Text=entry[2];row.TextWrapped=true;row.TextSize=13;row.TextColor3=Color3.new(1,1,1);row.BackgroundColor3=Color3.fromRGB(47,58,72);row.ZIndex=33;row.Parent=panel;local symbol=Art.icon(row,kind,18,Color3.fromRGB(173,208,233));symbol.Position=UDim2.fromOffset(8,10);local padding=Instance.new("UIPadding");padding.PaddingLeft=UDim.new(0,34);padding.PaddingRight=UDim.new(0,6);padding.Parent=row;rows[kind]={Button=row,Name=entry[2]}
+  local kind=entry[1];local row=Instance.new("TextButton");row.Size=UDim2.new(1,-12,0,42);row.Position=UDim2.fromOffset(6,6+(i-1)*46);row.Text=entry[2];row.TextWrapped=true;row.TextSize=13;row.TextColor3=Color3.new(1,1,1);row.BackgroundColor3=Color3.fromRGB(47,58,72);row.ZIndex=33;row.Parent=panel;Art.buttonContent(row,kind,false);rows[kind]={Button=row,Name=entry[2]}
   row.Activated:Connect(function()api.select(kind)end)
  end
  function api.select(kind)

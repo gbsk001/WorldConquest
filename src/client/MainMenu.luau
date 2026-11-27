@@ -65,7 +65,7 @@ function Menu.new(showGame)
  local function button(value,fn,height,accent)
   local b=Instance.new("TextButton");b.Size=UDim2.new(1,-8,0,height or 52);b.Text=value;b.LayoutOrder=#content:GetChildren();Theme.button(b);b.TextSize=16;b.TextXAlignment=Enum.TextXAlignment.Left;local padding=Instance.new("UIPadding");padding.PaddingLeft=UDim.new(0,18);padding.PaddingRight=UDim.new(0,18);padding.Parent=b;if accent then b.BackgroundColor3=accent end;b.Parent=content
   local kind=if string.find(value,"Settings")then "Settings"elseif string.find(value,"Tutorial")then "Tutorial"elseif string.find(string.lower(value),"friend")then "Friends"elseif string.find(value,"Leave")then "Exit"elseif value=="Back"then "Back"elseif string.find(string.lower(value),"private")then "Private"else nil
-  if kind and (height or 52)<=68 then local icon=Art.icon(b,kind,18,Color3.fromRGB(153,190,218));icon.Position=UDim2.fromOffset(-30,math.max(10,(height or 52)/2-9));padding.PaddingLeft=UDim.new(0,42)end
+  if kind and (height or 52)<=68 then padding:Destroy();Art.buttonContent(b,kind,false)end
   b.Activated:Connect(fn)
   b.AutoButtonColor=false
   local function hover(on)TweenService:Create(b,TweenInfo.new(.16,Enum.EasingStyle.Quad),{BackgroundTransparency=if on then .02 else .14}):Play()end

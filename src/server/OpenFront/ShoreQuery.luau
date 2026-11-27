@@ -2,12 +2,15 @@
 -- SpatialQuery translated from OpenFront 8f1a0add. Copyright OpenFront and Contributors; AGPL-3.0.
 local Shore={}
 function Shore.new(grid,path)
- local api={};local caches=setmetatable({},{__mode="k"})
+ local api={};local work=0
+ local function slice()work+=1;if work%64==0 and path.workSlice then path.workSlice()end end
+ local caches=setmetatable({},{__mode="k"})
  local function shore(t)return grid.isLand(t) and bit32.band(grid.terrainByte(t),64)~=0 end
  local function cache(p)
   local c=caches[p];if not c or c.Version~=(p.TileVersion or 0) or c.Count>=4096 then
-   c={Version=p.TileVersion or 0,Components={},Shores={},Launches={},Count=0};caches[p]=c
-   p.Border.each(function(t)if shore(t) then local component=path.component(t);if component then c.Components[component]=true;table.insert(c.Shores,t) end end end)
+   c={Version=p.TileVersion or 0,Components={},Shores={},Launches={},Count=0}
+   p.Border.each(function(t)slice();if shore(t) then local component=path.component(t);if component then c.Components[component]=true;table.insert(c.Shores,t) end end end)
+   caches[p]=c -- Publish only complete caches; another search can run while yielding.
   end;return c
  end
  function api.target(p,tile)
@@ -20,7 +23,7 @@ function Shore.new(grid,path)
    end
   end
   mark(tile);if distance==0 then return best end
-  while #stack>0 do local t=table.remove(stack)
+  while #stack>0 do slice();local t=table.remove(stack)
    for i=1,grid.neighbors4(t,nb) do local n=nb[i];if not visited[n] and path.distance(n,tile)<=50 then mark(n) end end
    if distance<=1 then break end
   end;return best

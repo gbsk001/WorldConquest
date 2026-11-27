@@ -16,7 +16,7 @@ return function(session)
  local function createMatch()
   local match=Config.Match
   if session then match=table.clone(match or {});match.SinglePlayer=nil end
-  return Simulation.new(Terrain,Map,(if session and session.MatchSeed then session.MatchSeed else Config.SimulationSeed+round-1),{Stage=Config.PortStage,Economy=Config.Economy,Buildings=Config.Buildings,Match=match,MatchID=round,Bots=if session then session.BotSettings else Config.Bots})
+  return Simulation.new(Terrain,Map,(if session and session.MatchSeed then session.MatchSeed else Config.SimulationSeed+round-1),{Stage=Config.PortStage,Balance=Config.Balance,BasicNations=Config.BasicNations,Economy=Config.Economy,Buildings=Config.Buildings,Match=match,MatchID=round,Bots=if session then session.BotSettings else Config.Bots})
  end
  local sim=createMatch()
  if session then
@@ -36,7 +36,7 @@ return function(session)
 	local transferID=0
 	local function metadata()
 		local meta=sim.metadata(false)
-		for _,p in ipairs(meta.Players) do p.Color=if Config.PortStage>=11 then Color3.fromHSV((p.SmallId*0.61803398875+sim.Seed%997/997)%1,.65,.95)else Config.PlayerColors[p.SmallId] or Color3.fromHSV((p.SmallId*0.61803398875)%1,0.65,0.95) end
+		for _,p in ipairs(meta.Players) do p.Color=if p.BasicNation then Color3.fromRGB(150,157,164)elseif Config.PortStage>=11 then Color3.fromHSV((p.SmallId*0.61803398875+sim.Seed%997/997)%1,.65,.95)else Config.PlayerColors[p.SmallId] or Color3.fromHSV((p.SmallId*0.61803398875)%1,0.65,0.95) end
 		if session and session.Decorate then session.Decorate(meta)end
 		return meta
 	end
@@ -143,6 +143,27 @@ return function(session)
  		transfers[p]={ID=transferID,Pages=pages,Next=1}
 		remote:FireClient(p,"FoundationBegin",{ID=transferID,Tick=sim.Tick,Count=#pages,Meta=metadata(),MapHash=Terrain.MaskHash})
 	end
+ -- Geometry is presentation-only: reliable versioned cohorts, four short routes per tick.
+ local railTransfers={};local railVersions={};local geometryVersion=-1;local geometryRound=nil;local geometryRows={};local railBytes=0
+ local function sendRails()
+  if not (Config.Balance and Config.Balance.InfrastructurePresentation)or not sim.Rail then return end
+  railBytes=0
+  if geometryRound~=round or geometryVersion~=sim.Rail.Version then geometryRound=round;geometryVersion=sim.Rail.Version;geometryRows=sim.Rail.geometry()end
+  for p in pairs(connected)do
+   if not railTransfers[p] and railVersions[p]~=tostring(round)..":"..geometryVersion then railTransfers[p]={Rows=geometryRows,Version=geometryVersion,MatchID=round,Next=1,Part=1}end
+   local t=railTransfers[p]
+   if t then
+    if t.MatchID~=round then railTransfers[p]=nil;continue end
+    local rows={};for i=t.Next,math.min(#t.Rows,t.Next+3)do table.insert(rows,t.Rows[i])end
+    local last=t.Next+4>#t.Rows
+    railBytes+=32;for _,row in ipairs(rows)do railBytes+=16+buffer.len(row.Points)end
+    remote:FireClient(p,"RailGeometry",{MatchID=round,Version=t.Version,Part=t.Part,First=t.Next==1,Last=last,Routes=rows})
+    if last then railVersions[p]=tostring(round)..":"..t.Version;railTransfers[p]=nil else t.Next+=4;t.Part+=1 end
+   end
+  end
+  for p in pairs(railVersions)do if not connected[p]then railVersions[p]=nil;railTransfers[p]=nil end end
+  for p in pairs(railTransfers)do if not connected[p]then railTransfers[p]=nil end end
+ end
  local tickTimes={};local tickIndex=0;local tickWorst=0
  local empty=buffer.create(0)
  local function slice(packed,offset,length)
@@ -195,6 +216,7 @@ return function(session)
    if not connected[p] then ready[p]=nil
    elseif transferring<4 then startSnapshot(p);ready[p]=nil;transferring+=1 end
   end
+  sendRails()
   snapshotPages=nil;snapshotTick=-1 -- transfers own the pages; don't retain an obsolete snapshot.
 		remote:SetAttribute("SimulationTick",sim.Tick)
 		remote:SetAttribute("OwnershipBytes",sim.Grid.allocatedBytes())
@@ -202,6 +224,7 @@ return function(session)
 		remote:SetAttribute("DeltaBytes",bytes)
   remote:SetAttribute("UnitAndOwnershipDeltaBytes",bytes+buildingBytes+shipBytes)
   remote:SetAttribute("EncodedDeltaBytes",encodedBytes)
+  remote:SetAttribute("RailGeometryPayloadBytes",railBytes) -- Across recipients; excludes Roblox envelope/compression.
   remote:SetAttribute("DeltaFragments",parts)
   remote:SetAttribute("SnapshotTransfers",transferring)
 		remote:SetAttribute("FrontierPops",sim.Work.Pops)

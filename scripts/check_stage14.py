@@ -1,6 +1,6 @@
 """Production geography/painter/cache and icon CPU checks. NOT a Roblox render test."""
 from pathlib import Path
-import subprocess,json
+import subprocess,json,sys
 ROOT=Path(__file__).resolve().parents[1]
 def module(name,path,replacements=()):
  s=(ROOT/path).read_text(encoding='utf-8-sig')
@@ -23,7 +23,7 @@ print(string.format("GEO_ROW cold samples avg %.3f p95 %.3f worst %.3f ms; heap 
 for level=0,6 do
  local x,y=math.floor(4000/2^level),math.floor(1800/2^level)
  local r,g,b=Terrain.sample(level,x,y);assert(r>=0 and r<=255 and b<=255)
- local rr,gg,bb=Terrain.sample(level,x+8192/2^level,y);assert(rr==r and gg==g and bb==b,"geographic longitude wrap")
+ local rr,gg,bb=Terrain.sample(level,x+math.ceil(10800/2^level),y);assert(rr==r and gg==g and bb==b,"geographic longitude wrap")
 end
 local terrainCalls=0
 local Map={coverage=function()return 1 end,terrain=function(...)terrainCalls+=1;return Terrain.sample(...)end}
@@ -60,6 +60,14 @@ local created=layer.Created;for _=1,1000 do layer.update(-8600,-4300,2,1920,1080
 print(string.format("ICON_DETAIL 5000 units avg %.3f p95 %.3f worst %.3f ms; candidates %d; created %d",total/300,samples[285],samples[300],layer.Candidates,created))
 print("Stage 14 CPU-only checks passed. No Studio/GPU/physical-device FPS certification.")
 '''
+if '--quick' in sys.argv:
+ a=h.index('local times={};local sum=0;local cold=gcinfo()');b=h.index('for level=0,6 do',a);h=h[:a]+h[b:]
+ a=h.index('local samples={};local total=0');b=h.index('print("Stage 14 CPU-only checks passed.',a)
+ h=h[:a]+'''layer.update(-8600,-4300,2,1920,1080)
+assert(layer.Candidates<5000/4 and layer.Visible<=256)
+local created=layer.Created;layer.update(-8600,-4300,2,1920,1080);assert(layer.Created==created)
+print("Icon spatial culling/pooling functional check passed; timing benchmark skipped.")
+'''+h[b:]
 p=ROOT/'build/stage14-checks.luau';p.write_text(h,encoding='utf-8')
 run=subprocess.run([str(ROOT/'build/luau/luau.exe'),str(p)],capture_output=True,text=True)
 (ROOT/'build/stage14-results.txt').write_text(run.stdout+run.stderr)

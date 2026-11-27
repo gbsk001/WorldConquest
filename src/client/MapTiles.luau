@@ -14,11 +14,14 @@ local SIZE, PADDED = Painter.Size, Painter.Padded
 function Tiles.new(canvas: Frame, raster: any)
  if Config.ForceCompatibleRenderer then return nil end -- Diagnostic/fallback override, never changes simulation.
 	local pool: {any} = {}
+ local density=Map.terrainDensity or 1
 	local budget = Config.MaxImageTiles
 	local active: {[string]: any} = {}
 	local signature = ""
 	local currentLevel = 0
-	local roundRobin = 0
+	local transition=nil
+ local prefetch={}
+ local viewGenerationComplete=false
 	local stopped = false
  local enabled=true;local pendingAllocation=false;local generation=0
  local centreX,centreY=0,0
@@ -32,12 +35,12 @@ function Tiles.new(canvas: Frame, raster: any)
 		label.ImageContent = Content.fromObject(image)
 		label.ImageRectOffset = Vector2.new(1, 1)
 		label.ImageRectSize = Vector2.new(SIZE, SIZE)
-		label.ResampleMode = Enum.ResamplerMode.Pixelated
+		label.ResampleMode = Enum.ResamplerMode.Default
 		label.Visible = false
 		label.ZIndex = 2
 		label.Parent = canvas
 		local slot = { Image = image, Label = label, Key = "", Painted = "", Visible = false,
-			Pixels = buffer.create(PADDED * PADDED * 4), Coverage = buffer.create(PADDED * PADDED), Dirty = false }
+			Density=density, Pixels = buffer.create(PADDED * PADDED * 4), Coverage = buffer.create(PADDED * PADDED), Dirty = false }
 		table.insert(pool, slot)
 		return slot
 	end
@@ -48,7 +51,7 @@ function Tiles.new(canvas: Frame, raster: any)
 	local overviewOK=pcall(function()
 	Map.prepareDisplay()
 	table.remove(pool)
-	overview.Level, overview.X, overview.Y = 5, 0, 0
+	overview.Level, overview.X, overview.Y = if density>1 then 6 else 5, 0, 0
 	local deadline=os.clock()+.002
 	for row=0,129,4 do
   Painter.paint(overview,raster,os.clock(),true,row,math.min(129,row+3))
@@ -60,38 +63,60 @@ function Tiles.new(canvas: Frame, raster: any)
 	overview.Label.ZIndex = 0
 	overview.Label.Position = UDim2.fromScale(0,0)
 	overview.Label.Size = UDim2.fromScale(1,1)
-	overview.Label.ImageRectSize = Vector2.new(256,128)
+	overview.Label.ImageRectSize = Vector2.new(math.ceil(Map.Width*density/2^overview.Level),math.ceil(Map.Height*density/2^overview.Level))
 	overview.Label.Visible = true
 	-- Its upload scratch buffers are not needed after the initial overview.
 	overview.Pixels, overview.Coverage, overview.Base = nil, nil, nil
 	if not createSlot() then overview.Label:Destroy(); overview.Image:Destroy(); return nil end
 	local function key(level: number, x: number, y: number): string return level .. ":" .. x .. ":" .. y end
  local result = {Metrics={PaintMilliseconds=0,UploadMilliseconds=0,UploadBytes=0,PaintWorstMilliseconds=0,UploadWorstMilliseconds=0,AllocationMilliseconds=0,InvalidationMilliseconds=0,InvalidationVisits=0}}
+ local function finishTransition()
+  if not transition then return end
+  for _,slot in ipairs(pool)do
+   if slot.FadingOut then slot.Label.Visible=false;slot.Presented=false;slot.FadingOut=nil end
+   slot.Label.ImageTransparency=0;slot.FadeIn=nil
+  end
+  transition=nil
+ end
+ local function present()
+  if signature=="" or next(active)==nil then return end
+  for _,slot in pairs(active)do if slot.Painted~=slot.Key then return end end
+  if viewGenerationComplete then return end
+  finishTransition();local old=false
+  for _,slot in ipairs(pool)do
+   local wanted=active[slot.Key]==slot
+   if slot.Presented and not wanted then slot.FadingOut=true;slot.Label.ZIndex=1;old=true end
+   if wanted then slot.FadeIn=not slot.Presented;slot.Label.Visible=true;slot.Label.ZIndex=2;slot.Presented=true end
+  end
+  transition=if old then os.clock()else nil
+  for _,slot in pairs(active)do slot.Label.ImageTransparency=if old and slot.FadeIn then 1 else 0 end
+  viewGenerationComplete=true;result.Metrics.ViewCommits=(result.Metrics.ViewCommits or 0)+1
+ end
  function result.setEnabled(value)enabled=value end
 	function result.update(ox: number, oy: number, scale: number, width: number, height: number)
-		local level = math.clamp(math.floor(math.log(1 / math.max(scale, 0.0001)) / math.log(2)), 0, 6)
+		local level = math.clamp(math.floor(math.log(1 / math.max(scale/density, 0.0001)) / math.log(2)), 0, 6)
 		local x0, x1, y0, y1, extent
 		repeat
-			extent = SIZE * 2 ^ level
+			extent = SIZE * 2 ^ level / density
 			x0 = math.max(0, math.floor(-ox / scale / extent))
 			y0 = math.max(0, math.floor(-oy / scale / extent))
 			x1 = math.min(math.ceil(Map.Width / extent) - 1, math.floor((width - ox) / scale / extent))
 			y1 = math.min(math.ceil(Map.Height / extent) - 1, math.floor((height - oy) / scale / extent))
-			if (x1-x0+1)*(y1-y0+1) <= budget or level == 6 then break end
+			if (x1-x0+1)*(y1-y0+1) <= math.max(1,math.floor(budget/2)) or level == 6 then break end
 			level += 1
 		until false
 		local nextSignature = string.format("%d:%d:%d:%d:%d:%d", level, x0, x1, y0, y1, budget)
 		if signature == nextSignature then return end
+		finishTransition();viewGenerationComplete=false;table.clear(prefetch)
 		signature, currentLevel = nextSignature, level
         generation+=1;centreX=(width/2-ox)/scale;centreY=(height/2-oy)/scale
 		local wanted: {[string]: boolean} = {}
 		for y = y0, y1 do for x = x0, x1 do wanted[key(level,x,y)] = true end end
 		for _, slot in ipairs(pool) do
 			slot.Visible = wanted[slot.Key] == true
-			local e=SIZE*2^(slot.Level or 0)
-            local intersects=slot.Level and (slot.X+1)*e*scale+ox>=0 and slot.X*e*scale+ox<=width and (slot.Y+1)*e*scale+oy>=0 and slot.Y*e*scale+oy<=height
-            slot.Label.Visible=(slot.Visible or intersects==true)and slot.Painted==slot.Key
-            slot.Label.ZIndex=if slot.Visible then 2 else 1
+   -- Preserve the entire previous view until every replacement is uploaded.
+   slot.Warm=false
+
 		end
 		table.clear(active)
 		for y = y0, y1 do
@@ -105,27 +130,37 @@ function Tiles.new(canvas: Frame, raster: any)
                 end
                 if not chosen and #pool<budget then pendingAllocation=true;signature="";return end
                 if not chosen then
-                    for _,slot in ipairs(pool)do if not slot.Visible and (not chosen or (slot.LastUsed or 0)<(chosen.LastUsed or 0))then chosen=slot end end
+                    for _,slot in ipairs(pool)do if not slot.Visible and not slot.Presented and (not chosen or (slot.LastUsed or 0)<(chosen.LastUsed or 0))then chosen=slot end end
                 end
-                if not chosen then signature="";return end
+                if not chosen then
+                 -- A lowered device allocation ceiling may leave no staging slot.
+                 -- Retire the old cohort together, retaining the complete overview.
+                 for _,slot in ipairs(pool)do slot.Presented=false;slot.Label.Visible=false end
+                 signature="";return
+                end
 				if chosen.Key ~= tileKey then
 					chosen.Key, chosen.Painted, chosen.Dirty = tileKey, "", true
                     chosen.Bounds=nil
 					chosen.Level, chosen.X, chosen.Y = level, x, y
 				end
-				chosen.Visible = true;chosen.LastUsed=generation;chosen.Label.ZIndex=2
+				chosen.Visible = true;chosen.LastUsed=generation
 				chosen.Label.Position = UDim2.fromScale(x * extent / Map.Width, y * extent / Map.Height)
 				chosen.Label.Size = UDim2.fromScale(extent / Map.Width, extent / Map.Height)
-				chosen.Label.Visible = chosen.Painted == tileKey
+				chosen.Label.Visible = chosen.Presented==true and chosen.Painted==tileKey
 				active[tileKey] = chosen
 			end
 		end
+  for _,v in ipairs({{x0-1,y0},{x1+1,y0},{x0,y0-1},{x0,y1+1}})do
+   if v[1]>=0 and v[2]>=0 and v[1]*extent<Map.Width and v[2]*extent<Map.Height then table.insert(prefetch,{Level=level,X=v[1],Y=v[2],Key=key(level,v[1],v[2])})end
+  end
+  present()
+
 	end
 	function result.invalidate(cell: number, animate: boolean)
 		local x, y = Map.xy(cell)
 		for _, slot in ipairs(pool) do
 			if slot.Level then
-				local step = 2 ^ slot.Level
+				local step = 2 ^ slot.Level/density
 				local extent = SIZE * step
 				-- Includes the one-texel gutter; neighbouring tiles share edge samples.
 				if x >= slot.X * extent - step and x < (slot.X+1)*extent + step
@@ -133,10 +168,12 @@ function Tiles.new(canvas: Frame, raster: any)
 					slot.Dirty = true
 					local px = math.floor(x / step) - slot.X * SIZE + 1
 					local py = math.floor(y / step) - slot.Y * SIZE + 1
+                    local ex=math.ceil((x+1)/step)-slot.X*SIZE;local ey=math.ceil((y+1)/step)-slot.Y*SIZE
+                    px=math.clamp(px,0,PADDED-1);py=math.clamp(py,0,PADDED-1);ex=math.clamp(ex,0,PADDED-1);ey=math.clamp(ey,0,PADDED-1)
 					if slot.Bounds then
 						local b = slot.Bounds
-						b[1],b[2],b[3],b[4] = math.min(b[1],px),math.min(b[2],py),math.max(b[3],px),math.max(b[4],py)
-					else slot.Bounds = {px,py,px,py} end
+						b[1],b[2],b[3],b[4] = math.min(b[1],px),math.min(b[2],py),math.max(b[3],ex),math.max(b[4],ey)
+					else slot.Bounds = {px,py,ex,ey} end
 				end
 			end
 		end
@@ -153,7 +190,7 @@ function Tiles.new(canvas: Frame, raster: any)
  end
 
 	function result.readyAt(x: number, y: number): boolean
-		local extent = SIZE * 2 ^ currentLevel
+		local extent = SIZE * 2 ^ currentLevel/density
 		local slot = active[key(currentLevel, math.floor(x/extent), math.floor(y/extent))]
 		return slot ~= nil and slot.Painted == slot.Key
 	end
@@ -169,22 +206,42 @@ function Tiles.new(canvas: Frame, raster: any)
         if pendingAllocation then
             pendingAllocation=false;local began=os.clock();local slot=createSlot()
             result.Metrics.AllocationMilliseconds=(os.clock()-began)*1000
-            if not slot then budget=#pool end
+            if not slot then
+             budget=#pool
+             if budget<2 then stopped=true;if result.OnFailure then result.OnFailure()end;return end
+            end
             signature=""
             return -- At most one image allocation per frame, outside camera/input handlers.
         end
-		if job and (not job.Slot.Visible or job.Key ~= job.Slot.Key) then
+		if job and (not (job.Slot.Visible or job.Slot.Warm) or job.Key ~= job.Slot.Key) then
 			-- The CPU buffer can contain a partial, not-yet-uploaded repaint.
 			job.Slot.Dirty = true
 			job.Slot.Bounds = {0,0,PADDED-1,PADDED-1}
 			job = nil
 		end
+        if transition then
+         local alpha=math.clamp((os.clock()-transition)/.14,0,1)
+         for _,slot in pairs(active)do if slot.FadeIn then slot.Label.ImageTransparency=1-alpha end end
+         if alpha>=1 then finishTransition()end
+        end
+        if viewGenerationComplete and not transition and #prefetch>0 then
+         local v=table.remove(prefetch,1);local cached=false
+         for _,slot in ipairs(pool)do if slot.Key==v.Key then cached=true;break end end
+         if not cached then
+          local spare=nil
+          for _,slot in ipairs(pool)do if not slot.Visible and not slot.Presented and (not job or job.Slot~=slot) and (not spare or (slot.LastUsed or 0)<(spare.LastUsed or 0))then spare=slot end end
+          if spare then
+           spare.Key=v.Key;spare.Level=v.Level;spare.X=v.X;spare.Y=v.Y;spare.Painted="";spare.Dirty=true;spare.Bounds=nil;spare.Warm=true;spare.LastUsed=generation
+          end
+         end
+        end
         if not job then
             local best=nil;local distance=math.huge
-            for _,slot in ipairs(pool)do if slot.Visible and slot.Dirty then
-                local extent=SIZE*2^slot.Level
+            for _,slot in ipairs(pool)do if (slot.Visible or slot.Warm) and slot.Dirty then
+                local extent=SIZE*2^slot.Level/density
                 local d=((slot.X+.5)*extent-centreX)^2+((slot.Y+.5)*extent-centreY)^2
                 -- Unpainted visible detail wins, then distance to the viewport centre.
+                if slot.Visible then d-=Map.Width*Map.Width*2 end
                 if slot.Painted~=slot.Key then d-=Map.Width*Map.Width end
                 if d<distance then best=slot;distance=d end
             end end
@@ -224,15 +281,16 @@ function Tiles.new(canvas: Frame, raster: any)
    result.Metrics.UploadMilliseconds=(os.clock()-uploadStart)*1000
    result.Metrics.UploadWorstMilliseconds=math.max(result.Metrics.UploadWorstMilliseconds,result.Metrics.UploadMilliseconds)
 			slot.Painted = slot.Key
-			slot.Label.Visible = true
+			slot.Label.Visible = slot.Presented==true
 			-- Finish in-flight tiles even under continuous multiplayer updates; newer
 			-- changes schedule another pass instead of starving an unfinished image.
 			-- Changes arriving during this job retain their own dirty bounds.
 			job = nil -- At most one changed EditableImage is uploaded this frame.
+            present()
 		end
 	end)
  function result.metrics()
-  local dirty=0;for _,slot in ipairs(pool) do if slot.Visible and slot.Dirty then dirty+=1 end end
+  local dirty=0;for _,slot in ipairs(pool) do if (slot.Visible or slot.Warm) and slot.Dirty then dirty+=1 end end
   result.Metrics.DirtyVisibleTiles=dirty
   result.Metrics.PaintJobAgeSeconds=if job then os.clock()-job.Time else 0
   result.Metrics.TileObjects=#pool+1

@@ -16,7 +16,9 @@ local Naval={}
 function Naval.new(sim,terrain)
  local grid=sim.Grid;local api={Units={},Count=0,Counts={},Path=Path.new(grid,terrain)}
  api.Shore=Shore.new(grid,api.Path)
+ if sim.Balance and sim.Balance.BoundedPaths then api.Path.configureBudget(function()return sim.Tick end,1024)end
  local changes={};local buckets={};local bucketWidth=math.ceil(grid.Width/100);local insertion=0
+ local preparing=setmetatable({},{__mode="k"})
  local function bucket(t)return math.floor(t%grid.Width/100)+math.floor(math.floor(t/grid.Width)/100)*bucketWidth end
  local function insert(u)local k=bucket(u.Tile);buckets[k]=buckets[k] or {};table.insert(buckets[k],u);insertion+=1;u.SpatialOrder=insertion end
  local function remove(u)local k=bucket(u.Tile);local b=buckets[k];if b then local i=table.find(b,u);if i then table.remove(b,i) end;if #b==0 then buckets[k]=nil end end end
@@ -30,7 +32,7 @@ function Naval.new(sim,terrain)
  end
  local function unown(u)local p=u.Owner;local i=table.find(p.Ships,u);if i then table.remove(p.Ships,i) end;p.ShipCounts[u.Type]-=1 end
  function api.delete(u)
-  if not u.Active then return end;u.Active=false;unown(u);remove(u);api.Units[u.ID]=nil;api.Count-=1;api.Counts[u.Type]-=1;api.touch(u)
+  if not u.Active then return end;if u.PathStepper then u.PathStepper.cancel()end;if u.PendingPath then api.Path.cancelTask(u.PendingPath)end;u.Active=false;unown(u);remove(u);api.Units[u.ID]=nil;api.Count-=1;api.Counts[u.Type]-=1;api.touch(u)
  end
  function api.capture(u,p)unown(u);u.Owner=p;table.insert(p.Ships,u);p.ShipCounts[u.Type]=(p.ShipCounts[u.Type] or 0)+1;api.touch(u) end
  function api.move(u,t)if t~=u.Tile then local changed=bucket(t)~=bucket(u.Tile);if changed then remove(u) end;u.Tile=t;if changed then insert(u) end;api.touch(u) end end
@@ -65,7 +67,12 @@ function Naval.new(sim,terrain)
   local target=sim.owner(grid.ownerID(c.Tile));if target==p or (target and not sim.canAttack(p,target)) then return false end
   if typeof(c.Allocation)~="number" or c.Allocation~=c.Allocation or c.Allocation<0 or c.Allocation>1 then return false end
   c.Troops=p.Troops*c.Allocation
-  c.Target=target;c.Destination=api.Shore.target(p,c.Tile);if c.Destination==nil then return false end
+  c.Target=target
+  if c.Prepared then
+   c.Target=if c.Destination then sim.owner(grid.ownerID(c.Destination))else nil
+   return c.Source~=nil and c.Destination~=nil and grid.ownerID(c.Source)==p.SmallId and grid.ownerID(c.Destination)~=p.SmallId and (not sim.owner(grid.ownerID(c.Destination))or sim.canAttack(p,sim.owner(grid.ownerID(c.Destination))))
+  end
+  c.Destination=api.Shore.target(p,c.Tile);if c.Destination==nil then return false end
   c.Source=api.Shore.launch(p,c.Destination);return c.Source~=nil
  end)
  sim.Economy.register("Naval:Warship",api.price,function(p,_,c)c.Source=api.warshipSpawn(p,c.Tile);return c.Source~=nil end)
@@ -83,15 +90,23 @@ function Naval.new(sim,terrain)
  function api.transport(p,c)
   local amount=math.min(p.Troops,c.Troops);Troops.remove(p,amount);local u=api.create(p,"TransportShip",c.Source,{Troops=amount,TargetTile=c.Destination})
   if c.Target and sim.TransactionResults then table.insert(sim.TransactionResults,{UserId=c.Target.UserId,Message="Incoming naval invasion from "..p.Username.." (transport #"..u.ID..")."}) end
-  local destination,target=c.Destination,c.Target;local retreat=nil;local step=api.Path.stepper(true)
+  local destination,target=c.Destination,c.Target;local retreat=nil;local step=api.Path.stepper(true);u.PathStepper=step
   api.schedule(function()end,function()
    if not u.Active then return end
    if u.Retreating then
-    if retreat==nil then retreat=api.Shore.launch(p,u.Tile) or false end
+    if retreat==nil then
+     if api.Path.BudgetTick then
+      if not u.PendingPath then u.PendingPath=api.Path.beginTask(function()return api.Shore.launch(p,u.Tile)end)end
+      if not u.PendingPath then return end
+      local done,value=api.Path.resumeTask(u.PendingPath);if not done then return end
+      u.PendingPath=nil;retreat=value or false
+     else retreat=api.Shore.launch(p,u.Tile)or false end
+    end
     if retreat==false then Troops.add(p,u.Troops);api.delete(u);return end
     destination=retreat;u.TargetTile=destination;api.touch(u)
    end
    local status,t=step.next(u.Tile,destination)
+   if status=="PENDING"then return end
    if status=="NEXT" then api.move(u,t)
    elseif status=="NOT_FOUND" then Troops.add(p,u.Troops);api.delete(u)
    elseif grid.ownerID(destination)==p.SmallId then Troops.add(p,u.Troops*0.75);api.delete(u)
@@ -108,18 +123,18 @@ function Naval.new(sim,terrain)
   local function complete()
    local amount=tostring(Rules.tradeGold(traveled,sim.Economy.multiplier(u.Owner)))
    if captured then Economy.add(u.Owner,amount);if u.Owner~=original then u.Owner.PiracyGold=Gold.add(u.Owner.PiracyGold or "0",amount) end
-   else Economy.add(source.Owner,amount);Economy.add(dest.Owner,amount);source.Owner.TradeGold=Gold.add(source.Owner.TradeGold,amount);dest.Owner.TradeGold=Gold.add(dest.Owner.TradeGold,amount) end
+   else Economy.add(source.Owner,amount);Economy.add(dest.Owner,amount);Economy.recordTrade(source.Owner,amount,"Sea",sim.Tick,source);Economy.recordTrade(dest.Owner,amount,"Sea",sim.Tick,dest);source.Owner.TradeGold=Gold.add(source.Owner.TradeGold,amount);dest.Owner.TradeGold=Gold.add(dest.Owner.TradeGold,amount) end
    api.delete(u);active=false
   end
   api.schedule(function()end,function()
    if not u then
     local owned=false;for _,port in ipairs(api.ports(original)) do if port.Tile==source.Tile then owned=true;break end end
     if not owned or (grid.Counts[original.SmallId] or 0)==0 then active=false;return end
-    u=api.create(original,"TradeShip",source.Tile,{TargetUnit=dest,LastSafe=sim.Tick})
+    u=api.create(original,"TradeShip",source.Tile,{TargetUnit=dest,LastSafe=sim.Tick});u.PathStepper=step
    end
    if not u.Active then active=false;return end
    if u.Owner~=original then captured=true end
-   if dest.Owner==source.Owner or (not captured and (not dest.Active or not api.canTrade(u.Owner,dest.Owner))) then api.delete(u);active=false;return end
+   if dest.Owner==source.Owner or (not captured and (not source.Active or source.Owner~=original or not dest.Active or not api.canTrade(u.Owner,dest.Owner))) then api.delete(u);active=false;return end
    if captured and (u.Owner~=dest.Owner or not dest.Active) then
     local best,distance=nil,math.huge;local component=api.Path.component(u.Tile)
     for _,port in ipairs(api.ports(u.Owner)) do local d=api.Path.distance(u.Tile,port.Tile)
@@ -129,6 +144,7 @@ function Naval.new(sim,terrain)
    end
    if u.Tile==dest.Tile then complete();return end
    local status,t=step.next(u.Tile,dest.Tile)
+   if status=="PENDING"then return end
    if status=="NEXT" then
     if not grid.isLand(t) and bit32.band(grid.terrainByte(t),64)~=0 then u.LastSafe=sim.Tick end
     api.move(u,t);traveled+=1
@@ -167,8 +183,8 @@ function Naval.new(sim,terrain)
  function api.order(p,e)
   if not table.find({"Transport","Warship","Move","Retreat"},e.Action) then return end
   local active=true
-  api.schedule(function()
-   local c={Tile=e.Tile,Allocation=e.Allocation,UnitID=e.UnitID}
+  local function transact(c)
+   c=c or {Tile=e.Tile,Allocation=e.Allocation,UnitID=e.UnitID}
    local receipt,fresh=sim.Economy.purchase(p,e.Sequence,"Naval:"..e.Action,c)
    table.insert(sim.TransactionResults,{UserId=p.UserId,Receipt=receipt,Fresh=fresh,Message=if receipt.OK then (if fresh then "Naval order accepted." else "Order already processed.") else "Naval order rejected: "..receipt.Reason})
    if fresh and receipt.OK then
@@ -179,7 +195,32 @@ function Naval.new(sim,terrain)
      local id=c.UnitID;api.schedule(function()end,function()local u=api.Units[id];if u and u.Owner==p then u.Retreating=true;api.touch(u) end;active=false end,function()return active end);return
     end
    end;active=false
-  end,function()end,function()return active end)
+  end
+  if api.Path.BudgetTick and e.Action=="Transport"then
+   if typeof(e.Sequence)~="number"or e.Sequence%1~=0 or e.Sequence<1 or e.Sequence>9007199254740991 or not grid.valid(e.Tile)or typeof(e.Allocation)~="number"or e.Allocation~=e.Allocation or e.Allocation<0 or e.Allocation>1 then
+    api.schedule(function()transact()end,function()end,function()return active end);return
+   end
+   local pending=preparing[p]or {};preparing[p]=pending
+   if pending[e.Sequence]then return end -- The original completion supplies the receipt.
+   local count=p.ShipCounts.TransportShip or 0;for _ in pairs(pending)do count+=1 end
+   if count>=Rules.TransportLimit then
+    table.insert(sim.TransactionResults,{UserId=p.UserId,Message="Cannot prepare more transports. Wait for pending naval orders."});return
+   end
+   pending[e.Sequence]=true
+   local job=nil;local finished=false
+   local function finish()pending[e.Sequence]=nil;finished=true end
+   api.schedule(function()end,function()
+    if sim.Players[p.UserId]~=p or p.Eliminated then api.Path.cancelTask(job);finish();return end
+    if not job then job=api.Path.beginTask(function()
+     local c={Tile=e.Tile,Allocation=e.Allocation,UnitID=e.UnitID,Prepared=true}
+     if grid.valid(e.Tile)then c.Destination=api.Shore.target(p,e.Tile);if c.Destination then c.Source=api.Shore.launch(p,c.Destination)end end
+     return c
+    end)end
+    if not job then return end
+    local done,c=api.Path.resumeTask(job);if not done then return end
+    finish();transact(c) -- Never yield across the purchase/receipt transaction.
+   end,function()return not finished end)
+  else api.schedule(function()transact()end,function()end,function()return active end)end
  end
  local function record(u)
   return {ID=u.ID,Type=u.Type,Tile=u.Tile,Owner=if u.Active then u.Owner.SmallId else 0,Health=u.Health,Veterancy=u.Veterancy,Progress=u.Progress,Troops=u.Troops,TargetTile=u.TargetTile,

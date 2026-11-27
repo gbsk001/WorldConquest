@@ -9,20 +9,24 @@
     5400
   ],
   "display_dimensions": [
+    10800,
+    5400
+  ],
+  "simulation_dimensions": [
     8192,
     4096
   ],
   "projection": "Equirectangular; original georeferencing retained",
   "palette_colors": 128,
   "encoded_bytes_per_level": [
-    12483508,
-    3251382,
-    869646,
-    231244,
-    64160,
-    19390,
-    5818
+    20519967,
+    5315295,
+    1454242,
+    387368,
+    106270,
+    31708,
+    9840
   ],
-  "method": "Downsample source to simulation dimensions, median-cut palette, no dithering; prefiltered display LODs. Existing detailed land/lake mask is authoritative.",
+  "method": "Retain native source resolution independently of simulation, median-cut palette, no dithering; prefiltered display LODs. Existing detailed land/lake mask is authoritative.",
   "limitations": "Idealized land cover and shaded relief, not current satellite photography or a new elevation DEM. ETOPO gameplay elevation remains unchanged."
 }

@@ -47,9 +47,13 @@ local Map=require(shared:WaitForChild("Map"))
 local MapView=require(script.Parent:WaitForChild("MapView"))
 local remote=ReplicatedStorage:WaitForChild("WorldConquestEvent") :: RemoteEvent
 local bleed=Instance.new("Frame");bleed.Name="FullScreenBackdrop";bleed.Size=UDim2.fromScale(1,1);bleed.BackgroundColor3=Color3.fromRGB(8,14,23);bleed.BorderSizePixel=0;bleed.Parent=gui
+-- Separate display layer: no map descendant ZIndex can cross above gameplay UI.
+local hudGui=Instance.new("ScreenGui");hudGui.Name="WorldConquestInterface";hudGui.ResetOnSpawn=false;hudGui.DisplayOrder=20;hudGui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;hudGui.ScreenInsets=Enum.ScreenInsets.None;hudGui.ClipToDeviceSafeArea=false;hudGui.Enabled=gui.Enabled;hudGui.Parent=gui.Parent
+gui:GetPropertyChangedSignal("Enabled"):Connect(function()hudGui.Enabled=gui.Enabled end)
+gui.Destroying:Connect(function()hudGui:Destroy()end)
 local background=Instance.new("Frame")
 background.Name="SafeInterface";background.Active=false;background.BackgroundTransparency=1;background.ZIndex=30; background.BorderSizePixel=0
-background.Parent=gui
+background.Parent=hudGui
 local function layoutSafeArea()
 	local topLeft,bottomRight=GuiService:GetGuiInset()
  pcall(function()local full=GuiService:GetInsetArea(Enum.ScreenInsets.None);local safe=GuiService:GetInsetArea(Enum.ScreenInsets.CoreUISafeInsets);topLeft=safe.Min-full.Min;bottomRight=full.Max-safe.Max end)
@@ -63,7 +67,7 @@ local function label(text: string,y: number,height: number): TextLabel
 	local item=Instance.new("TextLabel")
 	item.Position=UDim2.new(0,16,0,y); item.Size=UDim2.new(1,-32,0,height)
 	item.BackgroundTransparency=1; item.Text=text; item.TextColor3=Color3.fromRGB(229,237,241)
-	item.Font=Enum.Font.GothamMedium; item.TextScaled=true; item.TextXAlignment=Enum.TextXAlignment.Left
+	item.Font=Enum.Font.GothamMedium; item.TextScaled=false;item.TextSize=16; item.TextXAlignment=Enum.TextXAlignment.Left
 	local constraint=Instance.new("UITextSizeConstraint"); constraint.MaxTextSize=18; constraint.Parent=item
 	item.Parent=background
 	return item
@@ -116,15 +120,15 @@ gui:SetAttribute("StartupMilliseconds",(os.clock()-clientBootStarted)*1000)
 assert(view,"Map view initialization failed")
 if Config.SimulationMode=="Foundation" and Config.PortStage>=5 then
     local BuildingShop=require(script.Parent.BuildingShop)
-    buildingShop=BuildingShop.new(viewport,function(order)send("Building",order)end,function(message)status.Text=message end,view.buildingAt,nextOrderSequence,function()if navalControls then navalControls.cancel() end;if missileControls then missileControls.cancel() end end,function(kind)view.setPlacement(kind,localProfile and localProfile.SmallId)end)
+    buildingShop=BuildingShop.new(background,function(order)send("Building",order)end,function(message)if strategyUI then strategyUI.notify(message)else status.Text=message end end,view.buildingAt,nextOrderSequence,function()if navalControls then navalControls.cancel() end;if missileControls then missileControls.cancel() end end,function(kind)view.setPlacement(kind,localProfile and localProfile.SmallId)end)
 end
 if Config.SimulationMode=="Foundation" and Config.PortStage>=6 then
     local NavalControls=require(script.Parent.NavalControls)
-    navalControls=NavalControls.new(viewport,function(order)send("Naval",order)end,function(message)status.Text=message end,view.shipAt,nextOrderSequence,function()return allocation end,function()if buildingShop then buildingShop.cancel() end;if missileControls then missileControls.cancel() end end)
+    navalControls=NavalControls.new(background,function(order)send("Naval",order)end,function(message)if strategyUI then strategyUI.notify(message)else status.Text=message end end,view.shipAt,nextOrderSequence,function()return allocation end,function()if buildingShop then buildingShop.cancel() end;if missileControls then missileControls.cancel() end end)
 end
 if Config.SimulationMode=="Foundation" and Config.PortStage>=8 then
- missileControls=require(script.Parent.MissileControls).new(viewport,function(order)send("Missile",order)end,function(message)status.Text=message end,nextOrderSequence,function()if buildingShop then buildingShop.cancel() end;if navalControls then navalControls.cancel() end end)
- matchHUD=require(script.Parent.MatchHUD).new(viewport,view.focus,player.UserId)
+ missileControls=require(script.Parent.MissileControls).new(background,function(order)send("Missile",order)end,function(message)if strategyUI then strategyUI.notify(message)else status.Text=message end end,nextOrderSequence,function()if buildingShop then buildingShop.cancel() end;if navalControls then navalControls.cancel() end end)
+ matchHUD=require(script.Parent.MatchHUD).new(background,view.focus,player.UserId)
 end
 if buildingShop then buildingShop.attach(navalControls,missileControls)end
 local selectedAttackID=nil
@@ -249,7 +253,7 @@ end)
 local function retainPrivateProfile(newState,previous,userID)
     if not previous or previous.UserId~=userID then return end
     for _,profile in ipairs(newState.Players)do if profile.UserId==userID then
-        for _,key in ipairs({"BuildingQuotes","Naval","Missiles","Rail"})do
+        for _,key in ipairs({"BuildingQuotes","Naval","Missiles","Rail","Economy"})do
             if profile[key]==nil then profile[key]=previous[key]end
         end
         return
@@ -282,6 +286,8 @@ onVisibility=function(active)
 end
 remote.OnClientEvent:Connect(function(action: string,payload: any)
  lastServerMessage=os.clock()
+ if action=="RailGeometry"then if acceptFoundation then view.railGeometry(payload,matchID)end;return end
+
     if action=="MatchReset" then
         acceptFoundation=true
         matchID=payload.MatchID;foundationReady=false;replica.reset(matchID);state=nil;localProfile=nil;orderSequence=0;selectedAttackID=nil
@@ -371,14 +377,7 @@ RunService.RenderStepped:Connect(function()
  if state.Foundation and displayedPhase==state.Phase and displayedTick==state.Tick then return end
  displayedPhase,displayedTick=state.Phase,state.Tick
     if matchHUD then matchHUD.update(state) end
-	if state.Phase=="Selecting" then
-		phaseLabel.Text=string.format("CHOOSE YOUR SPAWN / %ds",math.max(0,math.ceil(if state.Foundation then (state.EndTick-state.Tick)*0.1 else state.Deadline-Workspace:GetServerTimeNow())))
-        if state.SelectedSpawns then phaseLabel.Text..=string.format(" / %d of %d selected",state.SelectedSpawns,state.Participants or #state.Players)end
-	elseif state.Phase=="Started" then
-        local seconds=math.floor((state.Tick or 0)/10)
-        phaseLabel.Text=string.format("WORLD CONQUEST   •   %02d:%02d",math.floor(seconds/60),seconds%60)
-	elseif state.Phase=="Victory" or state.Phase=="Results" then phaseLabel.Text=state.Phase..(if Config.PortStage>=10 then " / Main menu in "else " / Next match in ")..math.max(0,math.ceil(((state.RestartAt or state.Tick)-state.Tick)/10)).."s"
-	else phaseLabel.Text="Waiting for players..." end
+ if strategyUI then strategyUI.clock(state)end
 end)
 -- Do not start the timer until the initial visible map is actually painted.
 local renderDeadline=os.clock()+20

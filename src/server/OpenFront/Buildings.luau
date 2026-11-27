@@ -104,7 +104,7 @@ function Buildings.new(sim,config)
    elseif owner~=p then
     if u.Type=="DefensePost" then api.destroy(u)
     else
-     removeOwned(p,u);u.Owner=owner;u.DeleteAt=nil;table.insert(owner.BuildingUnits,u);changed(owner);dirty(u)
+     removeOwned(p,u);u.Owner=owner;u.DeleteAt=nil;table.insert(owner.BuildingUnits,u);changed(owner);dirty(u);if sim.Rail and sim.Rail.invalidateGeometry then sim.Rail.invalidateGeometry()end
     end
    end
   end
@@ -176,7 +176,11 @@ function Buildings.new(sim,config)
     return
    end
    if not u.Active then active=false;return end
-   if remaining==0 then u.UnderConstruction=false;changed(u.Owner);dirty(u);active=false;if sim.Rail then sim.Rail.completed(u) end;if sim.Naval then sim.Naval.port(u) end;if sim.Missiles then sim.Missiles.completed(u) end;return end
+   if remaining==0 then
+    u.UnderConstruction=false;changed(u.Owner);dirty(u);active=false
+    if not u.Owner.IsBot then table.insert(sim.TransactionResults,{UserId=u.Owner.UserId,Message=Rules.Info[u.Type].Name.." construction complete."})end
+    if sim.Rail then sim.Rail.completed(u) end;if sim.Naval then sim.Naval.port(u) end;if sim.Missiles then sim.Missiles.completed(u) end;return
+   end
    remaining-=1
   end
   local init,tick=execution.init,execution.tick

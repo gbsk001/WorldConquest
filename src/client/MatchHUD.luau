@@ -18,10 +18,16 @@ function HUD.new(parent,locate,localUserId)
  local function newRow()
   local row=Instance.new("TextButton");row.Name="RankingCard";row.Text="";row.AutoButtonColor=false;row.BorderSizePixel=0;row.BackgroundTransparency=.1;row.ZIndex=46;row.Size=UDim2.new(1,-16,0,35);row.Parent=panel
   local round=Instance.new("UICorner");round.CornerRadius=UDim.new(0,7);round.Parent=row
-  local t=Instance.new("TextLabel");t.BackgroundTransparency=1;t.Position=UDim2.fromOffset(27,0);t.Size=UDim2.new(1,-34,1,-5);t.Font=Enum.Font.GothamMedium;t.TextSize=12;t.TextXAlignment=Enum.TextXAlignment.Left;t.TextColor3=Color3.fromRGB(229,237,247);t.ZIndex=47;t.Parent=row
+  local t=Instance.new("TextLabel");t.BackgroundTransparency=1;t.Position=UDim2.fromOffset(27,0);t.Size=UDim2.new(1,-96,1,-5);t.Font=Enum.Font.GothamMedium;t.TextSize=12;t.TextXAlignment=Enum.TextXAlignment.Left;t.TextColor3=Color3.fromRGB(229,237,247);t.ZIndex=47;t.Parent=row
   local bar=Instance.new("Frame");bar.BorderSizePixel=0;bar.Position=UDim2.new(0,4,1,-3);bar.Size=UDim2.fromOffset(0,2);bar.ZIndex=47;bar.Parent=row
   t.AutoLocalize=false;t.RichText=false
-  local record={Root=row,Text=t,Bar=bar}
+  t.TextTruncate=Enum.TextTruncate.AtEnd;t.TextWrapped=false
+  local function small(name,x,size,align)
+   local label=Instance.new("TextLabel");label.Name=name;label.BackgroundTransparency=1;label.Position=x;label.Size=size;label.TextSize=12;label.Font=Enum.Font.GothamBold;label.TextColor3=Color3.fromRGB(231,238,247);label.TextXAlignment=align;label.TextWrapped=false;label.ZIndex=47;label.Parent=row;return label
+  end
+  local rankLabel=small("Rank",UDim2.fromOffset(2,0),UDim2.fromOffset(24,30),Enum.TextXAlignment.Center)
+  local share=small("Territory",UDim2.new(1,-65,0,0),UDim2.fromOffset(59,30),Enum.TextXAlignment.Right)
+  local record={Root=row,Text=t,Bar=bar,Rank=rankLabel,Share=share}
   row.Activated:Connect(function()local p=record.Player;if locate and p and p.X then locate(p.LabelX or p.X,p.LabelY or p.Y)end end)
   return record
  end
@@ -52,16 +58,16 @@ function HUD.new(parent,locate,localUserId)
    end
    r.Root.BackgroundColor3=if p.UserId==localUserId then Color3.fromRGB(31,61,78)else Color3.fromRGB(24,35,49)
    local percent=(p.Count or 0)/math.max(1,Map.LandCount)*100
-   local text=string.format("%02d  %s   %.2f%%",rank,p.Username,percent)
+   local text=p.Username;r.Rank.Text=tostring(rank);r.Share.Text=string.format("%.2f%%",percent)
    if r.Text.Text~=text then r.Text.Text=text end
    local flagID=p.Cosmetics and p.Cosmetics.Flag
    if r.FlagID~=flagID then
     if r.Flag then r.Flag:Destroy();r.Flag=nil end
     r.FlagID=flagID;if flagID then r.Flag=Cosmetic.flag(r.Root,flagID,20);if r.Flag then r.Flag.Position=UDim2.fromOffset(27,7)end end
-    r.Text.Position=UDim2.fromOffset(if flagID then 51 else 27,0);r.Text.Size=UDim2.new(1,if flagID then -58 else -34,1,-5)
+    r.Text.Position=UDim2.fromOffset(if flagID then 51 else 27,0);r.Text.Size=UDim2.new(1,if flagID then -120 else -96,1,-5)
    end
    r.Bar.BackgroundColor3=p.Color or Color3.fromRGB(108,172,207);r.Bar.Size=UDim2.new(math.clamp((p.Count or 0)/math.max(1,ranked[1]and ranked[1].Count or 1),0,1),-8,0,2)
-   local crown=if state.Phase=="Started"and rank<=3 then rank else 0
+   local crown=if state.Phase=="Started"and rank<=3 then rank else 0;r.Rank.Visible=crown==0
    if r.CrownRank~=crown then
     if r.Crown then r.Crown:Destroy();r.Crown=nil end
     if crown>0 then r.Crown=Art.icon(r.Root,"Crown",18,Cosmetic.tint(p.Cosmetics,"Crown",crownColors[crown]));r.Crown.Position=UDim2.fromOffset(4,5)end

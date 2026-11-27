@@ -113,3 +113,9 @@ layering, floating HUD/construction, optional flags and cached terrain presentat
 Natural Earth II v3.2.0 shaded-relief/idealized land-cover raster is public domain;
 original archive, hashes and generator supplied. No RoWorld artwork, branding or
 closed-source code is included. OpenFront copyrights and AGPL terms retained.
+
+Modified 2026-11-25: Stage 14 visual corrections replace procedural GUI/unit icons
+with Lucide assets (ISC and Feather MIT, full notices in assets/lucide/LICENSE),
+rasterise existing flag cosmetics, use actual configured game-pass thumbnails,
+separate native 10800x5400 terrain display from 8192x4096 ownership, and repair
+layout and camera invalidation. No RoWorld proprietary assets are included.

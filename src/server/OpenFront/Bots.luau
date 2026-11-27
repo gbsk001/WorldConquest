@@ -57,6 +57,19 @@ function Bots.new(sim,config)
     if unit.Type==desired and unit.Type~="DefensePost" and unit.Active and not unit.UnderConstruction and not unit.DeleteAt then order(p,s,{Kind="Building",Action="Upgrade",UnitID=unit.ID});return true end
    end
   end
+  if sim.Balance and sim.Balance.ProactiveAI and (desired=="City"or desired=="Factory"or desired=="Port")then
+   for _=1,math.min(4,#p.BuildingUnits)do
+    s.EconomicCursor=(s.EconomicCursor or 0)%#p.BuildingUnits+1;local unit=p.BuildingUnits[s.EconomicCursor]
+    if not unit.Active or unit.UnderConstruction then continue end
+    for _=1,2 do
+     local x=unit.Tile%sim.Grid.Width+s.Random.nextInt(-75,76);local y=math.floor(unit.Tile/sim.Grid.Width)+s.Random.nextInt(-75,76)
+     if x>=0 and y>=0 and x<sim.Grid.Width and y<sim.Grid.Height then
+      local tile=sim.Grid.ref(x,y)
+      if sim.Buildings.placement(p,desired,tile)then order(p,s,{Kind="Building",Action="Build",Type=desired,Tile=tile});return true end
+     end
+    end
+   end
+  end
   for i=1,math.min(#tiles,4) do
    local tile=tiles[i]
    if sim.Buildings.placement(p,desired,tile) then order(p,s,{Kind="Building",Action="Build",Type=desired,Tile=tile});return true end
@@ -99,8 +112,14 @@ function Bots.new(sim,config)
    if summary.Transports<3 then
     -- Upstream searches up to 500 random nearby targets. Bound probes to 16 here.
     local grid=sim.Grid;local x,y=water%grid.Width,math.floor(water/grid.Width)
-    for _=1,16 do
+    for probe=1,16 do
      local tx=s.Random.nextInt(x-150,x+150);local ty=s.Random.nextInt(y-150,y+150)
+     if sim.Balance and sim.Balance.ProactiveAI then
+      if probe<=4 and target then
+       local choices;choices,s.NavalBorder=target.Player.Border.sample(s.NavalBorder,16)
+       for _,t in ipairs(choices)do if bit32.band(grid.terrainByte(t),64)~=0 then tx=t%grid.Width;ty=math.floor(t/grid.Width);break end end
+      elseif probe%4==0 then tx=s.Random.nextInt(0,grid.Width);ty=s.Random.nextInt(0,grid.Height)end
+     end
      if tx>=0 and ty>=0 and tx<grid.Width and ty<grid.Height then
       local tile=grid.ref(tx,ty);local owner=sim.owner(grid.ownerID(tile))
       if grid.isLand(tile) and not grid.isImpassable(tile) and grid.ownerID(tile)~=p.SmallId and (not owner or not sim.friendly(p,owner) and owner.Troops<p.Troops) then
@@ -128,14 +147,21 @@ function Bots.new(sim,config)
   if s.Advanced%advancedEvery==0 and advanced(p,s,water,enemies) then return end
   if s.Advanced%buildEvery==0 and building(p,s,tiles,water,incoming) then return end
   local target=nil
-  if free and p.Troops>=cap*s.Personality.Trigger then target={Tile=free}
+  -- Restart empty/stale local fronts without waiting for an ever-growing capacity.
+  local proactive=sim.Balance and sim.Balance.ProactiveAI
+  local ready=p.Troops>=cap*s.Personality.Trigger or proactive and p.Troops>=1000 and #p.Outgoing==0
+  if free and ready then target={Tile=free}
   else
    for _,enemy in ipairs(enemies) do
-    if (p.Troops>=cap*s.Personality.Trigger or difficulty=="Hard" and incoming>0) and (enemy.Player.IsBot or Rules.humanTarget(s.Random,difficulty)) then target=enemy;break end
+    if (ready or difficulty=="Hard" and incoming>0) and (enemy.Player.IsBot or Rules.humanTarget(s.Random,difficulty)) then target=enemy;break end
    end
   end
   if not target then return end
   local amount=Rules.sendTroops(p.Troops,cap,if target.Player then s.Personality.Reserve else s.Personality.Expand)
+  if proactive then
+   if target.Player and target.Player.Troops>p.Troops*.8 then return end
+   amount=math.max(amount,p.Troops*(if target.Player then .35 else .2))
+  end
   local strongest=0;for _,enemy in ipairs(enemies) do if enemy.Player~=target.Player then strongest=math.max(strongest,enemy.Player.Troops) end end
   local limit=Rules.threatCap(p.Troops,strongest,incoming,difficulty,sim.TeamMode)
   if not target.Player and limit<=0 then limit=math.ceil(p.Troops*0.05) end
@@ -149,7 +175,8 @@ function Bots.new(sim,config)
   if not created and sim.Phase=="Selecting" and (sim.Stage>=11 or sim.Tick>=sim.EndTick-2) then
    local humans=0;for _,p in pairs(sim.Players) do if not p.IsBot and not p.Spectator then humans+=1 end end
    local desired=if config.FillEmptySlots then math.clamp(target-humans,0,500) else count
-   if sim.SpawnPlanner then sim.SpawnPlanner.configure(desired+humans)end
+   sim.CompetitiveParticipants=desired+humans
+   if sim.SpawnPlanner then sim.SpawnPlanner.configure(desired+humans+(sim.BasicNations and sim.BasicNations.Count or 0))end
    -- Cosmetic name stream never consumes the gameplay PRNG.
    local prefixes={"Silver","Nova","Iron","Frost","Shadow","Solar","Lunar","Crimson","Azure","Golden","Silent","Neon","Storm","Arctic","Ember","Thunder","Onyx","Cosmic","Swift","Phantom"}
    local suffixes={"Fox","Storm","Wolf","Byte","Hawk","Raven","Falcon","Knight","Viper","Tiger","Drake","Phoenix","Orbit","Blade","Echo","Comet","Lynx","Warden","Panda","Voyager"}

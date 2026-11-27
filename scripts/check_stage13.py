@@ -1,3 +1,4 @@
+from gui_harness import icons, art
 """Production Stage 13 modules with service/GUI stubs, never real purchases."""
 from pathlib import Path
 import subprocess
@@ -16,7 +17,8 @@ h+=module('PartyState','src/server/PartyState.luau')
 h+=src('scripts/progression_checks.luau')
 h+=src('scripts/strategy_ui_checks.luau')
 h+='\nColor3.fromHex=function(hex)return Color3.fromRGB(tonumber(hex:sub(1,2),16),tonumber(hex:sub(3,4),16),tonumber(hex:sub(5,6),16))end\n'
-h+=module('Art','src/client/InterfaceArt.luau')
+h+=icons()
+h+='local Art=(function()\n'+art(src('src/client/InterfaceArt.luau'))+'\nend)()\n'
 h+=module('Cosmetic','src/client/CosmeticArt.luau',[('local Catalog=require(game:GetService("ReplicatedStorage").Shared.ProgressionCatalog)','local Catalog=Catalog'),('local Art=require(script.Parent.InterfaceArt)','local Art=Art')])
 h+='\nlocal Theme={surface=function(o)o.BackgroundTransparency=.14 end,button=function(o)o.TextSize=14 end}\n'
 h+=src('scripts/premium_ui_checks.luau').split('-- MODULE --')[0]

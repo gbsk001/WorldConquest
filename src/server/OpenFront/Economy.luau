@@ -18,6 +18,13 @@ end
 function Economy.add(p,amount)
  assert(Gold.valid(amount));p.Gold=Gold.add(p.Gold,amount);p.GoldEarned=Gold.add(p.GoldEarned,amount)
 end
+function Economy.recordTrade(p,amount,kind,tick,unit)
+ p.TradeLedger=p.TradeLedger or {};local second=math.floor(tick/10);local key=second%30
+ local bucket=p.TradeLedger[key]
+ if not bucket or bucket.Second~=second then bucket={Second=second,Rail="0",Sea="0"};p.TradeLedger[key]=bucket end
+ bucket[kind]=Gold.add(bucket[kind],amount)
+ if unit then unit.TradeEarned=Gold.add(unit.TradeEarned or "0",amount)end
+end
 function Economy.remove(p,amount)
  assert(Gold.valid(amount));local actual=if Gold.compare(p.Gold,amount)<0 then p.Gold else amount
  p.Gold=Gold.subtract(p.Gold,actual);return actual
@@ -39,7 +46,22 @@ function Economy.new(sim,config)
   else local compare=Gold.compare(a,b);local v=if compare>=0 then Gold.subtract(a,b) else Gold.subtract(b,a)
    p.AttacksSent=(if v~="0" and (if compare>=0 then negative else sign) then "-" else "")..v end
  end
- function api.income(p)return Economy.rate(p.Kind,config,p.IsHost) end
+ function api.income(p)return if p.BasicNation then "0"else Economy.rate(p.Kind,config,p.IsHost) end
+ function api.summary(p)
+  local rail,sea="0","0";local second=math.floor(sim.Tick/10)
+  for _,b in pairs(p.TradeLedger or {})do if b.Second>second-30 then rail=Gold.add(rail,b.Rail);sea=Gold.add(sea,b.Sea)end end
+  local seconds=math.clamp(math.floor((sim.Tick-(sim.StartTick or sim.Tick))/10),1,30)
+  local base=if sim.Phase=="Started"and not p.Eliminated then api.income(p)else "0"
+  base=if base=="0"then "0"else base.."0"
+  rail=Gold.divideSmall(rail,seconds);sea=Gold.divideSmall(sea,seconds)
+  local counts={City=0,Factory=0,Port=0};local buildings={}
+  for _,u in ipairs(p.BuildingUnits or {})do if u.Active and not u.UnderConstruction then
+   if counts[u.Type]then counts[u.Type]+=1 end
+   buildings[tostring(u.ID)]=u.TradeEarned or "0" -- RemoteEvent dictionary, not a sparse array.
+  end end
+  local network=sim.Rail and sim.Rail.summary(p)or {}
+  return {Gold=p.Gold,Base=base,Rail=rail,Sea=sea,Total=Gold.add(base,Gold.add(rail,sea)),Cities=counts.City,Factories=counts.Factory,Ports=counts.Port,ActiveRoutes=(network.Routes or 0)+(p.ShipCounts and p.ShipCounts.TradeShip or 0),BuildingTrade=buildings,WindowSeconds=seconds}
+ end
  function api.multiplier(p)
   if p.IsHost and config.HostGoldMultiplier and config.HostGoldMultiplier~=0 then return config.HostGoldMultiplier end
   return config.GoldMultiplier or 1

@@ -21,6 +21,21 @@ function Rail.new(sim)
   execution.tick=function()local began=os.clock();tick();sim.Work.RailMilliseconds=(sim.Work.RailMilliseconds or 0)+(os.clock()-began)*1000 end
   sim.Executions.add(execution)
  end
+ local connectQueue={};local connectJob=nil;local connectBudget=0
+ local routeCache={};local routeOrder={}
+ local function pathSlice()
+  connectBudget-=64;if connectBudget<=0 then coroutine.yield()end
+ end
+ local function landRoute(from,to)
+  -- Terrain is immutable for a match. Direction remains part of the key to
+  -- preserve A* tie-breaking. Only geometry is cached, never trade eligibility.
+  local key=tostring(from)..":"..to;local cached=routeCache[key]
+  if cached~=nil then return if cached then table.clone(cached)else nil end
+  local route=Path.land(grid,from,to,110*1.4142,if sim.Balance and sim.Balance.BoundedPaths then pathSlice else nil)
+  if #routeOrder>=256 then routeCache[table.remove(routeOrder,1)]=nil end
+  table.insert(routeOrder,key);routeCache[key]=if route then table.clone(route)else false
+  return route
+ end
  local stationOrder,byUnit,railCells,railKeys,dirtyClusters={},{},{},{},{}
  local function mark()api.Version+=1 end
  local function cellKey(x,y)return tostring(x)..":"..tostring(y) end
@@ -120,12 +135,13 @@ function Rail.new(sim)
   local seen=reachable(s,4)
   for _,v in ipairs(candidates) do
    if seen[v.Station] or v.Distance<=225 then continue end
-   local path=Path.land(grid,s.Unit.Tile,v.Station.Unit.Tile,110*1.4142)
-   if path and #path>0 and #path<110*1.4142 then
+   local path=landRoute(s.Unit.Tile,v.Station.Unit.Tile)
+   if s.Unit.Active and v.Station.Unit.Active and api.Stations[v.Station.ID]==v.Station and v.Station.Cluster and path and #path>0 and #path<110*1.4142 then
     link(s,v.Station,path);local c=v.Station.Cluster;clusterAdd(c,s);add(edited,c);seen=reachable(s,4)
    end
   end
   if #edited==0 then clusterAdd({Stations={},Trade={}},s) else merge(edited) end
+  if not s.Unit.Active then api.removeUnit(s.Unit)end
  end
  function api.stationPath(from,to)
   if from.Cluster~=to.Cluster then return nil end
@@ -148,6 +164,16 @@ function Rail.new(sim)
   if sim.Naval then return owner==p or sim.Naval.canTrade(p,owner) end
   return owner==p or not ((p.Embargoes and p.Embargoes[owner.UserId]) or (owner.Embargoes and owner.Embargoes[p.UserId]))
  end
+ local function recordMotion(u,path)
+  if not (sim.Balance and sim.Balance.InfrastructurePresentation)then return end
+  local history=u.Motion or {};local previous=history[#history];local a,c=nil,nil
+  for i,t in ipairs(path)do if t==previous then a=i end;if t==u.Tile then c=i end end
+  if a and c then
+   local direction=if c>=a then 1 else -1
+   for i=a+direction,c,direction do table.insert(history,path[i])end
+  elseif previous~=u.Tile then table.insert(history,u.Tile)end
+  while #history>25 do table.remove(history,1)end;u.Motion=history
+ end
  function api.launch(p,from,to)
   local active=true;local train=nil;local stations=nil;local tiles=nil
   local current,pathIndex,stops=0,0,0;local pathTiles={}
@@ -169,8 +195,8 @@ function Rail.new(sim)
    local owner=station.Unit.Owner
    local relationship=if owner==p then "self" elseif p.Team~=nil and p.Team==owner.Team then "team" elseif p.Allies and p.Allies[owner.UserId] then "ally" else "other"
    local gold=Gold.from(Rules.gold(relationship,stops,sim.Economy.multiplier(p)))
-   if owner~=p then Economy.add(owner,gold);owner.TrainGold=Gold.add(owner.TrainGold or "0",gold) end
-   Economy.add(p,gold);p.TrainGold=Gold.add(p.TrainGold or "0",gold);stops+=1
+   if owner~=p then Economy.add(owner,gold);Economy.recordTrade(owner,gold,"Rail",sim.Tick,station.Unit);owner.TrainGold=Gold.add(owner.TrainGold or "0",gold) end
+   Economy.add(p,gold);Economy.recordTrade(p,gold,"Rail",sim.Tick,from.Unit);p.TrainGold=Gold.add(p.TrainGold or "0",gold);stops+=1
   end
   local function splitPath()
    local path=api.stationPath(stations[1],stations[2]);if not path or #path<=2 then return nil end
@@ -224,6 +250,10 @@ function Rail.new(sim)
     end
     local nextTile=tiles[current+1];if not nextTile or nextTile==0 then destroy();return end;train.Tile=nextTile
     if sim.Stage>=8 then for i=6,1,-1 do local index=i*2+3;if #traversed>=index then train.Cars[i].Tile=traversed[index] end end end
+    if sim.Balance and sim.Balance.InfrastructurePresentation then
+     local motionPath=table.clone(traversed);table.insert(motionPath,train.Tile)
+     recordMotion(train,motionPath);for _,car in ipairs(train.Cars)do recordMotion(car,motionPath)end
+    end
    end})
  end
  local function addStation(unit,spawnTrains)
@@ -233,7 +263,7 @@ function Rail.new(sim)
    init=function()if spawnTrains then random=Random.new(sim.Tick) end end,
    tick=function()
     if not station then
-     station={ID=api.NextStation,Unit=unit,Rails={},Neighbor={}};api.NextStation+=1;connect(station)
+     station={ID=api.NextStation,Unit=unit,Rails={},Neighbor={}};api.NextStation+=1;if sim.Balance and sim.Balance.BoundedPaths then table.insert(connectQueue,station)else connect(station)end
     end
     if not unit.Active then active=false;return end
     if not spawnTrains or sim.Tick<lastSpawn+10 or not station.Cluster then return end
@@ -265,11 +295,31 @@ function Rail.new(sim)
     if not unit.Active then active=false end
    end})
  end
+ function api.invalidateGeometry()mark()end
+ function api.geometry()
+  local rows={}
+  for id,r in pairs(api.Rails)do
+   local turns={};local last=nil
+   for i,t in ipairs(r.Tiles)do
+    local direction=if i<#r.Tiles then r.Tiles[i+1]-t else nil
+    if i==1 or i==#r.Tiles or direction~=last then table.insert(turns,t)end
+    last=direction
+   end
+   local packed=buffer.create(#turns*4);for i,t in ipairs(turns)do buffer.writeu32(packed,(i-1)*4,t)end
+   table.insert(rows,{ID=id,Owner=r.From.Unit.Owner.SmallId,Points=packed})
+  end
+  table.sort(rows,function(a,b)return a.ID<b.ID end);return rows
+ end
  function api.snapshot()
   local out={}
+  local function row(u,kind,owner)
+   local packed=nil
+   if u.Motion then packed=buffer.create(#u.Motion*4);for i,tile in ipairs(u.Motion)do buffer.writeu32(packed,(i-1)*4,tile)end end
+   return {ID="rail"..u.ID,Type=kind,Owner=owner,Tile=u.Tile,Flags=0,Motion=packed,MotionTick=sim.Tick}
+  end
   for _,t in pairs(api.Trains)do
-   table.insert(out,{ID="rail"..t.ID,Type="Train",Owner=t.Owner.SmallId,Tile=t.Tile,Flags=0})
-   for _,car in ipairs(t.Cars)do if car.Active then table.insert(out,{ID="rail"..car.ID,Type="Carriage",Owner=t.Owner.SmallId,Tile=car.Tile,Flags=0})end end
+   table.insert(out,row(t,"Train",t.Owner.SmallId))
+   for _,car in ipairs(t.Cars)do if car.Active then table.insert(out,row(car,"Carriage",t.Owner.SmallId))end end
   end
   table.sort(out,function(a,b)return a.ID<b.ID end);return out
  end
@@ -277,13 +327,26 @@ function Rail.new(sim)
   local stations,trains=0,0
   for _,s in ipairs(stationOrder) do if s.Unit.Owner==p and s.Unit.Active then stations+=1 end end
   for _,t in pairs(api.Trains) do if t.Owner==p then trains+=1 end end
-  return {Stations=stations,Trains=trains,Gold=p.TrainGold or "0"}
+  local routes=0
+  for _,r in pairs(api.Rails)do
+   local c=r.From.Cluster;local factory=false
+   if c and #c.Trade>0 then for _,s in ipairs(c.Stations)do if s.Unit.Active and s.Unit.Type=="Factory"and s.Unit.Owner==p then factory=true;break end end end
+   if factory and r.From.Unit.Active and r.To.Unit.Active and canTrade(p,r.From)and canTrade(p,r.To)then routes+=1 end
+  end
+  return {Stations=stations,Trains=trains,Routes=routes,Gold=p.TrainGold or "0"}
  end
  function api.removePlayer(p)
   local removeTrains={};for _,t in pairs(api.Trains) do if t.Owner==p then table.insert(removeTrains,t) end end
   for _,t in ipairs(removeTrains) do t.Destroy() end
  end
- schedule({activeDuringSpawnPhase=function()return false end,isActive=function()return true end,init=function()end,tick=api.recompute})
+ schedule({activeDuringSpawnPhase=function()return false end,isActive=function()return true end,init=function()end,tick=function()
+  api.recompute()
+  if not connectJob and #connectQueue>0 then local s=table.remove(connectQueue,1);connectJob=coroutine.create(function()if s.Unit.Active then connect(s)end end)end
+  if connectJob then
+   connectBudget=512;local ok,err=coroutine.resume(connectJob);assert(ok,err)
+   if coroutine.status(connectJob)=="dead"then connectJob=nil end
+  end
+ end})
  return api
 end
 return Rail

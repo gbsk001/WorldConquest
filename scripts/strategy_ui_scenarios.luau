@@ -115,8 +115,13 @@ do
  ui.stats(p,state);assert(fits==1)
  assert(root:FindFirstChild("SpawnSelection").Visible and not root:FindFirstChild("CommandBar").Visible)
  state.Phase="Started";ui.stats(p,state);ui.stats(p,state);assert(focus==1 and root:FindFirstChild("CommandBar").Visible)
+ p.Economy={Gold="100",Base="1000",Rail="500",Sea="750",Total="2250",Cities=1,Factories=2,Ports=3,ActiveRoutes=4};ui.stats(p,state)
+ local economy=root:FindFirstChild("Economy");assert(economy and not economy.Visible)
+ root:FindFirstChild("CommandBar"):FindFirstChild("ViewEconomy").Activated:Fire()
+ assert(economy.Visible and economy:FindFirstChild("RailValue").Text=="500")
+ root:FindFirstChild("EconomyClose").Activated:Fire();assert(not economy.Visible)
  for _,size in ipairs({{320,568},{390,844},{844,390},{768,1024},{1024,768},{1920,1080}})do
-  root.AbsoluteSize=Vector2.new(size[1],size[2]);local bar=root:FindFirstChild("CommandBar");assert(bar.Size.X.Offset<=size[1] and bar.Size.Y.Offset<=124)
+  root.AbsoluteSize=Vector2.new(size[1],size[2]);local bar=root:FindFirstChild("CommandBar");assert(bar.Size.X.Offset<=size[1] and bar.Size.Y.Offset<=132)
  end
  print("Floating HUD: exact allocation callback, accessible nation submission, selecting/gameplay visibility, one-time fit/focus and phone/tablet/desktop bounds passed.")
 end

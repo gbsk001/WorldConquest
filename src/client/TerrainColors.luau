@@ -1,5 +1,5 @@
 --!strict
--- Public-domain Natural Earth II, native 8192x4096 display grid. AGPL-3.0 adapter.
+-- Public-domain Natural Earth II, native 10800x5400 display grid. AGPL-3.0 adapter.
 -- Lazy immutable pages: one shared 2 MiB cache, never one terrain copy per owner.
 local folder=game:GetService("ReplicatedStorage").Shared.Geography
 local palette=require(folder.Palette)
@@ -18,7 +18,7 @@ local function decode(text)
  end
  return out
 end
-local api={Misses=0}
+local api={Misses=0,Density=10800/8192,Width=10800,Height=5400}
 function api.sample(level,x,y)
  level=math.clamp(level,0,6)
  local data=levels[level]
@@ -30,7 +30,9 @@ function api.sample(level,x,y)
  if not page then
   api.Misses+=1
   if count>=512 then local oldest,age=nil,math.huge;for k,p in pairs(cache)do if p.Used<age then oldest=k;age=p.Used end end;cache[oldest]=nil;count-=1 end
-  local encoded=decode(data.Tiles[key]);local pixels
+  local group=math.floor((key-1)/data.GroupSize)+1
+  local tiles=require(folder:FindFirstChild("Level"..level.."Part"..group))
+  local encoded=decode(tiles[(key-1)%data.GroupSize+1]);local pixels
   if buffer.readu8(encoded,0)==0 then pixels=buffer.create(buffer.len(encoded)-1);buffer.copy(pixels,0,encoded,1)
   else
    pixels=buffer.create(data.TileWidth*data.TileHeight);local out=0

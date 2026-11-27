@@ -14,6 +14,8 @@ local Art=require(script.Parent.InterfaceArt)
 local Cosmetic=require(script.Parent.CosmeticArt)
 local Ranking=require(Shared.TerritoryRanking)
 local TouchGestures=require(script.Parent.TouchGestures)
+local RailLayer=require(script.Parent.RailLayer)
+local UnitMotion=require(script.Parent.UnitMotion)
 local MapView = {}
 
 function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice: (string) -> ())
@@ -28,7 +30,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 	Art.prepareMapIcons()
     canvas:SetAttribute("IconAtlasEnabled",Art.mapIconsReady())
 	local terrainColors=require(script.Parent.TerrainColors)
-    Map.terrain=terrainColors.sample
+    Map.terrain=terrainColors.sample;Map.terrainDensity=terrainColors.Density
 	local raster = Raster.new()
 	local ok,tiles = pcall(Tiles.new,canvas,raster)
 	if not ok or not tiles then
@@ -51,6 +53,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 	inputSurface.ZIndex = 20
 	inputSurface.Parent = viewport
 
+	local rails=RailLayer.new(canvas,Map.Width,UserInputService.TouchEnabled)
 	local zoom, scale = 1, 1
     local zoomGoal=nil;local zoomPoint=nil
 	local origin = Vector2.zero
@@ -71,7 +74,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
             local y=origin.Y+marker.Position.Y.Scale*Map.Height*scale
             local label=marker:FindFirstChild("Username")
             marker.Visible=x>=0 and y>=0 and x<bounds.X and y<bounds.Y
-            local visible=marker.Visible and y>=30
+            local visible=marker.Visible and y>=30 and (not marker:GetAttribute("BasicNation")or zoom>=6)
             if zoom<2 and not marker:GetAttribute("Local") and #occupied>=18 then visible=false end
             if visible then
                 local bx,by=math.floor(x/168),math.floor(y/38)
@@ -97,10 +100,13 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
     end
     local missileTypes={AtomBomb=true,HydrogenBomb=true,MIRV=true,MIRVWarhead=true,SAMMissile=true}
     local tweens={}
+    local unitMotion=UnitMotion.new(Map.Width)
     local function animate(icon,key,value,old,u)
         if key==nil or key=="Position" then
+            unitMotion.cancel(icon)
             if tweens[icon] then tweens[icon]:Cancel();tweens[icon]=nil end
-            if key=="Position" and old and icon.Visible and missileTypes[u.Type] then
+            if key=="Position" and old and icon.Visible and unitMotion.start(icon,u,old)then return true end
+            if key=="Position" and old and icon.Visible then
                 local tween=TweenService:Create(icon,TweenInfo.new(.1,Enum.EasingStyle.Linear),{Position=value})
                 tweens[icon]=tween;tween:Play();return true
             end
@@ -158,7 +164,9 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 		local bounds = viewport.AbsoluteSize
 		if bounds.X <= 0 or bounds.Y <= 0 then return end
         if debug.profilebegin then debug.profilebegin("WC.CameraAndIcons")end
-		local nextScale = math.min(bounds.X/Map.Width,bounds.Y/Map.Height)*zoom
+		local fit=math.min(bounds.X/Map.Width,bounds.Y/Map.Height)
+        zoom=math.clamp(zoom,1,math.max(1,Config.MaxZoom))
+        local nextScale = fit*zoom
 		if previousSize ~= bounds and previousSize.X > 0 then
 			local centre = (previousSize/2-origin)/scale
 			origin = bounds/2-centre*nextScale
@@ -169,6 +177,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 		canvas.Position = UDim2.fromOffset(origin.X,origin.Y)
 		canvas.Size = UDim2.fromOffset(size.X,size.Y)
 		tiles.update(origin.X,origin.Y,scale,bounds.X,bounds.Y)
+        rails.update(origin.X,origin.Y,scale,bounds.X,bounds.Y,palette)
         layoutNames()
         if preview then
             local mouse
@@ -210,10 +219,14 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 		local localPoint = point-viewport.AbsolutePosition
 		return localPoint.X >= 0 and localPoint.Y >= 0 and localPoint.X < viewport.AbsoluteSize.X and localPoint.Y < viewport.AbsoluteSize.Y
 	end
+ local function maximumZoom()
+  local fit=math.min(viewport.AbsoluteSize.X/Map.Width,viewport.AbsoluteSize.Y/Map.Height)
+  return math.max(1,Config.MaxZoom)
+ end
 	local function zoomAt(factor: number, screenPoint: Vector2)
 		local point = screenPoint-viewport.AbsolutePosition
 		local oldScale = scale
-		zoom = math.clamp(zoom*factor,1,Config.MaxZoom)
+		zoom = math.clamp(zoom*factor,1,maximumZoom())
 		local newScale = math.min(viewport.AbsoluteSize.X/Map.Width,viewport.AbsoluteSize.Y/Map.Height)*zoom
 		origin = point-(point-origin)*(newScale/oldScale)
         scale=newScale -- Camera events may coalesce before the next rendered frame.
@@ -254,8 +267,8 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 	end)
 	UserInputService.InputChanged:Connect(function(input)
         if not screenGui.Enabled then drag=nil;gestures.cancel();return end
-  if input.UserInputType==Enum.UserInputType.Touch then local p=pointer(input);lastTouchPoint=p;gestures.move(input,p.X,p.Y);return end
-  if input.UserInputType==Enum.UserInputType.MouseMovement then lastTouchPoint=nil end
+  if input.UserInputType==Enum.UserInputType.Touch then local p=pointer(input);lastTouchPoint=p;gestures.move(input,p.X,p.Y);if preview then update()end;return end
+  if input.UserInputType==Enum.UserInputType.MouseMovement then lastTouchPoint=nil;if preview then update()end end
 		if input.UserInputType == Enum.UserInputType.MouseWheel then
 			local point = pointer(input)
             for _,name in ipairs({"LeaveConfirmation","BuildingInfo","BuildingShop","NavalControls","MissileControls","MatchResults","Army","Settings","SpawnSelection","CommandBar","CommandToolbar","MatchSummary","Notification"}) do
@@ -265,7 +278,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
                 if localPoint.X>=0 and localPoint.Y>=0 and localPoint.X<bounds.X and localPoint.Y<bounds.Y then return end
             end
 			end
-			if inside(point) then zoomGoal=math.clamp((zoomGoal or zoom)*1.2^input.Position.Z,1,Config.MaxZoom);zoomPoint=point end
+			if inside(point) then zoomGoal=math.clamp((zoomGoal or zoom)*1.2^input.Position.Z,1,maximumZoom());zoomPoint=point end
 		elseif drag and (input == drag or (drag.UserInputType == Enum.UserInputType.MouseButton1 and input.UserInputType == Enum.UserInputType.MouseMovement)) then
 			local delta = pointer(input)-startPoint
 			if delta.Magnitude > 6 then moved = true end
@@ -289,6 +302,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 	viewport:GetPropertyChangedSignal("AbsoluteSize"):Connect(update)
 	-- Retry tile allocation/LOD changes on limited-memory clients.
 	local connection = RunService.RenderStepped:Connect(function(dt)
+        if screenGui.Enabled then unitMotion.step(dt)end
         if zoomGoal and screenGui.Enabled then
             local nextZoom=zoom+(zoomGoal-zoom)*math.min(1,dt*22)
             if math.abs(zoomGoal-nextZoom)<.002 then nextZoom=zoomGoal;zoomGoal=nil end
@@ -306,7 +320,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
   update();onNotice("Recovered using compatibility graphics.")
  end
     function view.setPlacement(kind,owner)
-        placementKind=kind;placementOwner=owner
+        placementKind=kind;placementOwner=owner;update()
         if preview then preview:Destroy();preview=nil end
         if kind then
             preview=Art.icon(markerLayer,kind,30,Color3.fromRGB(235,242,255));preview.AnchorPoint=Vector2.new(.5,.5);preview.ZIndex=12
@@ -323,7 +337,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
     function view.renderShips(list,players)
         shipList=table.clone(list);for _,u in ipairs(railList)do table.insert(shipList,u)end;local colors={}
         for _,p in ipairs(players) do colors[p.SmallId]=p.Color;ownerCosmetics[p.SmallId]=p.Cosmetics;participantCosmetics[p.UserId]=p.Cosmetics end
-        ships.set(shipList,colors)
+        ships.set(shipList,colors);update()
     end
     function view.buildingAt(x,y)
         local closest=nil;local distance=math.huge
@@ -336,13 +350,13 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
     function view.renderBuildings(list,players)
         buildingList=list;local colors={}
         for _,p in ipairs(players) do colors[p.SmallId]=p.Color;ownerCosmetics[p.SmallId]=p.Cosmetics end
-        buildings.set(list,colors)
+        buildings.set(list,colors);update()
     end
     function view.clear()
         effectSerial=0;table.clear(attackSerials);table.clear(ownerCosmetics);table.clear(participantCosmetics)
         for id,marker in pairs(markers)do marker:Destroy();markers[id]=nil end
         table.clear(markerOrder);labelVersion+=1
-        buildingList={};shipList={};railList={};ships.set({},{});buildings.set({},{})
+        rails.clear();buildingList={};shipList={};railList={};ships.set({},{});buildings.set({},{})
         ships.update(0,0,1,0,0);buildings.update(0,0,1,0,0)
         raster.setGrid(nil);raster.clear();foundationGrid=nil;view.setPlacement(nil,nil);tiles.invalidateAll();view.reset()
     end
@@ -354,12 +368,13 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
     function view.foundationDelta(packed, grid)
         tiles.invalidateChanges(packed)
     end
+    function view.railGeometry(packet,matchID)if rails.receive(packet,matchID)then update()end end
     function view.ready(): boolean return tiles.ready() end
 	function view.zoomBy(factor: number) zoomGoal=nil;zoomAt(factor,viewport.AbsolutePosition+viewport.AbsoluteSize/2) end
 	function view.focus(x: number, y: number)
         zoomGoal=nil
 		local bounds = viewport.AbsoluteSize
-		zoom = math.clamp(1 / math.min(bounds.X/Map.Width,bounds.Y/Map.Height),1,Config.MaxZoom)
+		zoom = math.clamp(1 / math.min(bounds.X/Map.Width,bounds.Y/Map.Height),1,maximumZoom())
 		scale = math.min(bounds.X/Map.Width,bounds.Y/Map.Height)*zoom
 		origin = bounds/2-Vector2.new(x,y)*scale
 		update()
@@ -405,7 +420,7 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 			present[profile.UserId] = true
 			local id=profile.SmallId or profile.UserId
             if palette[id]~=profile.Color then palette[id]=profile.Color;raster.setColor(id,profile.Color.R*255,profile.Color.G*255,profile.Color.B*255)end
-            raster.setStyle(id,profile.Cosmetics and profile.Cosmetics.Pattern=="pattern_weave",profile.Cosmetics and profile.Cosmetics.Border=="border_ink")
+            raster.setStyle(id,profile.Cosmetics and profile.Cosmetics.Pattern=="pattern_weave",profile.BasicNation or profile.Cosmetics and profile.Cosmetics.Border=="border_ink")
             if profile.Cosmetics and profile.Cosmetics.Attack and profile.AttackID and profile.AttackID>0 and attackSerials[id]~=profile.AttackID then
                 attackSerials[id]=profile.AttackID
                 if profile.LabelX or profile.X then pulse(profile.LabelX or profile.X,profile.LabelY or profile.Y,Cosmetic.tint(profile.Cosmetics,"Attack",Color3.fromRGB(131,189,235)))end
@@ -429,18 +444,20 @@ function MapView.new(viewport: Frame, onSelect: (number, number) -> (), onNotice
 					local name = Instance.new("TextLabel")
 					name.Name="Username";name.AutoLocalize=false;name.RichText=false; name.AnchorPoint=Vector2.new(0.5,1)
 					name.Position=UDim2.new(0.5,0,0,-4); name.Size=UDim2.fromOffset(164,32)
-					name.BackgroundTransparency=1;name.BorderSizePixel=0;name.Active=false; name.Font=Enum.Font.GothamBold; name.TextSize=12
+					name.BackgroundTransparency=1;name.BorderSizePixel=0;name.Active=false; name.Font=Enum.Font.GothamBold; name.TextSize=14
 					name.TextStrokeColor3=Color3.fromRGB(9,14,22);name.TextStrokeTransparency=0.35; name.ZIndex=7; name.Parent=marker
                     -- No background, badge or input surface on territory labels.
 					markers[profile.UserId]=marker
 				end
 				if marker.BackgroundColor3~=profile.Color then marker.BackgroundColor3=profile.Color end
+                marker.BackgroundTransparency=if state.Phase=="Selecting"then 0 else 1;local outline=marker:FindFirstChildOfClass("UIStroke");if outline then outline.Enabled=state.Phase=="Selecting"end
+                marker:SetAttribute("BasicNation",profile.BasicNation==true)
                 local own=profile.UserId==game:GetService("Players").LocalPlayer.UserId;if marker:GetAttribute("Local")~=own then marker:SetAttribute("Local",own)end
                 local dot=if own then 12 else 7;local bounds=UDim2.fromOffset(dot,dot);if marker.Size~=bounds then marker.Size=bounds end
 				-- This is the exact inverse of click conversion. No cell-centre snap.
 				local position=UDim2.fromScale((profile.LabelX or profile.X)/Map.Width,(profile.LabelY or profile.Y)/Map.Height);if marker.Position~=position then marker.Position=position;labelsChanged=true end
 				local name = marker:FindFirstChild("Username") :: TextLabel
-				local text=profile.Username..(if profile.Troops then "\n"..tostring(math.floor(profile.Troops)).." soldiers" else "");if name.Text~=text then name.Text=text end
+				local text=profile.Username..(if profile.Troops then "\n"..string.format(if profile.Troops>=1000000 then "%.1fM"elseif profile.Troops>=1000 then "%.0fK"else "%.0f",profile.Troops/(if profile.Troops>=1000000 then 1000000 elseif profile.Troops>=1000 then 1000 else 1)) else "");if name.Text~=text then name.Text=text end
                 name.TextColor3=Color3.fromRGB(246,248,252)
                 name.TextStrokeColor3=Cosmetic.tint(profile.Cosmetics,"NameTag",Color3.fromRGB(9,14,22))
                 -- Names remain high-contrast; optional flags never replace the name.

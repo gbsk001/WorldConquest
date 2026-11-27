@@ -27,7 +27,7 @@ function Warship.shell(sim,nav,firing,target)
  end,function()return active end)
 end
 function Warship.start(sim,nav,u)
- local grid=sim.Grid;local distance=sim.Buildings.distance;local step=nav.Path.stepper(true)
+ local grid=sim.Grid;local distance=sim.Buildings.distance;local step=nav.Path.stepper(true);u.PathStepper=step
  local rng=nil;local lastShell=0;local sent={};local lastManual=0;local observed=nil;local remainder=0;local emitted=false
  local function fullyHealed()return u.Health>=Rules.maxHealth(u.Veterancy) end
  local function currentPort()for _,p in ipairs(nav.ports(u.Owner)) do if p.Tile==u.RetreatPort then return p end end;return nil end
@@ -87,7 +87,7 @@ function Warship.start(sim,nav,u)
   end
   u.TargetTile=u.RetreatPort;local status,t=step.next(u.Tile,u.RetreatPort)
   if status=="NEXT" or status=="COMPLETE" then nav.move(u,t);if status=="COMPLETE" and t==u.RetreatPort then u.TargetTile=nil end
-  else u.RetreatPort=nearest(true,u);if not u.RetreatPort then cancel() end end
+  elseif status~="PENDING" then u.RetreatPort=nearest(true,u);if not u.RetreatPort then cancel() end end
   return true
  end
  local function randomTile(allowShoreline)
@@ -107,7 +107,7 @@ function Warship.start(sim,nav,u)
   if u.TargetTile==nil then u.TargetTile=randomTile(false);if u.TargetTile==nil then return end;nav.touch(u) end
   local status,t=step.next(u.Tile,u.TargetTile)
   if status=="COMPLETE" then u.TargetTile=nil;nav.move(u,t)
-  elseif status=="NEXT" then nav.move(u,t) else u.TargetTile=nil end
+  elseif status=="NEXT" then nav.move(u,t) elseif status~="PENDING" then u.TargetTile=nil end
  end
  local function capture(t)nav.capture(t,u.Owner);u.Veterancy,u.Progress=Rules.progress(u.Veterancy,u.Progress,"TradeShip");u.TargetUnit=nil;nav.touch(u) end
  local function hunt()

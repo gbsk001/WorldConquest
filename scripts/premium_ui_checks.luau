@@ -26,6 +26,15 @@ for _,size in ipairs({{390,844},{844,390},{768,1024},{1024,768},{1920,1080}})do
   for _,o in ipairs(content:GetDescendants())do if o.ClassName=="TextButton"then assert(o.Size.Y.Offset>=44,"touch target")end end
  end
  page="Home";render();click("PLAY");assert(content.CanvasSize.Y.Offset>=content:FindFirstChild("Global Rankings").Position.Y.Offset+44)
+ local bounds={}
+ for _,b in ipairs(content:GetChildren())do if b.ClassName=="TextButton"then
+  local w,h=content.AbsoluteSize.X,content.AbsoluteSize.Y
+  local x,y=b.Position.X.Scale*w+b.Position.X.Offset,b.Position.Y.Scale*h+b.Position.Y.Offset
+  local bw,bh=b.Size.X.Scale*w+b.Size.X.Offset,b.Size.Y.Scale*h+b.Size.Y.Offset
+  assert(x>=0 and x+bw<=w+.01 and y>=0 and y+bh<=content.CanvasSize.Y.Offset+.01,"Home control outside scrollable bounds: "..b.Name)
+  for _,a in ipairs(bounds)do assert(x>=a[1]+a[3]or a[1]>=x+bw or y>=a[2]+a[4]or a[2]>=y+bh,"Home buttons overlap: "..b.Name.." / "..a[5])end
+  table.insert(bounds,{x,y,bw,bh,b.Name})
+ end end
 end
 assert(playCount==5)
 page="Flags";render();click("Unlock • 120 Stars");assert(requests[#requests].Action=="Buy"and requests[#requests].Data=="flag_aurora")

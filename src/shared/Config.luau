@@ -7,7 +7,11 @@ local Config = {
 	SimulationMode = "Foundation", -- "Legacy" restores the previous free-growth prototype.
 	SimulationSeed = 12345,
 	PortStage = 11, -- Staggered spawn selection; conservative live cap over Stage 1–9.
-	Population = {PublicTarget=250, SafeParticipants=20, MaximumParticipants=500}, -- Raise only after staging acceptance.
+	Population = {PublicTarget=20, SafeParticipants=20, MaximumParticipants=500}, -- Raise only after staging acceptance.
+ -- Stage 15 balance is explicit; the pinned upstream rule functions remain unchanged.
+ Balance = {StartingSoldiers=5000, DefaultAllocation=.2, RecruitmentMultiplier=.5, BasicRecruitmentMultiplier=.2, ProactiveAI=true, BoundedPaths=true, InfrastructurePresentation=true},
+ -- Requested population is available for staging. Zero public grey nations until authorised load acceptance.
+ BasicNations = {Enabled=true, Count=350, SafeCount=0, MinSoldiers=500, MaxSoldiers=1500, DecisionsPerTick=4, DecisionTicks=120},
 	Bots = {Enabled=true, Count=5, Difficulty="Normal", FillEmptySlots=false, TargetPlayers=10, DecisionsPerTick=2, SampleCells=64, TerrainCachePages=8192, Buildings=true, Naval=true, Missiles=true},
 	Match = {Mode="FFA", WinThresholdTenths=800},
 	Buildings = {InstantBuild=false},

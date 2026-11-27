@@ -33,4 +33,10 @@ function Gold.half(a)
  for i=1,#a do local v=carry*10+string.byte(a,i)-48;out[i]=string.char(48+math.floor(v/2));carry=v%2 end
  local result=string.gsub(table.concat(out),"^0+","");return if result=="" then "0" else result
 end
+function Gold.divideSmall(a,divisor)
+ assert(Gold.valid(a)and divisor>=1 and divisor%1==0 and divisor<=1000000)
+ local out={};local carry=0
+ for i=1,#a do local value=carry*10+string.byte(a,i)-48;out[i]=string.char(48+math.floor(value/divisor));carry=value%divisor end
+ local value=string.gsub(table.concat(out),"^0+","");return if value==""then "0"else value
+end
 return Gold

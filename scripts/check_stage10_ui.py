@@ -1,16 +1,21 @@
+from gui_harness import icons, art
 """Execute menu navigation callbacks and layout math with GUI/platform stubs."""
 from pathlib import Path
 import subprocess
 r=Path(__file__).resolve().parents[1]
-h=(r/'scripts/strategy_ui_checks.luau').read_text()
+h=(r/'scripts/strategy_ui_checks.luau').read_text()+icons()
 money=(r/'src/shared/OpenFront/MoneyFormat.luau').read_text()
 h+='\nlocal MoneyFormat=(function()\n'+money+'\nend)()\n'
-h+='local InterfaceArt=(function()\n'+(r/'src/client/InterfaceArt.luau').read_text()+'\nend)()\n'
+h+='local InterfaceArt=(function()\n'+art((r/'src/client/InterfaceArt.luau').read_text())+'\nend)()\n'
 h+='local TerritoryRanking=(function()\n'+(r/'src/shared/TerritoryRanking.luau').read_text()+'\nend)()\n'
 h+='local PanelChrome=(function()\n'+(r/'src/client/PanelChrome.luau').read_text().replace('local Art=require(script.Parent.InterfaceArt)','local Art=InterfaceArt')+'\nend)()\n'
 theme=(r/'src/client/StrategyUI.luau').read_text().replace('local Money=require(game:GetService("ReplicatedStorage").Shared.OpenFront.MoneyFormat)','local Money=MoneyFormat')
 theme=theme.replace('local Chrome=require(script.Parent.PanelChrome)','local Chrome=PanelChrome').replace('local Ranking=require(game:GetService("ReplicatedStorage").Shared.TerritoryRanking)','local Ranking=TerritoryRanking')
 theme=theme.replace('local Art=require(script.Parent.InterfaceArt)','local Art=InterfaceArt')
+for name in ['MatchStatus','ToastStack','EconomyPanel']:
+ source=(r/f'src/client/{name}.luau').read_text(encoding='utf-8-sig').replace('local Art=require(script.Parent.InterfaceArt)','local Art=InterfaceArt').replace('local Money=require(game:GetService("ReplicatedStorage").Shared.OpenFront.MoneyFormat)','local Money=MoneyFormat')
+ h+='local '+name+'=(function()\n'+source+'\nend)()\n'
+ theme=theme.replace('local '+name+'=require(script.Parent.'+name+')','local '+name+'='+name)
 h+='local StrategyUI=(function()\n'+theme+'\nend)()\n'
 h+=(r/'scripts/menu_ui_stubs.luau').read_text()
 menu=(r/'src/client/MainMenu.luau').read_text().replace('local Config=require(RS.Shared.Config)','local Config=menuConfig').replace('local Theme=require(script.Parent.StrategyUI)','local Theme=StrategyUI').replace('local Art=require(script.Parent.InterfaceArt)','local Art=InterfaceArt').replace('local Map=require(RS.Shared.Map)','local Map={Width=8192,Height=4096,isLand=function()return false end}')

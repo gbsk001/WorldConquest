@@ -4,7 +4,7 @@ local Ranking={}
 function Ranking.sorted(players)
  local rows={}
  for _,p in ipairs(players)do
-  if not p.Eliminated and not p.Spectator and not p.Disconnected and (p.Count or 0)>0 then table.insert(rows,p)end
+  if not p.BasicNation and not p.Eliminated and not p.Spectator and not p.Disconnected and (p.Count or 0)>0 then table.insert(rows,p)end
  end
  table.sort(rows,function(a,b)
   if a.Count~=b.Count then return a.Count>b.Count end

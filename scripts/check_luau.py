@@ -8,7 +8,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-TOOLS = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "build/luau"
+TOOLS = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else ROOT / "build/luau"
 
 
 def source(path):
@@ -49,7 +49,7 @@ harness += factory("DirtyTiles", "src/client/DirtyTiles.luau", {})
 harness += "local function makeTiles(game, script, require, Instance, Vector2, UDim2, Enum, Content)\n"
 harness += source("src/client/MapTiles.luau") + "\nend\n"
 harness += source("scripts/tile_checks.luau")
-harness += source("scripts/performance_checks.luau")
+if "--quick" not in sys.argv: harness += source("scripts/performance_checks.luau")
 target = ROOT / "build/checks.luau"
 target.parent.mkdir(exist_ok=True)
 target.write_text(harness, encoding="utf-8")

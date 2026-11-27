@@ -11,12 +11,13 @@ function Painter.paint(slot: any, raster: any, now: number, fresh: boolean, firs
             local terrain=Map.terrain
 			local px, py = slot.X * SIZE + x - 1, slot.Y * SIZE + y - 1
 			local land
+            local density=slot.Density or 1;local worldX,worldY=px/density,py/density
 			if fresh then
-					local coverage = math.floor(Map.coverage(slot.Level, px, py)*255+0.5)
+					local coverage = math.floor(Map.coverage(slot.Level, math.floor(worldX), math.floor(worldY))*255+0.5)
 					buffer.writeu8(slot.Coverage, index, coverage)
 					land = coverage / 255
 			else land = buffer.readu8(slot.Coverage, index)/255 end
-			local r, g, b, owned = raster.sample(slot.Level, px, py, now)
+			local r, g, b, owned = raster.sample(slot.Level, worldX, worldY, now)
 			if owned == 1 and not terrain then land = 1 end
             local neutral = math.max(0, land - owned)
             if terrain then

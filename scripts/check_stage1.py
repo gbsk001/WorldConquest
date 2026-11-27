@@ -2,7 +2,22 @@
 from pathlib import Path
 import json,subprocess,sys
 ROOT=Path(__file__).resolve().parents[1]
-def source(path):return (ROOT/path).read_text(encoding='utf-8-sig')
+def source(path):
+    text=(ROOT/path).read_text(encoding='utf-8-sig')
+    if '--quick' in sys.argv:
+        sections={
+          'scripts/stage1_checks.luau':('-- Storage/serialization benchmark',None),
+          'scripts/stage2_checks.luau':('-- Representative concurrent frontiers','local cap=Troops.cap(52)'),
+          'scripts/stage3_checks.luau':('-- Benchmark full-resolution grid',None),
+          'scripts/connectivity_checks.luau':('-- Heavy active fronts',None),
+          'scripts/stage4_checks.luau':('-- Incremental economy work','-- Live attack/conquest'),
+          'scripts/stage5_checks.luau':('-- Profile actual Stage 5',None),
+          'scripts/rail_checks.luau':('do\n local w,h=8192,4096',None),
+        }
+        if path in sections:
+            start,end=sections[path];a=text.index(start);b=text.index(end,a)if end else len(text)
+            text=text[:a]+text[b:]
+    return text
 def factory(name,path,deps):
     text=source(path)
     for variable,value in deps.items():
@@ -55,7 +70,8 @@ h+=factory('Missiles','src/server/OpenFront/Missiles.luau',{'Rules':'MissileRule
 h+=factory('Match','src/server/OpenFront/Match.luau',{})
 h+=factory('BotRules','src/server/OpenFront/BotRules.luau',{})
 h+=factory('Bots','src/server/OpenFront/Bots.luau',{'Rules':'BotRules','Random':'Random32','Troops':'Troops','Spawn':'SpawnExecution'})
-h+=factory('Simulation','src/server/OpenFront/Simulation.luau',{'Grid':'Grid','Random32':'Random32','Executions':'Executions','Troops':'Troops','OrderedSet':'OrderedSet','Spawn':'Spawn','Expansion':'Expansion','SpawnExecution':'SpawnExecution','Connectivity':'Connectivity','Economy':'Economy','Buildings':'Buildings','Rail':'Rail','Naval':'Naval','Missiles':'Missiles','Match':'Match','SpawnIndex':'SpawnIndex','SpawnPlanner':'SpawnPlanner','Bots':'Bots'})
+h+=factory('BasicNations','src/server/OpenFront/BasicNations.luau',{'Random':'Random32','Spawn':'SpawnExecution','Expansion':'Expansion'})
+h+=factory('Simulation','src/server/OpenFront/Simulation.luau',{'Grid':'Grid','Random32':'Random32','Executions':'Executions','Troops':'Troops','OrderedSet':'OrderedSet','Spawn':'Spawn','Expansion':'Expansion','SpawnExecution':'SpawnExecution','Connectivity':'Connectivity','Economy':'Economy','Buildings':'Buildings','Rail':'Rail','Naval':'Naval','Missiles':'Missiles','Match':'Match','SpawnIndex':'SpawnIndex','SpawnPlanner':'SpawnPlanner','Bots':'Bots','BasicNations':'BasicNations'})
 h+='local Oracle='+literal(json.loads(source('tests/stage1/upstream-oracle.json')))+'\n'
 if '--stage2-only' not in sys.argv:
     h+=source('scripts/stage1_checks.luau')

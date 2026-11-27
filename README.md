@@ -1,6 +1,10 @@
 # WorldConquest
 
-Stage 14 candidate: [full-screen presentation, terrain, rendering changes and acceptance limits](docs/STAGE14_ACCEPTANCE.md). Implemented in Rojo; **rendered visual acceptance and real-device performance remain blocked/pending**. No automatic Roblox publication.
+Stage 15 implementation candidate: [features, source mapping, tests, deferred benchmarks and manual acceptance](docs/STAGE15_ACCEPTANCE.md). Public capacity remains 20 competitive participants; new basic nations have SafeCount=0 pending approved load testing. No Stage 15 Studio or physical-device verification and no Roblox publication.
+
+Latest Stage 14 corrections: [licensed icons, alignment, native terrain and upload/acceptance blockers](docs/STAGE14_CORRECTIONS.md). **Studio visual acceptance is still blocked.**
+
+Earlier Stage 14 candidate: [full-screen presentation, terrain, rendering changes and acceptance limits](docs/STAGE14_ACCEPTANCE.md). Implemented in Rojo; **rendered visual acceptance and real-device performance remain blocked/pending**. No automatic Roblox publication.
 
 Latest monetisation candidate: [six configured products, exact pass contents, receipt tests and safe activation](docs/MONETISATION_ACCEPTANCE.md). IDs are connected; **public purchase prompts remain disabled**; only verified `Owi00013` (UserId `11327713454`) is approved for controlled live prompts. See [the owner setup and test checklist](docs/CONTROLLED_LIVE_TESTING.md). No Roblox update has been published automatically.
 
