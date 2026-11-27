@@ -25,6 +25,12 @@ local denied=createIconAssets()
 local missing=denied.new(parent,"Army",24,Color3.new(1,1,1))
 assert(missing.ClassName=="ImageLabel"and missing:GetAttribute("IconAssetUploadRequired")and #missing:GetDescendants()==0)
 assert(not missing:GetAttribute("IconReady"),"Never pretend an absent uploaded atlas is ready")
+local uploaded=createIconAssets();uploaded.AtlasAssetIDs={101,102,103,104} -- Test-only identifiers, never production configuration.
+local provided=uploaded.new(parent,"Army",24,Color3.new(1,1,1))
+assert(not uploaded.ready()and not provided:GetAttribute("IconReady"))
+assert(provided.Image=="rbxassetid://"..uploaded.AtlasAssetIDs[uploaded.Registry.Army.Page]and not provided:GetAttribute("IconAssetUploadRequired"))
+provided.IsLoaded=true;assert(uploaded.ready()and provided:GetAttribute("IconReady"),"Configured readiness follows Roblox IsLoaded, not assignment")
+print("Uploaded-atlas branch works without EditableImage; readiness follows actual image load signal (mocked asset delivery).")
 game.GetService=saved
 print("Image API denial: labelled upload-required state, no fabricated asset IDs or frame substitute.")
 local layer=Layer.new(8192,function()return {Destroy=function()end}end,function(u,colors,set) set("Text","")end,nil,true)

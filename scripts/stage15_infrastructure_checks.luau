@@ -24,6 +24,22 @@ assert(accepted==1,"Duplicate pending orders cannot duplicate effects")
 local worker=s.Naval.Path.beginTask(function()s.Naval.Path.workSlice();return true end)
 if worker then s.Naval.Path.cancelTask(worker)end
 print("Stage 15 asynchronous transport: bounded preparation, current-state purchase validation, one debit/effect and duplicate pending-order protection passed.")
+do
+ local e=environment(false);local source,dest=e.Sim.Buildings.Units[1],e.Sim.Buildings.Units[2]
+ local a,b=source.Owner,dest.Owner;local ga,gb=a.Gold,b.Gold
+ e.Nav.trade(a,source,dest)
+ local moved=0;local move=e.Nav.move;e.Nav.move=function(u,tile)if u.Type=="TradeShip"then moved+=1 end;move(u,tile)end
+ for _=1,1200 do e.step();if a.TradeGold~="0"then break end end
+ local expected=tostring(NavalRules.tradeGold(moved,1))
+ assert(moved>0 and a.TradeGold==expected and b.TradeGold==expected)
+ assert(a.Gold==Gold.add(ga,expected)and b.Gold==Gold.add(gb,expected),"Trade changes real balances, not just HUD totals")
+ assert(source.TradeEarned==expected and dest.TradeEarned==expected and e.Nav.Count==0)
+ print(string.format("SEA_INCOME %d water steps: %s gold to each endpoint; actual balances and building ledger match; ship cleaned up.",moved,expected))
+ -- A destroyed source cannot finish a trade and manufacture another payout.
+ local before=a.Gold;e.Nav.trade(a,source,dest);e.step();e.step();source.Active=false
+ for _=1,5 do e.step()end
+ assert(a.Gold==before and e.Nav.Count==0)
+end
 
 do
  local t={Width=192,Height=128,byte=function()return 128 end,LandCount=192*128,MaskHash="rail-budget"}
@@ -44,9 +60,12 @@ do
   if owner.TrainGold and Gold.compare(owner.TrainGold,"0")>0 then paid=true;break end
  end
  assert(moved and paid and sim.Rail.summary(owner).Routes>0,"Bounded construction must produce moving, profitable trains")
+ assert(owner.TrainGold=="10000"and owner.Gold==Gold.add("750000",owner.TrainGold),"First self trade pays the exact source formula after two 125K purchases; no passive tick income in this isolated execution fixture")
+ print("RAIL_INCOME first self delivery: "..owner.TrainGold.." gold; post-purchase balance 750000 -> "..owner.Gold)
  local geometry=sim.Rail.geometry();assert(#geometry>0 and buffer.len(geometry[1].Points)>=8)
  local city=sim.Buildings.Units[2];sim.Buildings.destroy(city)
  for _=1,3 do sim.Executions.step(sim);sim.Tick+=1 end
  assert(sim.Rail.summary(owner).Routes==0,"Destroyed destination loses functioning trade routes")
+ local gold=owner.Gold;for _=1,300 do sim.Executions.step(sim);sim.Tick+=1 end;assert(owner.Gold==gold,"Disconnected factory cannot continue generating trade income")
  print("Stage 15 queued rail construction, waypoint movement, actual gold delivery, compact geometry and destroyed-route invalidation passed.")
 end

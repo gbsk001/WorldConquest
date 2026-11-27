@@ -105,3 +105,6 @@ the authoritative grid remains 8192x4096.
 ## Stage 15 CLI-only development
 
 Use `python scripts/run_idle.py scripts/check_stage15_all.py` for sequential functional checks at below-normal priority on one logical CPU. Heavy sections are explicitly omitted. Rebuild using `python scripts/run_idle.py scripts/package_stage10.py`. Do not run `benchmark_stage15.py --allow-heavy` until resource-intensive tests are authorised. See `docs/STAGE15_ACCEPTANCE.md` for actual coverage, acceptance limits and manual tests.
+
+
+For the separate Stage 15 local population profile, run `python scripts/run_idle.py scripts/package_stage15_local.py`. It overlays Config in a generated Rojo project and creates `build/WorldConquest-stage15-LOCAL-300-grey-20-competitive.rbxlx`; production Config and the public candidate remain unchanged. The higher basic count applies only in Studio. Do not publish this testing file or start its large match until load testing is authorised. `python scripts/run_idle.py scripts/prepare_icon_upload.py` packages the four ready-made PNG atlases and licences. See `docs/STAGE15_MANUAL_SETUP.md`.

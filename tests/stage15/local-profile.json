@@ -1,0 +1,9 @@
+{
+  "name": "Stage 15 LOCAL ONLY: 300 grey + 20 competitive",
+  "studio_only": true,
+  "overrides": {
+    "BasicNations": {"Enabled": true, "Count": 300, "SafeCount": 300},
+    "Population": {"PublicTarget": 20, "SafeParticipants": 20, "MaximumParticipants": 500},
+    "Bots": {"Enabled": true, "Difficulty": "Normal", "Count": 20, "FillEmptySlots": true, "TargetPlayers": 20}
+  }
+}

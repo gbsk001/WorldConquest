@@ -10,7 +10,7 @@ checks=[('check_luau','--quick'),('check_stage5','--quick'),('check_stage6','--q
  ('check_stage7','--quick'),('check_stage8','--quick'),('check_stage9','--quick'),
  ('check_strategy_ui',),('check_stage10',),('check_stage10_ui',),('check_map_labels',),
  ('check_unit_icons',),('check_private_profile',),('check_stage11',),('check_wire_codec',),
- ('check_stage12',),('check_stage13',),('check_mobile',),('check_stage14','--quick'),('check_stage15',)]
+ ('check_stage12',),('check_stage13',),('check_mobile',),('check_stage14','--quick'),('check_stage15',),('check_stage15_preparation',),('check_stage15_spawns',)]
 if '--from' in sys.argv:
  start=sys.argv[sys.argv.index('--from')+1];checks=checks[next(i for i,c in enumerate(checks)if c[0]==start):]
 for name,*args in checks:

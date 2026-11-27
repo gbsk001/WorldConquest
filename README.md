@@ -1,5 +1,7 @@
 # WorldConquest
 
+Stage 15 follow-up: [four-atlas upload instructions, exact balance, income/conquest evidence and isolated 300-grey local build](docs/STAGE15_MANUAL_SETUP.md). Prepare assets with `python scripts/prepare_icon_upload.py`; build the separate local profile with `python scripts/package_stage15_local.py`. Neither command starts a match or publishes.
+
 Stage 15 implementation candidate: [features, source mapping, tests, deferred benchmarks and manual acceptance](docs/STAGE15_ACCEPTANCE.md). Public capacity remains 20 competitive participants; new basic nations have SafeCount=0 pending approved load testing. No Stage 15 Studio or physical-device verification and no Roblox publication.
 
 Latest Stage 14 corrections: [licensed icons, alignment, native terrain and upload/acceptance blockers](docs/STAGE14_CORRECTIONS.md). **Studio visual acceptance is still blocked.**

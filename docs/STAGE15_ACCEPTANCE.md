@@ -1,5 +1,7 @@
 # Stage 15 implementation candidate — 27 November 2026
 
+Follow-up: [manual atlas setup, exact economic values, actual delivery/conquest fixtures and Studio-only 300-grey candidate](STAGE15_MANUAL_SETUP.md). The spawn-planner sampling in that follow-up is not a large-population gameplay benchmark.
+
 **Not publication-ready or visually accepted.** This update implements the rendering,
 population, AI, infrastructure, economy, notification and status-HUD work together.
 The owner's latest instruction explicitly defers heavy benchmarks, Studio, desktop

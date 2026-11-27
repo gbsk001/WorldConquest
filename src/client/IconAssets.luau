@@ -5,7 +5,7 @@
 local data=script.Parent.IconData
 local registry=require(data.Registry)
 local API={AtlasAssetIDs={0,0,0,0},Registry=registry}
-local pages={};local pending={};local failed={}
+local pages={};local pending={};local failed={};local uploadedReady={}
 local alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";local digits={}
 for i=1,#alphabet do digits[string.byte(alphabet,i)]=i-1 end
 local function decode(text)
@@ -48,7 +48,13 @@ function API.new(parent,kind,size,color)
  label.ImageColor3=if cell.Colored then Color3.new(1,1,1)else color;label.ImageRectOffset=Vector2.new(cell.X,cell.Y);label.ImageRectSize=Vector2.new(cell.Width or 128,cell.Height or 128);label.Parent=parent
  label:SetAttribute("IconSource",cell.Source)
  local id=API.AtlasAssetIDs[cell.Page]
- if id and id>0 then label.Image="rbxassetid://"..id
+ if id and id>0 then
+  label:SetAttribute("IconAtlasAssetID",id);label.Image="rbxassetid://"..id
+  local function loaded()
+   label:SetAttribute("IconReady",label.IsLoaded==true)
+   if label.IsLoaded then uploadedReady[cell.Page]=true end
+  end
+  label:GetPropertyChangedSignal("IsLoaded"):Connect(loaded);loaded()
  elseif pages[cell.Page]or failed[cell.Page]then apply(label,cell.Page)
  else
   local start=not pending[cell.Page]
@@ -57,5 +63,5 @@ function API.new(parent,kind,size,color)
  end
  return label
 end
-function API.ready()return next(pages)~=nil end
+function API.ready()return next(pages)~=nil or next(uploadedReady)~=nil end
 return API
